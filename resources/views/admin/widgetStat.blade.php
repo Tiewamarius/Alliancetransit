@@ -95,4 +95,52 @@
     </div>
 </div>
 
+<div class="container mt-5">
+        <h2>Expéditions</h2>
+        <div class="card p-3">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Rechercher">
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-primary">Afficher ▼</button>
+                    <button class="btn btn-secondary">🔄</button>
+                    <button class="btn btn-info">Filtrer</button>
+                    <button class="btn btn-success">Exporter ▼</button>
+                    <button class="btn btn-primary">Ajouter un envoi</button>
+                </div>
+            </div>
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>CODE</th>
+                        <th>TYPE</th>
+                        <th>BRANCHE</th>
+                        <th>CLIENT</th>
+                        <th>FRAIS D'EXPÉDITION</th>
+                        <th>MÉTHODE DE PAIEMENT</th>
+                        <th>PAYÉ</th>
+                        <th>DE LA RÉGION</th>
+                        <th>VERS LA RÉGION</th>
+                        <th>DATE D'EXPÉDITION</th>
+                        <th>CRÉÉ LE</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="13">Aucune donnée disponible dans le tableau</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <span>Affichage de l'élément 0 à 0 sur 0 éléments</span>
+                <div>
+                    <button class="btn btn-light" disabled>Précédent</button>
+                    <button class="btn btn-light" disabled>Suivant</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

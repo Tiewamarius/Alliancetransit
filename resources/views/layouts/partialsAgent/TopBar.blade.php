@@ -181,15 +181,11 @@
                                     Paramètre
                                 </a>
                                 <a class="dropdown-item" href="{{ route('register') }}">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Creer Agent
-                                </a>
-                                <a class="dropdown-item" href="{{ route('admin.register') }}">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Creer-Admin
+                                    Creer-Compte
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <form method="POST" action="{{ route('admin.logout') }}">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
                                     <a class="dropdown-item" href="route('logout')"

@@ -4,10 +4,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -16,11 +12,6 @@
     <title>@yield('title')</title>
 
     <!-- Custom fonts for this template-->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <link href="{{asset('Admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -37,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-             @include('layouts.partialsAdmin.sideBar')
+             @include('layouts.partialsAgent.sideBar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -46,11 +37,16 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                 @include('layouts.partialsAdmin.TopBar')
+                 @include('layouts.partialsAgent.TopBar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    @include('layouts.partialsAgent.widgetStat')
+
+                    <!-- Content Row -->
 
                     @yield('content')
 
@@ -62,7 +58,7 @@
 
             <!-- Footer -->
             
-            @include('layouts.partialsAdmin.footer')
+            @include('layouts.partialsAgent.footer')
             <!-- End of Footer -->
 
         </div>

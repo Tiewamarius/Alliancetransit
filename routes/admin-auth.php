@@ -28,6 +28,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('envoi', function () {
         return view('admin.envoi.envoiPage');
     });
+    // Envoi route view
+    Route::get('envoi', function () {
+        return view('admin.envoi.expeditions');
+    });
 
     Route::post('logout', [LoginController::class, 'destroy'])->name('admin.logout');
 });
