@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('colis', function (Blueprint $table) {
-            $table->id();            $table->text('description');
+            $table->id();
+            $table->text('description');
             $table->float('poids');
             $table->float('volume');
             $table->float('valeur');
