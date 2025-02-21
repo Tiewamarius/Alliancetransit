@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('expeditions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained();
-            $table->foreignId('expediteur_id')->constrained();
-            $table->foreignId('destinataire_id')->constrained();
+            $table->unsignedBigInteger('expediteur_id');
+            $table->unsignedBigInteger('destinataire_id'); // Ajout de la clé étrangère pour destinataire
             $table->foreignId('colis_id')->constrained();
             $table->string('numeroSuivi')->unique();
             $table->string('type_service')->nullable();
@@ -25,6 +25,9 @@ return new class extends Migration
             $table->dateTime('date_arrivee_estimee')->nullable();
             $table->dateTime('date_arrivee_reelle')->nullable();
             $table->timestamps();
+
+            $table->foreign('expediteur_id')->references('id')->on('expediteurs');
+            $table->foreign('destinataire_id')->references('id')->on('destinataires'); // Clé étrangère pour destinataire
         });
     }
 

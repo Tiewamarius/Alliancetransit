@@ -7,6 +7,7 @@ use App\Models\conteneurs;
 use App\Models\receveurs;
 use App\Models\expeditions;
 use App\Models\clients;
+use App\Models\destinataire;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -138,8 +139,8 @@ class AdminCrudController extends Controller
 }
 
 
-// Receveur Crud
-public function storeReceveur(Request $request)
+// Destinataire Crud
+public function storeDestinataire(Request $request)
     {
         // Validation des données du formulaire
         $request->validate([
@@ -151,7 +152,7 @@ public function storeReceveur(Request $request)
             'adresse' => 'required|string|max:255',]);
 
         // Création et enregistrement du client
-        $client = new receveurs();
+        $client = new destinataire();
         $client->code_unique = $request->input('code_unique'); // Utilisation du code unique
         $client->nom = $request->input('nom');
         $client->prenom = $request->input('prenom');
@@ -163,10 +164,9 @@ public function storeReceveur(Request $request)
         // Redirection avec un message de succès
         return redirect()->route('admin.dashboard')->with('success', 'Client ajouté avec succès.'); // Ajuster la route de redirection
     
-
-        }
+    }
     // Edit receveur
-    public function editRececeur($id)
+    public function editDesti($id)
     {
         // Récupérer le client par son ID
         $client = receveurs::findOrFail($id);

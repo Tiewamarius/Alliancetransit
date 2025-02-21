@@ -84,7 +84,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img style="marging:18px" src="Admin/img/gat.png" width="80px" height="40" alt="">
+                    <img style="margin:18px" src="Admin/img/gat.png" width="80px" height="40" alt="">
                 </div>
                 <!-- <div class="sidebar-brand-text mx-3">ALLIANCE<sup>transit</sup></div> -->
             </a>

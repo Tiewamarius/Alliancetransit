@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Str;
 use App\Models\clients; 
-use App\Models\Expeditions; 
+use App\Models\destinataire; 
+use App\Models\expediteur;
+use App\Models\colis;
+use App\Models\expeditions; 
 
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
@@ -29,8 +32,10 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::get('/dashboard', function () {
+        $expeditions = expeditions::with(['client', 'expediteur', 'destinataire', 'colis'])->paginate(10);
+        $nombreExpedition= expeditions::count();
         $nombreClients= clients::count();
-        return view('admin.dashboard',compact('nombreClients'));
+        return view('admin.dashboard',compact('nombreClients','expeditions'));
     })->name('admin.dashboard');
 
     Route::post('admin/dashboard', [LoginController::class, 'destroyAdmin'])->name('destroyAdmin');
@@ -51,38 +56,38 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
     // Edit client
-    Route::get('/admin/clients/{id}/edit', [AdminCrudController::class, 'edit'])->name('clients.edit');
+    Route::get('/admin/clients/{id}/edit', [AdminCrudController::class, 'editClient'])->name('clients.editClient');
     Route::put('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
     Route::delete('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
 
 
 
 
-    // Ajouter-receveur route view
-    Route::get('Ajoutreceveur', function () {
+    // Ajouter-destinataire route view
+    Route::get('Ajoutdestinataire', function () {
         $nombre_aleatoire = (string)(random_int(10000, 99999));
         $code_unique = 'Al-'. $nombre_aleatoire;
-        return view('admin.clients.Ajoutreceveur', ['code_unique' => $code_unique]);
+        return view('admin.clients.Ajoutdestinataire', ['code_unique' => $code_unique]);
     });
-    Route::post('admin/Ajoutreceveur', [AdminCrudController::class, 'storeReceveur'])->name('storeReceveur');
+    Route::post('admin/Ajoutdestinataire', [AdminCrudController::class, 'storeDestinataire'])->name('storeDestinataire');
 
      // Edit receveur
-     Route::get('/admin/receveur/{id}/editReceveur', [AdminCrudController::class, 'editReceveur'])->name('clients.editReceveur');
-     Route::put('/admin/Ajoutreceveur/{id}', [AdminCrudController::class, 'update'])->name('clients.updateReceveur');
-     Route::delete('/admin/Ajoutreceveur/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
+     Route::get('/admin/destinataire/{id}/editDestinataire', [AdminCrudController::class, 'edit'])->name('clients.edit');
+     Route::put('/admin/destinataires/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
+     Route::delete('/admin/destinataires/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
  
      Route::post('admin/logout', [LoginController::class, 'destroyAdmin'])->name('destroyAdmin');
 
 
     
     // Ajouter-Receveur route view
-    Route::get('Ajoutreceveur', function () {
+    Route::get('destinataires', function () {
         $nombre_aleatoire = (string)(random_int(10000, 99999));
         $code_unique = 'Al-'. $nombre_aleatoire;
-        return view('admin.clients.Ajoutreceveur', ['code_unique' => $code_unique]);
+        return view('admin.clients.destinataires', ['code_unique' => $code_unique]);
     });    
         
-    Route::post('admin/Ajoutreceveur', [AdminCrudController::class, 'storeReceveur'])->name('storeReceveur');
+    Route::post('admin/destinataires', [AdminCrudController::class, 'storeReceveur'])->name('storeReceveur');
 
 
      // Ajouter-Conteneur route view
@@ -96,7 +101,12 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     //EXPETION
 
     Route::get('mission', function () {
-        return view('admin.mission.Ajouterexpeditions');
+
+       $clients = clients::all();
+        $expediteurs = expediteur::all();
+        $destinataires = destinataire::all();
+        $colis = colis::all();
+        return view('admin.mission.Ajouterexpeditions',compact('clients','expediteurs', 'destinataires', 'colis', 'expeditions'));
     });
     
     

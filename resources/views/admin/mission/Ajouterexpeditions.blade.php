@@ -1,217 +1,101 @@
 @extends('layouts.admin')
 @section('title','EnvoiColis')
 @section('content')
+<div class="container mt-5">
+        <h2>{{ isset($expedition) ? 'Modifier l\'expédition' : 'Créer une expédition' }}</h2>
 
-<style>
-    
-        .container {
-            max-width: 960px; /* Limite la largeur du conteneur sur les grands écrans */
-        }
-        .form-group {
-            margin-bottom: 15px; /* Espacement entre les groupes de champs */
-        }
-        label {
-            font-weight: bold;
-        }
-        /* Style pour les dimensions du colis */
-        .dimensions {
-            display: flex;
-            align-items: center; /* Aligne verticalement les éléments */
-        }
-        .dimensions input {
-            width: 80px; /* Ajuste la largeur des champs de dimension */
-            margin-right: 5px;
-        }
-        /* Style pour le bouton soumettre */
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* Media queries pour les écrans plus petits */
-        @media (max-width: 768px) {
-            .dimensions input {
-                width: 60px; /* Réduit la largeur des champs de dimension sur les petits écrans */
-            }
-        }
-</style>
-
-</head>
-<body>
-
-<div class="container">
-    <h2>Créer un nouvel envoi</h2>
-    @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <form method="POST" action="{{ isset($expedition) ? route('expeditions.update', $expedition->id) : route('storeExpedition') }}">
+            @csrf
+            @if(isset($expedition))
+                @method('PUT')
             @endif
-    <form method="POST" action="#">
-        @csrf
-        <h3>Informations sur l'expédition</h3>
-        <div class="form-group">
-            <label for="typeExpedition">Type d'expédition:</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="typeExpedition" id="pickup" value="pickup" checked>
-                <label class="form-check-label" for="pickup">Pickup (livraison porte à porte)</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="typeExpedition" id="depot" value="depot">
-                <label class="form-check-label" for="depot">Dépôt (livraison depuis la succursale)</label>
-            </div>
-        </div>
-        <div  class="row mb-3">
-            <div class="form-group">
-                <label for="branche">Conteneur:</label>
-                <select id="choix" class="form-control" >
-                    <option value="">Choisir ou saisi N° conteneur</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="autre">Saisir N° Conteneur</option>
+
+            <div class="mb-3">
+                <label for="client_id" class="form-label">Client</label>
+                <select name="client_id" id="client_id" class="form-select" required>
+                    <option value="">Sélectionnez un client</option>
+                    @foreach($clients as $client)
+                        <option value="{{ $client->id }}" {{ isset($expedition) && $expedition->client_id == $client->id ? 'selected' : '' }}>{{ $client->nom }}</option>
+                    @endforeach
                 </select>
-                <input type="text" id="saisie" class="form-control" style="display: none;" placeholder="Saisir N° Conteneur">
             </div>
-            <div class="form-group">
-            <label for="dateExpedition">Date d'expédition :</label>
-            <input type="date" class="form-control" id="dateExpedition" required>
-        </div>
-        <div class="form-group">
-            <label for="heureCollecte">Heure de collecte :</label>
-            <input type="time" class="form-control" id="heureCollecte" required>
-        </div>
 
-        </div>
-
-       
-        <h3>Client/Expéditeur</h3>
-        <div class="form-group">
-            <label for="branche">clients:</label>
-            <select id="choixc" class="form-control" >
-                <option value="">Choisir ou saisi Nom client</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="autre">Saisir Nom client</option>
-            </select>
-        <input type="text" id="saisic" class="form-control" style="display: none;" placeholder="Saisir N° Client">
-        </div>
-        <h3>Destinataire</h3>
-        <div class="form-group">
-            <label for="branche">clients:</label>
-            <select id="choixc" class="form-control" >
-                <option value="">Choisir ou saisi Nom client</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="autre">Saisir Nom client</option>
-            </select>
-        <input type="text" id="saisic" class="form-control" style="display: none;" placeholder="Saisir N° Client">
-        </div>
-        <div class="row mb-3">
-
-        <div class="form-group">
-            <label for="paysArrivee">Au pays :</label>
-            <select class="form-control" id="paysArrivee">
-                <option>Choisir le pays</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="regionDepart">De la région :</label>
-            <select class="form-control" id="regionDepart">
-                <option>Choisir la région</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="regionArrivee">Vers la région :</label>
-            <select class="form-control" id="regionArrivee">
-                <option>Choisir la région</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="zoneDepart">De la zone :</label>
-            <select class="form-control" id="zoneDepart">
-                <option>Choisir la zone</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="zoneArrivee">Vers la zone :</label>
-            <select class="form-control" id="zoneArrivee">
-                <option>Choisir la zone</option>
-            </select>
-        </div>
-        </div>
-        
-
-        <h3>Paiement</h3>
-        <div class="form-group">
-            <label for="typePaiement">Type de paiement :</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="typePaiement" id="portPaye" value="portPaye" checked>
-                <label class="form-check-label" for="portPaye">Port payé</label>
+            <div class="mb-3">
+                <label for="expediteur_id" class="form-label">Expéditeur</label>
+                <select name="expediteur_id" id="expediteur_id" class="form-select" required>
+                    <option value="">Sélectionnez un expéditeur</option>
+                    @foreach($expediteurs as $expediteur)
+                        <option value="{{ $expediteur->id }}" {{ isset($expedition) && $expedition->expediteur_id == $expediteur->id ? 'selected' : '' }}>{{ $expediteur->nom }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="typePaiement" id="prepaye" value="prepaye">
-                <label class="form-check-label" for="prepaye">Prépayé</label>
+
+            <div class="mb-3">
+                <label for="destinataire_id" class="form-label">Destinataire</label>
+                <select name="destinataire_id" id="destinataire_id" class="form-select" required>
+                    <option value="">Sélectionnez un destinataire</option>
+                    @foreach($destinataires as $destinataire)
+                        <option value="{{ $destinataire->id }}" {{ isset($expedition) && $expedition->destinataire_id == $destinataire->id ? 'selected' : '' }}>{{ $destinataire->nom }}</option>
+                    @endforeach
+                </select>
             </div>
-        </div>
 
-        <h3>Informations sur le colis</h3>
-        <div class="form-group">
-            <label for="type_emballage">Type d'emballage:</label>
-            <select id="type_emballage" name="type_emballage" class="form-control">
-                <option value="carton">Carton</option>
-                <option value="enveloppe">Enveloppe</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label><br>
-            <textarea id="description" name="description" rows="4" cols="50" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="quantite">Quantité:</label>
-            <input type="number" id="quantite" name="quantite" value="1" min="1" class="form-control">
-        </div>
-    <button class="btn btn-primary" type="submit">Validé</button>
-       </form>
+            <div class="mb-3">
+                <label for="colis_id" class="form-label">Colis</label>
+                <select name="colis_id" id="colis_id" class="form-select" required>
+                    <option value="">Sélectionnez un colis</option>
+                    @foreach($colis as $coli)
+                        <option value="{{ $coli->id }}" {{ isset($expedition) && $expedition->colis_id == $coli->id ? 'selected' : '' }}>{{ $coli->id }}</option>
+                    @endforeach
+                </select>
+            </div>
 
+            <div class="mb-3">
+                <label for="numeroSuivi" class="form-label">Numéro de suivi</label>
+                <input type="text" name="numeroSuivi" id="numeroSuivi" class="form-control" value="{{ isset($expedition) ? $expedition->numeroSuivi : '' }}" required>
+            </div>
 
-<script>
-    const choix = document.getElementById('choix');
-    const saisie = document.getElementById('saisie');
+            <div class="mb-3">
+                <label for="type_service" class="form-label">Type de service</label>
+                <input type="text" name="type_service" id="type_service" class="form-control" value="{{ isset($expedition) ? $expedition->type_service : '' }}">
+            </div>
 
+            <div class="mb-3">
+                <label for="assurance" class="form-label">Assurance</label>
+                <select name="assurance" id="assurance" class="form-select">
+                    <option value="1" {{ isset($expedition) && $expedition->assurance ? 'selected' : '' }}>Oui</option>
+                    <option value="0" {{ isset($expedition) && !$expedition->assurance ? 'selected' : '' }}>Non</option>
+                </select>
+            </div>
 
-choix.addEventListener('change', function() {
-  if (this.value === 'autre') {
-    saisie.style.display = 'block';
-    
-    choix.style.display = 'none';
-  } else {
-    saisie.style.display = 'none';
-  }
-});
+            <div class="mb-3">
+                <label for="statut" class="form-label">Statut</label>
+                <select name="statut" id="statut" class="form-select" required>
+                    <option value="en préparation" {{ isset($expedition) && $expedition->statut == 'en préparation' ? 'selected' : '' }}>En préparation</option>
+                    <option value="en transit" {{ isset($expedition) && $expedition->statut == 'en transit' ? 'selected' : '' }}>En transit</option>
+                    <option value="arrivé" {{ isset($expedition) && $expedition->statut == 'arrivé' ? 'selected' : '' }}>Arrivé</option>
+                    <option value="terminé" {{ isset($expedition) && $expedition->statut == 'terminé' ? 'selected' : '' }}>Terminé</option>
+                </select>
+            </div>
 
-// Client
+            <div class="mb-3">
+                <label for="date_depart" class="form-label">Date de départ</label>
+                <input type="datetime-local" name="date_depart" id="date_depart" class="form-control" value="{{ isset($expedition) ? $expedition->date_depart : '' }}">
+            </div>
 
-const choixc = document.getElementById('choixc');
-const saisic = document.getElementById('saisic');
+            <div class="mb-3">
+                <label for="date_arrivee_estimee" class="form-label">Date d'arrivée estimée</label>
+                <input type="datetime-local" name="date_arrivee_estimee" id="date_arrivee_estimee" class="form-control" value="{{ isset($expedition) ? $expedition->date_arrivee_estimee : '' }}">
+            </div>
 
+            <div class="mb-3">
+                <label for="date_arrivee_reelle" class="form-label">Date d'arrivée réelle</label>
+                <input type="datetime-local" name="date_arrivee_reelle" id="date_arrivee_reelle" class="form-control" value="{{ isset($expedition) ? $expedition->date_arrivee_reelle : '' }}">
+            </div>
 
-choix.addEventListener('change', function() {
-  if (this.value === 'autre') {
-    saisic.style.display = 'block';
-    
-    choixc.style.display = 'none';
-  } else {
-    saisic.style.display = 'none';
-  }
-});
+            <button type="submit" class="btn btn-primary">{{ isset($expedition) ? 'Modifier' : 'Créer' }}</button>
+        </form>
+    </div>
 
-</script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

@@ -4,11 +4,11 @@
 @section('content')
 
 <div class="container mt-4">
-    <h2 class="mb-4">Ajouter Receveur</h2>
+    <h2 class="mb-4">Creer Destinataire</h2>
     {{$code_unique}}
     <div class="card">
         <div class="card-body">
-            <form action="{{route('storeReceveur')}}" method="POST">
+            <form action="{{route('storeDestinataire')}}" method="POST">
                 @csrf
                 <div class="row mb-3">
                     <div>

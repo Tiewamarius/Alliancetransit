@@ -15,28 +15,12 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
-        EQUIPES
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>PARAMETRE</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">PARAMETRES UTILES:</h6>
-                <a class="collapse-item" href="{{url('admin/Ajoutclients')}}">AJOUT-CLIENTS</a>
-                <a class="collapse-item" href="{{url('admin/Allclients')}}">LISTE-CLIENTS</a>
-                <a class="collapse-item" href="{{url('admin/AjoutConteneur')}}">AJOUT-CONTENEUR</a>
-            </div>
-        </div>
-    </li>
+    
 
     <!-- Nav Item - Utilities Collapse Menu -->
+    <div class="sidebar-heading">
+        TACHES
+    </div>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
@@ -46,19 +30,12 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">EQUIPES-RECEVEURS:</h6>
-                <a class="collapse-item" href="{{url('admin/Ajoutreceveur')}}">CREER EXPEDITEUR</a>
-                <a class="collapse-item" href="{{url('admin/Ajoutreceveur')}}">CREER RECEVEUR</a>
-                <a class="collapse-item"  style="background: #36e250;" href="{{url('admin/mission')}}">CREER ENVOI</a>
-                <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
+                <h6 class="collapse-header">EQUIPES-RECEVEURS:</h6><a class="collapse-item"  style="background: #36e250;" href="{{url('admin/mission')}}">CREER ENVOI</a>
             </div>
         </div>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
+    
     <!-- Heading -->
     <div class="sidebar-heading">
         Addons
@@ -84,21 +61,28 @@
             </div>
         </div>
     </li>
-
-    <!-- Nav Item - Charts -->
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        EQUIPES
+    </div>
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>PARAMETRE</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">PARAMETRES UTILES:</h6>
+                <a class="collapse-item" href="{{url('admin/Ajoutclients')}}">AJOUT-CLIENTS</a>
+                <a class="collapse-item" href="{{url('admin/Ajoutdestinataire')}}">CREER EXPEDITEUR</a>
+                <a class="collapse-item" href="{{url('admin/Ajoutdestinataire')}}">CREER RDESTINAIRE</a>
+                <a class="collapse-item" href="{{url('admin/AjoutConteneur')}}">AJOUT-CONTENEUR</a>
+                <a class="collapse-item" href="{{url('admin/Allclients')}}">LISTE-CLIENTS</a>
+            </div>
+        </div>
     </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
-    </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

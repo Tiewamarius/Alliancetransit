@@ -25,13 +25,8 @@
                 <td>{{ $client->telephone }}</td>
                 <td>{{ $client->adresse }}</td>
                 <td>
-<<<<<<< HEAD
                     <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-warning">Modifier</a>
                     <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
-=======
-                    <a href="{{ route('clients.editClient', $client->id) }}" class="btn btn-warning">Modifier</a>
-                    <form action="{{ route('clients.destroyClient', $client->id) }}" method="POST" style="display:inline-block;">
->>>>>>> a1e8f092d60808c0d58dcc0c31c8ccb7de5cdbae
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
