@@ -33,11 +33,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         return view('admin.dashboard',compact('nombreClients'));
     })->name('admin.dashboard');
 
-<<<<<<< HEAD
     Route::post('admin/dashboard', [LoginController::class, 'destroyAdmin'])->name('destroyAdmin');
-=======
-    Route::post('admin/dashboard', [LoginController::class, 'destroyAdmin'])->name('destroyReceveur');
->>>>>>> a1e8f092d60808c0d58dcc0c31c8ccb7de5cdbae
 
 
     // AllClents route view
@@ -55,15 +51,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
     // Edit client
-<<<<<<< HEAD
     Route::get('/admin/clients/{id}/edit', [AdminCrudController::class, 'edit'])->name('clients.edit');
     Route::put('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
     Route::delete('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
-=======
-    Route::get('/admin/clients/{id}/editClient', [AdminCrudController::class, 'editClient'])->name('clients.editClient');
-    Route::put('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'updateClient'])->name('clients.updateClient');
-    Route::delete('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'destroyClient'])->name('clients.destroyClient');
->>>>>>> a1e8f092d60808c0d58dcc0c31c8ccb7de5cdbae
 
 
 
@@ -79,15 +69,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
      // Edit receveur
      Route::get('/admin/receveur/{id}/editReceveur', [AdminCrudController::class, 'editReceveur'])->name('clients.editReceveur');
      Route::put('/admin/Ajoutreceveur/{id}', [AdminCrudController::class, 'update'])->name('clients.updateReceveur');
-<<<<<<< HEAD
      Route::delete('/admin/Ajoutreceveur/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
  
      Route::post('admin/logout', [LoginController::class, 'destroyAdmin'])->name('destroyAdmin');
-=======
-     Route::delete('/admin/Ajoutreceveur/{id}', [AdminCrudController::class, 'destroyReceveur'])->name('clients.destroyReceveur');
- 
-     Route::post('admin/logout', [LoginController::class, 'destroyReceveur'])->name('destroyReceveur');
->>>>>>> a1e8f092d60808c0d58dcc0c31c8ccb7de5cdbae
 
 
     
