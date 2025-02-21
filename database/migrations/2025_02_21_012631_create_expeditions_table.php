@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('expeditions', function (Blueprint $table) {
             $table->id();
-            $table->string('numero')->unique();
-            $table->enum('statut', ['en préparation', 'en transit', 'arrivé']);
+            $table->foreignId('client_id')->constrained();
+            $table->foreignId('expediteur_id')->constrained();
+            $table->foreignId('destinataire_id')->constrained();
+            $table->foreignId('colis_id')->constrained();
+            $table->string('numeroSuivi')->unique();
+            $table->string('type_service')->nullable();
+            $table->boolean('assurance')->default(false);
+            $table->enum('statut', ['en préparation', 'en transit', 'arrivé', 'terminé']);
             $table->dateTime('date_depart')->nullable();
             $table->dateTime('date_arrivee_estimee')->nullable();
             $table->dateTime('date_arrivee_reelle')->nullable();

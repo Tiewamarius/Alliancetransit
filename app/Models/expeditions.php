@@ -13,4 +13,7 @@ class expeditions extends Model
         'zone_depart', 'zone_arrivee', 'type_paiement', 'methode_paiement', 'type_emballage',
         'description', 'quantite', 'poids', 'longueur', 'largeur', 'hauteur', 'montant', 'poids_total'
     ];
+
+    public function client() { return $this->belongsTo(clients::class); }
+    
 }

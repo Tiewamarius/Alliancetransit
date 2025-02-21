@@ -3,10 +3,7 @@
 @section('content')
 
 <style>
-        /* Styles additionnels pour améliorer la responsivité et la mise en page */
-        body {
-            padding: 20px; /* Ajoute un peu de marge autour du formulaire */
-        }
+    
         .container {
             max-width: 960px; /* Limite la largeur du conteneur sur les grands écrans */
         }
@@ -40,13 +37,23 @@
                 width: 60px; /* Réduit la largeur des champs de dimension sur les petits écrans */
             }
         }
-    </style>
+</style>
+
 </head>
 <body>
 
 <div class="container">
     <h2>Créer un nouvel envoi</h2>
-    <form method="POST" action="{{ route('register') }}">
+    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+    <form method="POST" action="#">
         @csrf
         <h3>Informations sur l'expédition</h3>
         <div class="form-group">
@@ -60,13 +67,18 @@
                 <label class="form-check-label" for="depot">Dépôt (livraison depuis la succursale)</label>
             </div>
         </div>
-        <div class="form-group">
-            <label for="branche">Branche :</label>
-            <select class="form-control" id="branche">
-                <option>Choisir une branche</option>
-            </select>
-        </div>
-        <div class="form-group">
+        <div  class="row mb-3">
+            <div class="form-group">
+                <label for="branche">Conteneur:</label>
+                <select id="choix" class="form-control" >
+                    <option value="">Choisir ou saisi N° conteneur</option>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="autre">Saisir N° Conteneur</option>
+                </select>
+                <input type="text" id="saisie" class="form-control" style="display: none;" placeholder="Saisir N° Conteneur">
+            </div>
+            <div class="form-group">
             <label for="dateExpedition">Date d'expédition :</label>
             <input type="date" class="form-control" id="dateExpedition" required>
         </div>
@@ -75,43 +87,33 @@
             <input type="time" class="form-control" id="heureCollecte" required>
         </div>
 
-        <h3>Client/Expéditeur</h3>
-        <div class="form-group">
-            <label for="client">Client :</label>
-            <select class="form-control" id="client">
-                <option>Choisir un client</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="telephoneClient">Téléphone du client :</label>
-            <input type="tel" class="form-control" id="telephoneClient" required>
-        </div>
-        <div class="form-group">
-            <label for="adresseClient">Adresse du client :</label>
-            <select class="form-control" id="adresseClient">
-                <option>Choisir l'adresse du client</option>
-            </select>
         </div>
 
+       
+        <h3>Client/Expéditeur</h3>
+        <div class="form-group">
+            <label for="branche">clients:</label>
+            <select id="choixc" class="form-control" >
+                <option value="">Choisir ou saisi Nom client</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="autre">Saisir Nom client</option>
+            </select>
+        <input type="text" id="saisic" class="form-control" style="display: none;" placeholder="Saisir N° Client">
+        </div>
         <h3>Destinataire</h3>
         <div class="form-group">
-            <label for="nomDestinataire">Nom du destinataire :</label>
-            <input type="text" class="form-control" id="nomDestinataire" required>
-        </div>
-        <div class="form-group">
-            <label for="telephoneDestinataire">Téléphone du destinataire :</label>
-            <input type="tel" class="form-control" id="telephoneDestinataire" required>
-        </div>
-        <div class="form-group">
-            <label for="adresseDestinataire">Adresse du destinataire :</label>
-            <input type="text" class="form-control" id="adresseDestinataire" required>
-        </div>
-        <div class="form-group">
-            <label for="paysDepart">Du pays :</label>
-            <select class="form-control" id="paysDepart">
-                <option>Choisir le pays</option>
+            <label for="branche">clients:</label>
+            <select id="choixc" class="form-control" >
+                <option value="">Choisir ou saisi Nom client</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="autre">Saisir Nom client</option>
             </select>
+        <input type="text" id="saisic" class="form-control" style="display: none;" placeholder="Saisir N° Client">
         </div>
+        <div class="row mb-3">
+
         <div class="form-group">
             <label for="paysArrivee">Au pays :</label>
             <select class="form-control" id="paysArrivee">
@@ -142,6 +144,8 @@
                 <option>Choisir la zone</option>
             </select>
         </div>
+        </div>
+        
 
         <h3>Paiement</h3>
         <div class="form-group">
@@ -154,12 +158,6 @@
                 <input class="form-check-input" type="radio" name="typePaiement" id="prepaye" value="prepaye">
                 <label class="form-check-label" for="prepaye">Prépayé</label>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="methodePaiement">Méthode de paiement :</label>
-            <select class="form-control" id="methodePaiement">
-                <option>Choisir une méthode de paiement</option>
-            </select>
         </div>
 
         <h3>Informations sur le colis</h3>
@@ -183,12 +181,37 @@
        </form>
 
 
+<script>
+    const choix = document.getElementById('choix');
+    const saisie = document.getElementById('saisie');
 
 
+choix.addEventListener('change', function() {
+  if (this.value === 'autre') {
+    saisie.style.display = 'block';
+    
+    choix.style.display = 'none';
+  } else {
+    saisie.style.display = 'none';
+  }
+});
+
+// Client
+
+const choixc = document.getElementById('choixc');
+const saisic = document.getElementById('saisic');
 
 
+choix.addEventListener('change', function() {
+  if (this.value === 'autre') {
+    saisic.style.display = 'block';
+    
+    choixc.style.display = 'none';
+  } else {
+    saisic.style.display = 'none';
+  }
+});
 
-
-
+</script>
 
 @endsection
