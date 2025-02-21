@@ -35,7 +35,7 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Article en Entrepot</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{$colisArrives}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa fa-archive fa-2x text-gray-300"></i>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">15</div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$totalExpeditions}}</div>
                             </div>
                             <div class="col">
                                 <div class="progress progress-sm mr-2">
@@ -82,7 +82,7 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Expedition encour</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{$nombreExpedition}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa fa-plane fa-2x text-gray-300"></i>

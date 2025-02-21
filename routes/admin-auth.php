@@ -33,9 +33,19 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::get('/dashboard', function () {
         $expeditions = expeditions::with(['client', 'expediteur', 'destinataire', 'colis'])->paginate(10);
+       
         $nombreExpedition= expeditions::count();
+
         $nombreClients= clients::count();
-        return view('admin.dashboard',compact('nombreClients','expeditions'));
+
+        $colisArrives = expeditions::where('statut', 'arrivé')->count();
+
+        // Nombre total d'expéditions
+        $totalExpeditions = expeditions::count();
+        return view('admin.dashboard',compact(
+            'nombreClients','expeditions',
+            'totalExpeditions',
+            'colisArrives','nombreExpedition'));
     })->name('admin.dashboard');
 
     Route::post('admin/dashboard', [LoginController::class, 'destroyAdmin'])->name('destroyAdmin');
@@ -100,13 +110,22 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     //EXPETION
 
-    Route::get('mission', function () {
+    Route::get('mission', function () {     
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+        $code_unique = 'Cl-'. $nombre_aleatoire;
+        $expeditions= expeditions::count();
+            
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+        $code_suivi = 'Al-'. $nombre_aleatoire;
 
-       $clients = clients::all();
+
+        $nomsClients = clients::pluck('nom', 'id');
+
+        $clients = clients::all();
         $expediteurs = expediteur::all();
         $destinataires = destinataire::all();
         $colis = colis::all();
-        return view('admin.mission.Ajouterexpeditions',compact('clients','expediteurs', 'destinataires', 'colis', 'expeditions'));
+        return view('admin.mission.Ajouterexpeditions',compact('code_unique','nomsClients','clients','expediteurs', 'destinataires', 'colis', 'expeditions'));
     });
     
     
