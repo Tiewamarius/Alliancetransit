@@ -20,9 +20,13 @@ class clients extends Model
 
     public function colisRecus()
     {
+<<<<<<< HEAD
         return $this->hasMany(Colis::class, 'destinataire_id');
     }
     public function expeditions() { return $this->hasMany(expeditions::class); }
     
+=======
+        return $this->hasMany(Colis::class, 'destinataire_id');}
+>>>>>>> a1e8f092d60808c0d58dcc0c31c8ccb7de5cdbae
 
 }
