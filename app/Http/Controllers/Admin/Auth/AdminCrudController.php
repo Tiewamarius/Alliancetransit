@@ -19,38 +19,27 @@ class AdminCrudController extends Controller
     {
         // Validation des données (très important)
         $validatedData =$request->validate([
-            'typeExpedition' => 'required',
-            'conteneur' => 'required', // Ajoutez les validations pour tous les champs
-            'dateExpedition' => 'required|date',
-            'heureCollecte' => 'required|date_format:H:i',
-            'client' => 'required',
-            'telephoneClient' => 'required',
-            'adresseClient' => 'required',
-            'nomDestinataire' => 'required',
-            'telephoneDestinataire' => 'required',
-            'adresseDestinataire' => 'required',
-            'paysDepart' => 'required',
-            'paysArrivee' => 'required',
-            'regionDepart' => 'required',
-            'regionArrivee' => 'required',
-            'zoneDepart' => 'required',
-            'zoneArrivee' => 'required',
-            'typePaiement' => 'required',
-            'methodePaiement' => 'required',
-            'type_emballage' => 'required',
-            'description' => 'required',
-            'quantite' => '|integer|min:1',
-            'poids' => '|numeric|min:0',
-            'longueur' => 'required|numeric|min:0',
-            'largeur' => '|numeric|min:0',
-            'hauteur' => '|numeric|min:0',
-            'montant' => '|numeric|min:0',
-            'poids_total' => '|numeric|min:0',
-            'container_number' => 'required',
+            
+        'code_unique' => 'required|unique:expeditions,code_unique', // Validation de l'unicité
+        'nom' => 'required|string|max:255',
+        'client_id' => 'nullable|exists:clients,id',
+        'numero' => 'required|string|max:20',
+        'email' => 'required|email|max:255',
+        'adresse' => 'required|string|max:255',
+        'expediteur_id' => 'nullable|exists:expediteurs,id',
+        'destinataire_id' => 'nullable|exists:destinataires,id',
+        'numeroSuivi' => 'required|string|max:255',
+        'designation' => 'required|string|max:255',
+        'numeroConteneur' => 'required|string|max:255',
+        'typeService' => 'required|string|max:255',
+        'dateEnlev' => 'required|date',
+        'dateLivr' => 'required|date',
+        'statut' => 'required|string|max:255',
+        'paiement' => '|string|max:255',
         ]);
 
     // Vérifier si le conteneur existe déjà
-    $conteneur = conteneurs::where('container_number', $validatedData['container_number'])->first();
+    $conteneur = conteneurs::where('numeroConteneur', $validatedData['numeroConteneur'])->first();
 
     if (!$conteneur) {
         // Créer un nouveau conteneur s'il n'existe pas

@@ -113,7 +113,6 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('mission', function () {     
         $nombre_aleatoire = (string)(random_int(10000, 99999));
         $code_unique = 'Cl-'. $nombre_aleatoire;
-        $expeditions= expeditions::count();
             
         $nombre_aleatoire = (string)(random_int(10000, 99999));
         $code_suivi = 'Al-'. $nombre_aleatoire;
@@ -122,10 +121,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         $nomsClients = clients::pluck('nom', 'id');
 
         $clients = clients::all();
+        $expeditions= expeditions::count();
         $expediteurs = expediteur::all();
         $destinataires = destinataire::all();
         $colis = colis::all();
-        return view('admin.mission.Ajouterexpeditions',compact('code_unique','nomsClients','clients','expediteurs', 'destinataires', 'colis', 'expeditions'));
+        return view('admin.mission.Ajouterexpeditions',compact('code_unique','nomsClients','clients','expediteurs', 'destinataires', 'colis','code_suivi', 'expeditions'));
     });
     
     

@@ -13,21 +13,37 @@ return new class extends Migration
     {
         Schema::create('expeditions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
-            $table->unsignedBigInteger('expediteur_id');
-            $table->unsignedBigInteger('destinataire_id'); // Ajout de la clé étrangère pour destinataire
-            $table->foreignId('colis_id')->constrained();
-            $table->string('numeroSuivi')->unique();
-            $table->string('type_service')->nullable();
-            $table->boolean('assurance')->default(false);
-            $table->enum('statut', ['en préparation', 'en transit', 'arrivé', 'terminé']);
-            $table->dateTime('date_depart')->nullable();
-            $table->dateTime('date_arrivee_estimee')->nullable();
-            $table->dateTime('date_arrivee_reelle')->nullable();
+
+            // Informations du client
+            $table->string('code_unique')->nullable(); // Code unique de l'expédition
+            $table->string('nom')->nullable(); // Nom du client ou de l'expéditeur/destinataire
+            $table->unsignedBigInteger('client_id')->nullable(); // ID du client existant (relation)
+            $table->string('numero')->nullable(); // Numéro de téléphone
+            $table->string('email')->nullable(); // Adresse email
+            $table->string('adresse')->nullable(); // Adresse
+
+            // Informations de l'expéditeur (si différent du client)
+            $table->unsignedBigInteger('expediteur_id')->nullable(); // ID de l'expéditeur existant (relation)
+
+            // Informations du destinataire
+            $table->unsignedBigInteger('destinataire_id')->nullable(); // ID du destinataire existant (relation)
+
+            // Informations du colis
+            $table->string('numeroSuivi')->nullable(); // Code de suivi
+            $table->string('designation')->nullable(); // Désignation du colis
+            $table->string('numeroConteneur')->nullable(); // Numéro de conteneur
+            $table->string('typeService')->nullable(); // Type de service
+            $table->dateTime('dateEnlev')->nullable(); // Date d'enlèvement
+            $table->dateTime('dateLivr')->nullable(); // Date de livraison
+            $table->string('statut')->nullable(); // Statut de l'expédition (en préparation, en transit, etc.)
+            $table->string('paiement')->nullable(); // Statut du paiement
+
             $table->timestamps();
 
-            $table->foreign('expediteur_id')->references('id')->on('expediteurs');
-            $table->foreign('destinataire_id')->references('id')->on('destinataires'); // Clé étrangère pour destinataire
+            // Relations (clés étrangères)
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('set null');
+            $table->foreign('expediteur_id')->references('id')->on('expediteurs')->onDelete('set null');
+            $table->foreign('destinataire_id')->references('id')->on('destinataires')->onDelete('set null');
         });
     }
 
