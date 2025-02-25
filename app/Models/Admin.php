@@ -18,8 +18,11 @@ class Admin extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'code_unique',
         'name',
         'email',
+        'numero',
+        'adresse',
         'password',
     ];
 
@@ -44,5 +47,9 @@ class Admin extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function expeditions(){
+        return $this->hasMany(expeditions::class);
     }
 }

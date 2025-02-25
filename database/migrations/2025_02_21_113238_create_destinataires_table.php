@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('destinataires', function (Blueprint $table) {
             $table->id();
-            $table->string('code_unique')->unique();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('numero');
-            $table->string('email')->unique();
-            $table->string('adresse');
+            $table->string('nom_destinataire');
+            $table->string('numero_destinataire');
+            $table->string('email_destinataire')->unique();
+            $table->string('adresse_destinataire');
             // $table->string('mot_de_passe');
             $table->timestamps();
         });

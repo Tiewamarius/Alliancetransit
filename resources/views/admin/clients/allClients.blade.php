@@ -19,11 +19,11 @@
         <tbody>
             @foreach($clients as $client)
             <tr>
-                <td>{{ $client->code_unique}}</td>
-                <td>{{ $client->nom }}</td>
-                <td>{{ $client->email }}</td>
-                <td>{{ $client->telephone }}</td>
-                <td>{{ $client->adresse }}</td>
+                <td>{{ $client->code_client}}</td>
+                <td>{{ $client->nom_client }}</td>
+                <td>{{ $client->email_client }}</td>
+                <td>{{ $client->numero_client }}</td>
+                <td>{{ $client->adresse_client }}</td>
                 <td>
                     <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-warning">Modifier</a>
                     <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">

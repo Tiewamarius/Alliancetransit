@@ -11,7 +11,7 @@ class clients extends Model
 
     protected $table = 'clients';
 
-    protected $fillable = ['code_unique','nom', 'prenom', 'numero', 'email', 'adresse'];
+    protected $fillable = ['code_client','nom_client', 'numero_client', 'email_client', 'adresse_client'];
 
     public function colisExpedies()
     {

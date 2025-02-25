@@ -15,10 +15,10 @@ class CreateExpediteursTable extends Migration
     {
         Schema::create('expediteurs', function (Blueprint $table) {
             $table->id(); // Crée un UNSIGNED BIGINT auto-incrémenté (clé primaire)
-            $table->string('nom');
-            $table->text('adresse');
-            $table->string('telephone');
-            $table->string('email')->nullable();
+            $table->string('nom_expediteur');
+            $table->text('adresse_expediteur');
+            $table->string('numero_expediteur');
+            $table->string('email_expediteur')->nullable();
             $table->timestamps();
         });
     }
