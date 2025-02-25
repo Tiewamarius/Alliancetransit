@@ -93,7 +93,7 @@
                         <input type="text" id="telephone_client" name="numeroConteneur" class="form-control"  >
                     </div>
                     <div class="col-md-6">
-                        <label for="email_client" class="form-label">Type de service</label>
+                        <label for="email_client" class="form-label">Remarque</label>
                         <input type="text" id="email_client" name="typeService" class="form-control">
                     </div>
                 </div>

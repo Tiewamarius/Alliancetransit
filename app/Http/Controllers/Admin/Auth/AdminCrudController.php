@@ -44,6 +44,21 @@ class AdminCrudController extends Controller
         return view('admin.search', compact('results','search','All',
         'colisArrives','coliLivre','Encour','stock','expeditions'));
     }
+
+//btn update
+    public function updateStatus(Request $request, expeditions $expedition)
+{
+    $request->validate([
+        'status' => 'required|in:encour,depot,terminer,en transit,en stock', // Validate the status value
+    ]);
+
+    $expedition->status = $request->input('status');
+    $expedition->save();
+
+    return back(); // Redirect back to the same page
+}
+
+//END UPDATE
 //EXPEDITION CRUD----------------------------------------------------
     public function viewDashboard(){
         

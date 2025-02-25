@@ -55,7 +55,7 @@
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-success-800"  style="color:#36e250;">{{$coliLivre}}</div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-success-800" style="color:#36e250;">{{$coliLivre}}</div>
                             </div>
                         </div>
                     </div>
@@ -85,107 +85,118 @@
         </div>
     </div>
 </div>
+
 <div class="container mt-5" class="table table-striped">
-    <div class="col-md-6">
-        <div class="form-group">
-            <form method="get" action="dashboard">
-                <div class="input-group">
-                    <input class="form-control" name="search" placeholder="Chercher..."value="{{isset($search)? $search: ''}}">
-                    <button type="submit" class="btn btn-primary" style="background:#089ae5" >Chercher</button>
-                </div>
-            </form>
-        </div>
-    </div> 
-    <h2>Liste des expéditions</h2>
     <div style="overflow-x: auto" ;>
+        <div class="row py-2">
+            <div class="col-md-6">
+                <h4> <a href="" class="btn btn-success"> Creer un envoi</h4></a>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <form method="get" action="dashboard">
+                        <div class="input-group">
+                            <input class="form-control" name="search"
+                            placeholder="Chercher..."value="{{isset($search)? $search:' '}}">
+                            <button type="submit" class="btn btn-primary" style="background:#089ae5">Chercher</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th></th>
+                    <th style="color:black;text-align:center;">STATUS</th>
+                    <th style="color:black">CREDITS</th>
                     <th>DATE-ENLEVEMENTS</th>
-                    <th>N° SUIVIS</th>
+                    <th>NUMERO-SUIVIS</th>
                     <th>EXPEDITEURS</th>
                     <th>DESIGNATIONS-Colis</th>
                     <th>DESTINATAIRES</th>
-                    <th>CREDITS</th>
-                    <th>STATUS</th>
                     <th>DATE-LIVRAISON</th>
+                    <th>REMARQUE</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($expeditions as $expedition)
                 <tr>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></button>
+                    </td>
+                    <td>
+                        @if ($expedition->status === 'encour')
+                        @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                        <button class="btn btn-warning" type="button" aria-expanded="false">
+                            {{ $expedition->status}}
+                        </button>
+                        @else
+                        
+                        <form method="POST" action="{{ route('update.status', $expedition->id) }}">
+                            @csrf  {{-- Important: Add CSRF token --}}
+                            <select class="form-select" name="status" onchange="this.form.submit()">
+                                <option value="encour" {{ $expedition->status === 'encour' ? 'selected' : '' }}>encour</option>
+                                <option value="depot" {{ $expedition->status === 'depot' ? 'selected' : '' }}>depot</option>
+                                <option value="terminer" {{ $expedition->status === 'terminer' ? 'selected' : '' }}>terminer</option>
+                                <option value="en transit" {{ $expedition->status === 'en transit' ? 'selected' : '' }}>en transit</option>
+                                <option value="en stock" {{ $expedition->status === 'en stock' ? 'selected' : '' }}>en stock</option>
+                            </select>
+                        </form>
+                        @endif
+
+                        @elseif ($expedition->status === 'depot' )
+                        @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                        <button class="btn btn-secondary" type="button" aria-expanded="false">
+                            {{ $expedition->status}}
+                        </button>
+                        @else
+                        <button class="btn btn-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
+                            {{ $expedition->status }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en cour</a></li>
+                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en stock</a></li>
+                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">terminé</a></li>
+                        </ul>
+                        @endif
+                        @elseif ($expedition->status === 'terminer')
+                        <button class="btn btn" type="button" data-bs-toggle="dropdown" style="color:white; background:#4af444" aria-expanded="false">
+                            {{ $expedition->status}}
+                        </button>
+                        @endif
+                    </td>
+                    <td>{{ $expedition->montant_total - $expedition->montant_paye }}</td>
                     <td>{{ $expedition->dateEnlev }}</td>
                     <td>{{ $expedition->numeroSuivi}}</td>
                     <td>{{ $expedition->nom_expediteur}}</td>
                     <td>{{ $expedition->designation }}</td>
                     <td>{{ $expedition->nom_destinataire}}</td>
-                    <td>{{ $expedition->montant_total - $expedition->montant_paye }}</td>
-                    <td>
-                        @if ($expedition->status === 'encour')
-                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                            <button class="btn btn-warning" type="button" aria-expanded="false">
-                                {{ $expedition->status}}
-                            </button>
-                            @else
-                                <button class="btn btn-warning  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $expedition->status }}
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en transit</a></li>
-                                    <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en stock</a></li>
-                                    <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">terminé</a></li>
-                                </ul>
-                            @endif
-
-                        @elseif ($expedition->status === 'depot' )
-                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                            <button class="btn btn-secondary" type="button" aria-expanded="false">
-                                {{ $expedition->status}}
-                            </button>
-                            @else
-                            <button class="btn btn-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"style="color:white;">
-                                {{ $expedition->status }}
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en transit</a></li>
-                                <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en stock</a></li>
-                                <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">terminé</a></li>
-                            </ul>
-                            @endif
-                        @elseif ($expedition->status === 'terminer')
-                        <button class="btn btn" type="button" data-bs-toggle="dropdown"  style="color:white; background:#4af444" aria-expanded="false">
-                            {{ $expedition->status}}
-                        </button>
-                        @endif
-                    </td>
-
+            </td>
+        <td>{{ $expedition->dateLivr}}</td>
+        <td>{{ $expedition->typeService}}</td>
+        </tr>
+        @endforeach
+        </tbody>
+        </table>
     </div>
-    </td>
-    <td>{{ $expedition->dateLivr}}</td>
-    <td>
-        <button type="button" class="btn btn-outline-primary"><i class="fas fa-sync-alt"></i></button>
-    </td>
-    <td>
-        <button type="button" class="btn btn-outline-danger"><i class="fas fa-edit"></i></button>
-    </td>
-    </tr>
-    @endforeach
-    </tbody>
-    </table>
-
-</div>
 </div>
 
 
 <style>
     .table .btn {
-    width: 100px; /* Largeur fixe */
-    height: 35px; /* Hauteur fixe */
-    white-space: nowrap; /* Empêcher le texte de passer à la ligne */
-    overflow: hidden; /* Masquer le texte qui dépasse */
-    text-overflow: ellipsis; /* Ajouter des points de suspension si le texte est tronqué */
-    /* Ajoute de l'espace interne */
-}
+        width: 95px;
+        /* Largeur fixe */
+        height: 35px;
+        /* Hauteur fixe */
+        white-space: nowrap;
+        /* Empêcher le texte de passer à la ligne */
+        overflow: hidden;
+        /* Masquer le texte qui dépasse */
+        text-overflow: ellipsis;
+        /* Ajouter des points de suspension si le texte est tronqué */
+        /* Ajoute de l'espace interne */
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
