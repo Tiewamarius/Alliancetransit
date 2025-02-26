@@ -27,12 +27,14 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // welcome - Route
     Route::get('/dashboard', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');
     
-    // Expedition - Route
+    // ExpeditionForm - Route
     Route::get('mission', [AdminCrudController::class, 'ExpeditionForm'])->name('ExpeditionForm');
    
+    // ExpeditionStor - Route
     Route::post('mission', [AdminCrudController::class, 'storeExpedition'])->name('storeExpedition');
 
-    Route::get('mission/editExpedition/{id}', [AdminCrudController::class, 'edit'])->name('edit');
+    // ExpeditionEdit - Route
+    Route::get('editExpedition/{id}', [AdminCrudController::class, 'editExpedition'])->name('editExpedition');
     
     Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
     

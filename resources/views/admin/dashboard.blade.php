@@ -120,7 +120,7 @@
                 @foreach($expeditions as $expedition)
                 <tr>
                     <td>
-                        <a href="#" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
+                        <a href="editExpedition/{{$expedition->id}}" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
                     </td>
                     <td>
                         @if ($expedition->status === 'encour')

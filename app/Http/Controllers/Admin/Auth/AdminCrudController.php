@@ -44,9 +44,7 @@ public function dashboard(){
 // END FUNCTION DASHBOARD
 
 //sEARCH FONCTION----------------------------------------------------
-        
-
-    public function search(Request $request)
+public function search(Request $request)
     {
         $All= expeditions::count();
         $expeditions= expeditions::all();
@@ -73,20 +71,27 @@ public function dashboard(){
         return view('admin.search', compact('results','search','All',
         'colisArrives','coliLivre','Encour','stock','expeditions'));
     }
+
 // EDIT
+// EXPEDITIONS CRUD
+public function ExpeditionForm(){
+    $totalExpeditions = expeditions::count();
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
+        
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
+    $code_unique = 'Al-'. $nombre_aleatoire;
 
-public function edit(expeditions $expeditions)
-    {
-        return view('mission/editExpedition',compact('expedition'));
-    }
+    $code_suivi = 'SU-'. $nombre_aleatoire;
+    
+    $nomsClients = clients::pluck('nom_client', 'id');
+    
+    $expeditions = expeditions::all();
+    return view('admin.mission.Ajouterexpeditions',compact(
+        'nomsClients','expeditions','code_unique','code_suivi'));
+}
 
-    /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \App\Models\Student  $student
-    * @return \Illuminate\Http\Response
-    */
+
+
     public function update(Request $request, expeditions $expedition)
     {
         $request->validate([
@@ -117,22 +122,7 @@ public function edit(expeditions $expeditions)
 //END UPDATE
 
 
-// EXPEDITIONS CRUD
-public function ExpeditionForm(){
-    $totalExpeditions = expeditions::count();
-    $nombre_aleatoire = (string)(random_int(10000, 99999));
-        
-    $nombre_aleatoire = (string)(random_int(10000, 99999));
-    $code_unique = 'Al-'. $nombre_aleatoire;
 
-    $code_suivi = 'SU-'. $nombre_aleatoire;
-    
-    $nomsClients = clients::pluck('nom_client', 'id');
-    
-    $expeditions = expeditions::all();
-    return view('admin.mission.Ajouterexpeditions',compact(
-        'nomsClients','expeditions','code_unique','code_suivi'));
-}
 
 public function storeExpedition(Request $request)
 {
