@@ -86,25 +86,22 @@
     </div>
 </div>
 
-<div class="container mt-5" class="table table-striped">
-    <div style="overflow-x: auto" ;>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">TABLEAU DES EXPEDITIONS</h3>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Exporter en Excel
+    </a>
+</div>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">
         <div class="row py-2">
-            <div class="col-md-6">
-                <h4> <a href="" class="btn btn-success"> Creer un envoi</h4></a>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <form method="get" action="dashboard">
-                        <div class="input-group">
-                            <input class="form-control" name="search"
-                            placeholder="Chercher..."value="{{isset($search)? $search:' '}}">
-                            <button type="submit" class="btn btn-primary" style="background:#089ae5">Chercher</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <a href="#" class="btn btn-outline-secondary" style="margin: 10px;">Passer-Commande</a>
+            <a href="{{url('admin/mission')}}" class="btn btn-primary" style="margin: 10px;">CREER-ENVOI</a>
         </div>
-        <table class="table table-striped">
+    </h3>
+    <input type="text" id="searchInput" class="form-control" style="min-width:200px; width:350px;" placeholder="Chercher..." onkeyup="searchTable()">
+</div>
+<table class="table table-striped">
             <thead>
                 <tr>
                     <th></th>
@@ -123,48 +120,53 @@
                 @foreach($expeditions as $expedition)
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></button>
+                        <a href="#" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
                     </td>
                     <td>
                         @if ($expedition->status === 'encour')
-                        @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                        <button class="btn btn-warning" type="button" aria-expanded="false">
-                            {{ $expedition->status}}
-                        </button>
-                        @else
-                        
-                        <form method="POST" action="{{ route('update.status', $expedition->id) }}">
-                            @csrf  {{-- Important: Add CSRF token --}}
-                            <select class="form-select" name="status" onchange="this.form.submit()">
-                                <option value="encour" {{ $expedition->status === 'encour' ? 'selected' : '' }}>encour</option>
-                                <option value="depot" {{ $expedition->status === 'depot' ? 'selected' : '' }}>depot</option>
-                                <option value="terminer" {{ $expedition->status === 'terminer' ? 'selected' : '' }}>terminer</option>
-                                <option value="en transit" {{ $expedition->status === 'en transit' ? 'selected' : '' }}>en transit</option>
-                                <option value="en stock" {{ $expedition->status === 'en stock' ? 'selected' : '' }}>en stock</option>
-                            </select>
-                        </form>
-                        @endif
-
+                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                            <div class="dropdown">
+                                <a class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status}}
+                                </a>
+                            </div>
+                            @else
+                            <div class="dropdown">
+                                <a class="btn btn-warning dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status}}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">ENCOUR</a></li>
+                                    <li><a class="dropdown-item" href="#">STOCK</a></li>
+                                    <li><a class="dropdown-item" href="#">TERMINER</a></li>
+                                </ul>
+                            </div>
+                            @endif
                         @elseif ($expedition->status === 'depot' )
-                        @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                        <button class="btn btn-secondary" type="button" aria-expanded="false">
-                            {{ $expedition->status}}
-                        </button>
-                        @else
-                        <button class="btn btn-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
-                            {{ $expedition->status }}
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en cour</a></li>
-                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">en stock</a></li>
-                            <li><a class="dropdown-item" href="dashboard/{{$expedition->id}}">terminé</a></li>
-                        </ul>
-                        @endif
+                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                            <div class="dropdown">
+                                <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status}}
+                                </a>
+                            </div>
+                            @else
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status}}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">ENCOUR</a></li>
+                                    <li><a class="dropdown-item" href="#">STOCK</a></li>
+                                    <li><a class="dropdown-item" href="#">TERMINER</a></li>
+                                </ul>
+                            </div>
+                            @endif
                         @elseif ($expedition->status === 'terminer')
-                        <button class="btn btn" type="button" data-bs-toggle="dropdown" style="color:white; background:#4af444" aria-expanded="false">
-                            {{ $expedition->status}}
-                        </button>
+                            <a class="btn btn-success dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status}}
+                            </a>
                         @endif
+                        
                     </td>
                     <td>{{ $expedition->montant_total - $expedition->montant_paye }}</td>
                     <td>{{ $expedition->dateEnlev }}</td>

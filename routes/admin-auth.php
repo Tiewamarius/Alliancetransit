@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Str;
 use App\Models\clients; 
-use App\Models\destinataire; 
-use App\Models\expediteur;
+// use App\Models\destinataire; 
+// use App\Models\expediteur;
 use App\Models\expeditions; 
 
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
@@ -23,38 +23,19 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 });
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
+ 
+    // welcome - Route
+    Route::get('/dashboard', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');
     
-    Route::get('/dashboard', function () {
-        $expeditions = expeditions::all();
-       // Nombre total d'expéditions
-        $All = expeditions::count();
-
-        $colisArrives = expeditions::where('status', 'en stock')->count();
-        $coliLivre= expeditions::where('status', 'terminer')->count();
-        $Encour= expeditions::where('status', 'encour')->count();
-        $stock= expeditions::where('status', 'depot')->count();
-        
-        $totalExpeditions = expeditions::count();
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $code_client = 'Cl-'. $nombre_aleatoire;
-        // $totalClients = expeditions::distinct('code_client')->count('code_client');
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $code_suivi = 'Al-'. $nombre_aleatoire;
-
-        $nomsClients = clients::pluck('nom_client', 'id');
-
-        $clients = clients::all();
-        return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions'));
-    
-    })->name('admin.dashboard');
-
-
-    Route::get('admin/dashboard', [AdminCrudController::class, 'search'])->name('admin.dashboard');
+    // Expedition - Route
     Route::get('mission', [AdminCrudController::class, 'ExpeditionForm'])->name('ExpeditionForm');
+   
     Route::post('mission', [AdminCrudController::class, 'storeExpedition'])->name('storeExpedition');
 
-
-    Route::delete('mission', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');
+    Route::get('mission/editExpedition/{id}', [AdminCrudController::class, 'edit'])->name('edit');
+    
+    Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+    
     Route::get('/admin/mission/{expedition}/edit', [AdminCrudController::class, 'editExpedition'])->name('editExpedition.edit');
     Route::put('/admin/mission/{expedition}', [AdminCrudController::class, 'updateExpedition'])->name('updateExpedition.update');
     Route::delete('/admin/mission/{id}', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');

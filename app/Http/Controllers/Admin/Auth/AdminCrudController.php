@@ -14,6 +14,35 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminCrudController extends Controller
 {
+
+// WELCOME - DASHBOARD
+public function dashboard(){
+        $expeditions = expeditions::all();
+       // Nombre total d'expéditions
+        $All = expeditions::count();
+
+        $colisArrives = expeditions::where('status', 'en stock')->count();
+        $coliLivre= expeditions::where('status', 'terminer')->count();
+        $Encour= expeditions::where('status', 'encour')->count();
+        $stock= expeditions::where('status', 'depot')->count();
+        
+        $totalExpeditions = expeditions::count();
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+        $code_client = 'Cl-'. $nombre_aleatoire;
+        // $totalClients = expeditions::distinct('code_client')->count('code_client');
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+        $code_suivi = 'Al-'. $nombre_aleatoire;
+
+        $nomsClients = clients::pluck('nom_client', 'id');
+
+        $clients = clients::all();
+
+        return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions'));
+   
+
+}
+// END FUNCTION DASHBOARD
+
 //sEARCH FONCTION----------------------------------------------------
         
 
@@ -44,6 +73,34 @@ class AdminCrudController extends Controller
         return view('admin.search', compact('results','search','All',
         'colisArrives','coliLivre','Encour','stock','expeditions'));
     }
+// EDIT
+
+public function edit(expeditions $expeditions)
+    {
+        return view('mission/editExpedition',compact('expedition'));
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Models\Student  $student
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, expeditions $expedition)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'phone' => 'required'
+        ]);
+        
+        $expedition->fill($request->expeditions())->save();
+
+        return redirect()->route('admin.dashboard')->with('success','Student Has Been updated successfully');
+    }
+//End edit
 
 //btn update
     public function updateStatus(Request $request, expeditions $expedition)
@@ -57,103 +114,124 @@ class AdminCrudController extends Controller
 
     return back(); // Redirect back to the same page
 }
-
 //END UPDATE
-//EXPEDITION CRUD----------------------------------------------------
-    public function viewDashboard(){
+
+
+// EXPEDITIONS CRUD
+public function ExpeditionForm(){
+    $totalExpeditions = expeditions::count();
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
         
-        
-        $All= expeditions::count();
-        $expeditions= expeditions::all();
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
+    $code_unique = 'Al-'. $nombre_aleatoire;
 
-        $stock = expeditions::where('status', 'depot')->count();
-        $Encour  = expeditions::where('status', 'encour')->count();
-        $coliLivre = expeditions::where('status', 'terminer')->count();
-        // Nombre total d'expéditions
-        $totalExpeditions = expeditions::count();
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $totalExpedition = expeditions::distinct('numeroSuivi')->count('numeroSuivi');
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $code_suivi = 'Al-'. $nombre_aleatoire;
-
-        $nomsClients = clients::pluck('nom_client', 'id');
-
-        $clients = clients::all();
-        return view('admin.dashboard',compact('expeditions','All',
-            'stock','coliLivre','Encour'));
-    }
-
-    public function ExpeditionForm(){
-        $totalExpeditions = expeditions::count();
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-            
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $code_unique = 'Al-'. $nombre_aleatoire;
-
-        $code_suivi = 'SU-'. $nombre_aleatoire;
-        
-        $nomsClients = clients::pluck('nom_client', 'id');
-        
-        $expeditions = expeditions::all();
-        return view('admin.mission.Ajouterexpeditions',compact(
-            'nomsClients','expeditions','code_unique','code_suivi'));
-    }
-    public function storeExpedition(Request $request)
-                {
-                    // Validation des données
-                    $validatedData = $request->validate([
-                        'expediteur_id' => 'nullable',
-                        'nom_expediteur' => 'required',
-                        'numero_expediteur' => 'required',
-                        'email_expediteur' => 'nullable|email',
-                        'adresse_expediteur' => 'nullable',
-                        'destinataire_id' => 'nullable|exists:destinataires,id',
-                        'nom_destinataire' => 'required',
-                        'numero_destinataire' => 'required',
-                        'email_destinataire' => 'nullable|email',
-                        'adresse_destinataire' => 'nullable',
-                        'numeroSuivi' => 'required',
-                        'designation' => 'required',
-                        'numeroConteneur' => 'nullable',
-                        'typeService' => 'nullable',
-                        'dateEnlev' => 'nullable|date',
-                        'dateLivr' => 'nullable|date',
-                        'montant_total' => 'required|numeric',
-                        'montant_paye' => 'required|numeric',
-                        'status' => 'required|in:encour,depot,terminer',
-                    ]);
-                    // dd($validatedData);
-                    $expedition = expeditions::create($validatedData);
-                   return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
-                
-                }
-
-                public function destroyExpedition(expeditions $expedition)
-                    {
-                        $expedition->delete();
-
-                        return redirect()->route('expeditions')->with('success', 'Expédition supprimée avec succès.');
-                    }
-                public function editExpedition(expeditions $expedition)
-                    {
-                        return view('mission.edit', compact('expedition'));
-                    }
-                    public function updateExpedition(Request $request, expeditions $expedition)
-                    {
-                        $validatedData = $request->validate([
-                            // Ajoutez vos règles de validation ici
-                            'numeroSuivi' => 'required|string|max:255',
-                            'designation' => 'required|string|max:255',
-                            // ... autres champs
-                        ]);
-
-                        $expedition->update($validatedData);
-
-                        return redirect()->route('admin.dashboard')->with('success', 'Expédition mise à jour avec succès.');
-                    }
-
-//END CRUD-EXPEDITION----------------------------------------------
+    $code_suivi = 'SU-'. $nombre_aleatoire;
     
+    $nomsClients = clients::pluck('nom_client', 'id');
+    
+    $expeditions = expeditions::all();
+    return view('admin.mission.Ajouterexpeditions',compact(
+        'nomsClients','expeditions','code_unique','code_suivi'));
+}
+
+public function storeExpedition(Request $request)
+{
+    // Validation des données
+    $validatedData = $request->validate([
+        'expediteur_id' => 'nullable',
+        'nom_expediteur' => 'required',
+        'numero_expediteur' => 'required',
+        'email_expediteur' => 'nullable|email',
+        'adresse_expediteur' => 'nullable',
+        'destinataire_id' => 'nullable|exists:destinataires,id',
+        'nom_destinataire' => 'required',
+        'numero_destinataire' => 'required',
+        'email_destinataire' => 'nullable|email',
+        'adresse_destinataire' => 'nullable',
+        'numeroSuivi' => 'required',
+        'designation' => 'required',
+        'numeroConteneur' => 'nullable',
+        'typeService' => 'nullable',
+        'dateEnlev' => 'nullable|date',
+        'dateLivr' => 'nullable|date',
+        'montant_total' => 'required|numeric',
+        'montant_paye' => 'required|numeric',
+        'status' => 'required|in:encour,depot,terminer',
+    ]);
+    // dd($validatedData);
+    $expedition = expeditions::create($validatedData);
+    return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
+
+}
+
+public function editExpedition(expeditions $expedition)
+    {
+        return view('mission.editExpedition', compact('expedition'));
+    }
+
+public function voirExpedition(expeditions $expedition)
+    {
+        return view('mission.editExpedition', compact('expedition'));
+        
+    }
+
+public function destroyExpedition(expeditions $expedition)
+    {
+        $expedition->delete();
+
+        return redirect()->route('expeditions')->with('success', 'Expédition supprimée avec succès.');
+    }
+// END EXPEDITION CRUD
+
+// COMMANDE CRUD
+public function CommanForm(){
+    $totalExpeditions = expeditions::count();
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
+        
+    $nombre_aleatoire = (string)(random_int(10000, 99999));
+    $code_unique = 'Al-'. $nombre_aleatoire;
+
+    $code_suivi = 'SU-'. $nombre_aleatoire;
+    
+    $nomsClients = clients::pluck('nom_client', 'id');
+    
+    $expeditions = expeditions::all();
+    return view('admin.mission.Ajouterexpeditions',compact(
+        'nomsClients','expeditions','code_unique','code_suivi'));
+}
+
+public function storeCommand(Request $request)
+{
+    // Validation des données
+    $validatedData = $request->validate([
+        'expediteur_id' => 'nullable',
+        'nom_expediteur' => 'required',
+        'numero_expediteur' => 'required',
+        'email_expediteur' => 'nullable|email',
+        'adresse_expediteur' => 'nullable',
+        'destinataire_id' => 'nullable|exists:destinataires,id',
+        'nom_destinataire' => 'required',
+        'numero_destinataire' => 'required',
+        'email_destinataire' => 'nullable|email',
+        'adresse_destinataire' => 'nullable',
+        'numeroSuivi' => 'required',
+        'designation' => 'required',
+        'numeroConteneur' => 'nullable',
+        'typeService' => 'nullable',
+        'dateEnlev' => 'nullable|date',
+        'dateLivr' => 'nullable|date',
+        'montant_total' => 'required|numeric',
+        'montant_paye' => 'required|numeric',
+        'status' => 'required|in:encour,depot,terminer',
+    ]);
+    // dd($validatedData);
+    $expedition = expeditions::create($validatedData);
+    return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
+
+}
+
+// END COMMANDE CRUD
+
 
 //CLIENT CRUD----------------------------------------------------------
             public function storeClient(Request $request)
