@@ -14,12 +14,16 @@
                 <li class="nav-item"><a class="nav-link me-lg-3" href="#features">Business</a></li>
                 <li class="nav-item"><a class="nav-link me-lg-3" href="#download">Download</a></li>
             </ul>
-            <button style="background-color: #0793ff;" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#feedbackModal">
-                <span class="d-flex align-items-center">
-                    <i class="bi-chat-text-fill me-2"></i>
-                    <span class="small">Contacter-Nous</span>
-                </span>
-            </button>
+            <div class="dropdown-center">
+                <button class="btn btn" style="background-color: #0793ff; color:azure;" dropdown-toggle type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi-chat-text-fill me-2"></i>Contactez-Nous
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i style="color:green;" class="bi bi-whatsapp"></i> WhatsApp</a></li>
+                    <li><a class="dropdown-item" href="#"><i style="color:red;" class="bi bi-envelope"></i> Email</a></li>
+                    <li><a class="dropdown-item" href="#"><i style="color:blue;"class="bi bi-chat-text-fill"></i> Sms</a></li>
+                </ul>
+            </div>
             <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
                 @guest
                     <li class="nav-item"><a class="nav-link me-lg-3" href="{{url('layouts/login')}}">Mon espace</a></li>

@@ -6,46 +6,37 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\expeditions;
 
-class NewShipmentNotification extends Notification
+class ExpeditionCreated extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    protected $expedition;
+
+    public function __construct(expeditions $expedition)
     {
-        //
+        $this->expedition = $expedition;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Une nouvelle expédition a été créée.')
+                    ->line('Numéro de suivi : ' . $this->expedition->numeroSuivi)
+                    ->line('Expéditeur : ' . $this->expedition->nom_expediteur)
+                    ->line('Statuts : ' . $this->expedition->status)
+                    ->line('Designation : ' . $this->expedition->designation)
+                    ->action('Voir l\'expédition', url('/admin/expeditions/' . $this->expedition->id))
+                    ->line('Merci d\'utiliser notre service !');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
+    public function toArray($notifiable)
     {
         return [
             //

@@ -2,10 +2,12 @@
 @section('title','EnvoiColis')
 @section('content')
 <style>
-    th {
-        white-space: nowrap;
-    }
-</style>
+        th {
+            white-space: nowrap;
+        }
+    </style>
+    <div class="row">
+        </div>
 <!-- Content Row -->
 <div class="row">
 
@@ -101,6 +103,7 @@
     </h3>
     <input type="text" id="searchInput" class="form-control" style="min-width:200px; width:350px;" placeholder="Chercher..." onkeyup="searchTable()">
 </div>
+<div style="overflow-x: auto;">
 <table class="table table-striped">
             <thead>
                 <tr>
@@ -131,16 +134,21 @@
                                 </a>
                             </div>
                             @else
-                            <div class="dropdown">
-                                <a class="btn btn-warning dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $expedition->status}}
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">ENCOUR</a></li>
-                                    <li><a class="dropdown-item" href="#">STOCK</a></li>
-                                    <li><a class="dropdown-item" href="#">TERMINER</a></li>
-                                </ul>
-                            </div>
+                            <form method="POST" action="{{ route('update.status', $expedition->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="dropdown">
+                                    <a class="btn btn-warning dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $expedition->status }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">TERMINER</a></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="status" id="statusInput">
+                            </form>
                             @endif
                         @elseif ($expedition->status === 'depot' )
                             @if (Auth::user()->code_unique == $expedition->expediteur_id)
@@ -150,19 +158,24 @@
                                 </a>
                             </div>
                             @else
-                            <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $expedition->status}}
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">ENCOUR</a></li>
-                                    <li><a class="dropdown-item" href="#">STOCK</a></li>
-                                    <li><a class="dropdown-item" href="#">TERMINER</a></li>
-                                </ul>
-                            </div>
+                            <form method="POST" action="{{ route('update.status', $expedition->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $expedition->status }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">TERMINER</a></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="status" id="statusInput">
+                            </form>
                             @endif
                         @elseif ($expedition->status === 'terminer')
-                            <a class="btn btn-success dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="btn btn-success"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ $expedition->status}}
                             </a>
                         @endif
@@ -180,7 +193,8 @@
         </tr>
         @endforeach
         </tbody>
-        </table>
+</table>
+</div>
     </div>
 </div>
 
@@ -200,6 +214,14 @@
         /* Ajoute de l'espace interne */
     }
 </style>
+
+
+<script>
+    function updateStatus(expeditionId, status) {
+        document.getElementById('statusInput').value = status;
+        document.querySelector('form').submit();
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

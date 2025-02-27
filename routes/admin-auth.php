@@ -34,10 +34,14 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('mission', [AdminCrudController::class, 'storeExpedition'])->name('storeExpedition');
 
     // ExpeditionEdit - Route
-    Route::get('editExpedition/{id}', [AdminCrudController::class, 'editExpedition'])->name('editExpedition');
+    Route::get('/editExpedition/{id}', [AdminCrudController::class, 'editExpedition'])->name('editExpedition');
+    Route::post('admin/mission/{id}', [AdminCrudController::class, 'updateExpedition'])->name('updatExpedition');
     
-    Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+    Route::get('rechercher.suivi', [AdminCrudController::class, 'rechercherSuivi'])->name('rechercher.suivi');
     
+    // Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+    Route::post('/admin/expeditions/{id}/status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+
     Route::get('/admin/mission/{expedition}/edit', [AdminCrudController::class, 'editExpedition'])->name('editExpedition.edit');
     Route::put('/admin/mission/{expedition}', [AdminCrudController::class, 'updateExpedition'])->name('updateExpedition.update');
     Route::delete('/admin/mission/{id}', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');
