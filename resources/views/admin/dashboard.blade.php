@@ -2,12 +2,12 @@
 @section('title','EnvoiColis')
 @section('content')
 <style>
-        th {
-            white-space: nowrap;
-        }
-    </style>
-    <div class="row">
-        </div>
+    th {
+        white-space: nowrap;
+    }
+</style>
+<div class="row">
+</div>
 <!-- Content Row -->
 <div class="row">
 
@@ -91,113 +91,126 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h3 class="h3 mb-0 text-gray-800">TABLEAU DES EXPEDITIONS</h3>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
-        <i class="fas fa-download fa-sm text-white-50"></i> Exporter en Excel
+    <i class="fas fa-file-export"></i> Exporter en Excel
     </a>
 </div>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h3 class="h3 mb-0 text-gray-800">
         <div class="row py-2">
-        <a href="#" class="btn btn-outline-secondary" style="margin: 10px;">Passer-Commande</a>
+            <a href="#" class="btn btn-outline-secondary" style="margin: 10px;">Passer-Commande</a>
             <a href="{{url('admin/mission')}}" class="btn btn-primary" style="margin: 10px;">CREER-ENVOI</a>
         </div>
     </h3>
-    <input type="text" id="searchInput" class="form-control" style="min-width:200px; width:350px;" placeholder="Chercher..." onkeyup="searchTable()">
+    <input type="text" id="search" name="search" class="form-control" style="min-width:200px; width:350px;" placeholder="Chercher...">
 </div>
+<div class="table-data">
 <div style="overflow-x: auto;">
-<table class="table table-striped">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="color:black;text-align:center;">STATUS</th>
-                    <th style="color:black">CREDITS</th>
-                    <th>DATE-ENLEVEMENTS</th>
-                    <th>NUMERO-SUIVIS</th>
-                    <th>EXPEDITEURS</th>
-                    <th>DESIGNATIONS-Colis</th>
-                    <th>DESTINATAIRES</th>
-                    <th>DATE-LIVRAISON</th>
-                    <th>REMARQUE</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($expeditions as $expedition)
-                <tr>
-                    <td>
-                        <a href="editExpedition/{{$expedition->id}}" class="btn btn-outline-danger" style="width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
-                    </td>
-                    <td>
-                        @if ($expedition->status === 'encour')
-                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                            <div class="dropdown">
-                                <a class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $expedition->status}}
-                                </a>
-                            </div>
-                            @else
-                            <form method="POST" action="{{ route('update.status', $expedition->id) }}">
-                                @csrf
-                                @method('PUT')
-                                <div class="dropdown">
-                                    <a class="btn btn-warning dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $expedition->status }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">TERMINER</a></li>
-                                    </ul>
-                                </div>
-                                <input type="hidden" name="status" id="statusInput">
-                            </form>
-                            @endif
-                        @elseif ($expedition->status === 'depot' )
-                            @if (Auth::user()->code_unique == $expedition->expediteur_id)
-                            <div class="dropdown">
-                                <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $expedition->status}}
-                                </a>
-                            </div>
-                            @else
-                            <form method="POST" action="{{ route('update.status', $expedition->id) }}">
-                                @csrf
-                                @method('PUT')
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $expedition->status }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">TERMINER</a></li>
-                                    </ul>
-                                </div>
-                                <input type="hidden" name="status" id="statusInput">
-                            </form>
-                            @endif
-                        @elseif ($expedition->status === 'terminer')
-                            <a class="btn btn-success"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $expedition->status}}
+    <table class="table table-striped" id="expeditionsTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th style="color:black;text-align:center;">STATUS</th>
+                <th style="color:black">CREDITS</th>
+                <th>DATE-Enlevements</th>
+                <th>Num° CONTENEURS</th>
+                <th>EXPEDITEURS</th>
+                <th>ADRESSE-Expedit.</th>
+                <th>DESIGNATIONS-Colis</th>
+                <th>Num° SUIVIS</th>
+                <th>DESTINATAIRES</th>
+                <th>ADRESSE-Destinat.</th>
+                <th>DATE-LIVRAISON</th>
+                <th>REMARQUE</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($expeditions as $expedition)
+            <tr>
+                <td>
+                    <a href="editExpedition/{{$expedition->id}}" class="btn btn-outline-danger" style="color: orangered;width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    @if ($expedition->status === 'encour')
+                    @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                    <div class="dropdown">
+                        <a class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $expedition->status}}
+                        </a>
+                    </div>
+                    @else
+                    <form method="POST" action="{{ route('update.status', $expedition->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="dropdown">
+                            <a class="btn btn-warning dropdowntoggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status }}
                             </a>
-                        @endif
-                        
-                    </td>
-                    <td>{{ $expedition->montant_total - $expedition->montant_paye }}</td>
-                    <td>{{ $expedition->dateEnlev }}</td>
-                    <td>{{ $expedition->numeroSuivi}}</td>
-                    <td>{{ $expedition->nom_expediteur}}</td>
-                    <td>{{ $expedition->designation }}</td>
-                    <td>{{ $expedition->nom_destinataire}}</td>
-            </td>
-        <td>{{ $expedition->dateLivr}}</td>
-        <td>{{ $expedition->typeService}}</td>
-        </tr>
-        @endforeach
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
+                                <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
+                                <li><a class="dropdown-item" href="{{ route('update.status', $expedition->id) }}" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">TERMINER</a></li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="status" id="statusInput">
+                    </form>
+                    @endif
+                    @elseif ($expedition->status === 'Non Livré' )
+                    @if (Auth::user()->code_unique == $expedition->expediteur_id)
+                    <div class="dropdown">
+                        <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $expedition->status}}
+                        </a>
+                    </div>
+                    @else
+                    <form method="POST" action="{{ route('update.status', $expedition->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdowntoggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $expedition->status }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'encour')">ENCOUR</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'depot')">STOCK</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $expedition->id }}', 'terminer')">Livré</a></li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="status" id="statusInput">
+                    </form>
+                    @endif
+                    @elseif ($expedition->status === 'Livré')
+                    <a class="btn btn-success" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ $expedition->status}}
+                    </a>
+                    @endif
+
+                </td>
+                <td>{{ $expedition->montant_total - $expedition->montant_paye }}</td>
+                <td>{{ $expedition->dateEnlev }}</td>
+                <td>{{ $expedition->numeroConteneur}}</td>
+                <td>{{ $expedition->nom_expediteur}}</td>
+                <td>{{ $expedition->adresse_expediteur}}</td>
+                <td>{{ $expedition->designation }}</td>
+                <td>{{ $expedition->numeroSuivi}}</td>
+                <td>{{ $expedition->nom_destinataire}}</td>
+                <td>{{ $expedition->adresse_expediteur}}</td>
+                <td>{{ $expedition->dateLivr}}</td>
+                <td>{{ $expedition->typeService}}</td>
+                <td>
+                <a href="{{ route('expeditions.delete', $expedition->id) }}" class="btn btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette expédition ?')"><i class="fas fa-trash-alt"></i></a>
+                
+                </td>
+            </tr>
+            @endforeach
         </tbody>
-</table>
+    </table>
+    {!! $expeditions->links() !!}
 </div>
-    </div>
 </div>
 
+</div>
+</div>
 
 <style>
     .table .btn {
@@ -214,14 +227,6 @@
         /* Ajoute de l'espace interne */
     }
 </style>
-
-
-<script>
-    function updateStatus(expeditionId, status) {
-        document.getElementById('statusInput').value = status;
-        document.querySelector('form').submit();
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

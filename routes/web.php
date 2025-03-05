@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('SuiviPage');
+    return view('dashboard');
 });
 
 Route::get('layouts/login', function () {

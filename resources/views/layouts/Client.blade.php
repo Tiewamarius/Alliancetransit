@@ -17,6 +17,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{asset('Clients/css/styles.css')}}" rel="stylesheet" />
+    <link href="{{asset('Clients/styl.css')}}" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
 </head>
 
 <body id="page-top">
@@ -25,7 +35,7 @@
     <!-- Mashead header-->
     <header class="masthead">
         <div class="container px-5">
-            @yield('contente')
+            @yield('content')
         </div>
     </header>
     <!-- App badge section-->

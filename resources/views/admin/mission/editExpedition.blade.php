@@ -65,14 +65,14 @@
                         <br><label for="statut" class="form-label">STATUS D'EXP.</label>
                         <select name="status" id="status">
                             <option value="encour" {{ old('status') == 'encour' ? 'selected' : '' }}>En cours</option>
-                            <option value="depot" {{ old('status') == 'depot' ? 'selected' : '' }}>Dépot</option>
-                            <option value="terminer" {{ old('status') == 'terminer' ? 'selected' : '' }}>Livré</option>
+                            <option value="Non Livré" {{ old('status') == 'Non Livré' ? 'selected' : '' }}>Non Livré</option>
+                            <option value="Livré" {{ old('status') == 'Livré' ? 'selected' : '' }}>Livré</option>
                         </select>
                     </div>
                 </div>
                 
             <div class="row mb-3" style="float: right;">
-                <button type="submit" class="btn btn-success">EXPEDIER</button>
+                <button type="submit" class="btn btn-success">CONFIRMER</button>
             </div>
             </div>
         </div>

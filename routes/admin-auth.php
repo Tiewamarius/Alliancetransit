@@ -25,7 +25,13 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
  
     // welcome - Route
-    Route::get('/dashboard', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');  
+    
+    // PaginationRoute
+    Route::get('/pagination/pagination-data', [AdminCrudController::class, 'pagination']);
+    
+    // search Route
+    Route::get('/admin-search', [AdminCrudController::class, 'search'])->name('admin.search');
     
     // ExpeditionForm - Route
     Route::get('mission', [AdminCrudController::class, 'ExpeditionForm'])->name('ExpeditionForm');
@@ -41,6 +47,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     
     // Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
     Route::post('/admin/expeditions/{id}/status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+
+    Route::get('/expeditions/delete/{id}', [AdminCrudController::class, 'deleteExpedition'])->name('expeditions.delete');
+
 
     Route::get('/admin/mission/{expedition}/edit', [AdminCrudController::class, 'editExpedition'])->name('editExpedition.edit');
     Route::put('/admin/mission/{expedition}', [AdminCrudController::class, 'updateExpedition'])->name('updateExpedition.update');

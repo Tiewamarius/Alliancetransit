@@ -8,9 +8,12 @@ use App\Models\destinataire;
 use App\Models\expeditions;
 use App\Models\expediteur;
 use App\Models\clients;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
+use function Termwind\render;
 
 class AdminCrudController extends Controller
 {
@@ -18,14 +21,13 @@ class AdminCrudController extends Controller
 // WELCOME - DASHBOARD
 public function dashboard()
     {
-            $expeditions = expeditions::all();
-        // Nombre total d'expéditions
+            $expeditions = expeditions::latest()->paginate(5);
             $All = expeditions::count();
 
-            $colisArrives = expeditions::where('status', 'en stock')->count();
-            $coliLivre= expeditions::where('status', 'terminer')->count();
+            $colisArrives = expeditions::where('status', 'Non Livré')->count();
+            $coliLivre= expeditions::where('status', 'Livré')->count();
             $Encour= expeditions::where('status', 'encour')->count();
-            $stock= expeditions::where('status', 'depot')->count();
+            $stock= expeditions::where('status', 'Non Livré')->count();
             
             $totalExpeditions = expeditions::count();
             $nombre_aleatoire = (string)(random_int(10000, 99999));
@@ -34,9 +36,7 @@ public function dashboard()
             $nombre_aleatoire = (string)(random_int(10000, 99999));
             $code_suivi = 'Al-'. $nombre_aleatoire;
 
-            $nomsClients = clients::pluck('nom_client', 'id');
-
-            $clients = clients::all();
+           
 
             return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions'));
     
@@ -44,34 +44,62 @@ public function dashboard()
     }
 // END FUNCTION DASHBOARD
 
+
+
+// PAGINATION
+public function pagination()
+    {
+            $expeditions = expeditions::latest()->paginate(5);
+            $All = expeditions::count();
+
+            $colisArrives = expeditions::where('status', 'Non Livré')->count();
+            $coliLivre= expeditions::where('status', 'Livré')->count();
+            $Encour= expeditions::where('status', 'encour')->count();
+            $stock= expeditions::where('status', 'Non Livré')->count();
+            
+            $totalExpeditions = expeditions::count();
+            $nombre_aleatoire = (string)(random_int(10000, 99999));
+            $code_client = 'Cl-'. $nombre_aleatoire;
+            // $totalClients = expeditions::distinct('code_client')->count('code_client');
+            $nombre_aleatoire = (string)(random_int(10000, 99999));
+            $code_suivi = 'Al-'. $nombre_aleatoire;
+
+           
+
+            return view('admin.dashboard_pagination',compact('stock','Encour','All','colisArrives','coliLivre','expeditions'))->render();
+    
+
+    }
+
 //SEARCH FONCTION----------------------------------------------------
 public function search(Request $request)
-    {
-        $All= expeditions::count();
-        $expeditions= expeditions::all();
-        $stock = expeditions::where('status', 'depot')->count();
-        $colisArrives = expeditions::where('status', 'depot')->count();
-        $Encour  = expeditions::where('status', 'encour')->count();
-        $coliLivre = expeditions::where('status', 'terminer')->count();
-        // Nombre total d'expéditions
-        $totalExpeditions = expeditions::count();
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $totalExpedition = expeditions::distinct('numeroSuivi')->count('numeroSuivi');
-        $nombre_aleatoire = (string)(random_int(10000, 99999));
-        $code_suivi = 'Al-'. $nombre_aleatoire;
-        $nomsClients = clients::pluck('nom_client', 'id');
-        $clients = clients::all();
+{
+     $expeditions = expeditions::where('expediteur_id', 'like', '%'.$request->search_string.'%')
+            ->orWhere('nom_expediteur', 'like', '%'.$request->search_string .'%')
+            ->orWhere('numero_expediteur', 'like', '%' . $request->search_string . '%')
+            ->orWhere('email_expediteur', 'like', '%' . $request->search_string . '%')
+            ->orWhere('adresse_expediteur', 'like', '%' . $request->search_string . '%')
+            ->orWhere('nom_destinataire', 'like', '%' . $request->search_string . '%')
+            ->orWhere('numero_destinataire', 'like', '%' . $request->search_string . '%')
+            ->orWhere('email_destinataire', 'like', '%' . $request->search_string . '%')
+            ->orWhere('adresse_destinataire', 'like', '%' . $request->search_string . '%')
+            ->orWhere('numeroSuivi', 'like', '%' .$request->search_string .'%')
+            ->orWhere('designation', 'like', '%' . $request->search_string . '%')
+            ->orWhere('numeroConteneur', 'like', '%' . $request->search_string . '%')
+            ->orWhere('typeService', 'like', '%' . $request->search_string . '%')
+            ->orWhere('status', 'like', '%' . $request->search_string . '%')
+            ->paginate(5);
+    
+            if($expeditions->count()>=1){
+                return view('admin.dashboard_pagination',compact('expeditions'))->render();   
+            }else{
+                return response()->json(
+                    [ 'status'=>'Inexistant'],
+                );
+            }
+            }
 
-        $search = $request->search;
-        $results = expeditions::where(function($query) use($search){
-            $query->where('expediteur_id','like',"%$search%")
-            ->orwhere('nom_expediteur','like',"%$search%");
-        })->get();
-        // Personnalisez la requête de recherche
 
-        return view('admin.search', compact('results','search','All',
-        'colisArrives','coliLivre','Encour','stock','expeditions'));
-    }
 
 
 // EXPEDITIONS CRUD
@@ -115,25 +143,46 @@ public function storeExpedition(Request $request)
             'dateLivr' => 'nullable|date',
             'montant_total' => 'required|numeric',
             'montant_paye' => 'required|numeric',
-            'status' => 'required|in:encour,depot,terminer',
+            'status' => 'required|in:encour,Non Livré,Livré',
         ]);
         // dd($validatedData);
         $expedition = expeditions::create($validatedData);
 
-        $admin = expeditions::where('email', 'yobouetiewamaruis@gmail.com')->first();
+        // $admin = expeditions::where('email', 'yobouetiewamaruis@gmail.com')->first();
 
-        if ($admin) {
-            $admin->notify(new AdminCrudController($expedition));
-        }
+        // if ($admin) {
+        //     $admin->notify(new AdminCrudController($expedition));
+        // }
+        Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
+
+        
             return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
 
         }
-
+// EDIT EXPEDITION
     public function editExpedition($id)
         {
             $expeditions = expeditions::find($id);
             return view('admin.mission.editExpedition', compact('expeditions'));
     }
+// Delete
+public function deleteExpedition($id)
+{
+    // 1. Trouver l'expédition à supprimer
+    $expedition = expeditions::find($id);
+
+    // 2. Vérifier si l'expédition existe
+    if (!$expedition) {
+        // Gérer le cas où l'expédition n'existe pas (par exemple, afficher un message d'erreur)
+        return redirect()->route('admin.dashboard')->with('error', 'Expédition non trouvée.');
+    }
+
+    // 3. Supprimer l'expédition
+    $expedition->delete();
+
+    // 4. Rediriger avec un message de succès
+    return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
+}
 
 public function updateExpedition(Request $request, $id)
     {
@@ -157,7 +206,7 @@ public function updateExpedition(Request $request, $id)
             'dateLivr' => 'nullable|date',
             'montant_total' => 'nullable|numeric',
             'montant_paye' => 'nullable|numeric',
-            'status' => 'nullable|in:encour,depot,terminer',
+            'status' => 'nullable|in:encour,Non Livré,Livré',
         ]);
         // dd($validatedData);
         // Trouver l'expédition à mettre à jour
@@ -168,6 +217,9 @@ public function updateExpedition(Request $request, $id)
     
                 // Mettre à jour l'expédition avec les données validées
                 $expedition->update($validatedData);
+                Toastr::success("<h4 style='color:white; background:green;'>enregistrées avec succès !</h>");
+
+        
             
                 return redirect()->route('admin.dashboard')->with('success', 'Expédition mise à jour avec succès.');
     
@@ -247,7 +299,7 @@ public function storeCommand(Request $request)
             'dateLivr' => 'nullable|date',
             'montant_total' => 'required|numeric',
             'montant_paye' => 'required|numeric',
-            'status' => 'required|in:encour,depot,terminer',
+            'status' => 'required|in:encour,Non Livré,Livré',
         ]);
         // dd($validatedData);
         $expedition = expeditions::create($validatedData);

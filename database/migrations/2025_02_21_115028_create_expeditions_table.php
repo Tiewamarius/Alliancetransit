@@ -31,7 +31,7 @@ return new class extends Migration
             $table->dateTime('dateLivr')->nullable();
             $table->decimal('montant_total', 8, 2); // Définir l'ordre ici
             $table->decimal('montant_paye', 8, 2)->default(0); // Définir l'ordre ici
-            $table->enum('status', ['encour', 'depot', 'terminer']);
+            $table->enum('status', ['encour', 'Non Livré', 'Livré']);
             $table->timestamps();
         });
     }
