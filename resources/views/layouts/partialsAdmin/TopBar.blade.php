@@ -4,18 +4,6 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <form method="get" action="dashboard" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0,5 small" placeholder="Search for..."value="{{isset($search)? $search: ''}}"
-                aria-label="Search" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-primary" style="background:#089ae5" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-
     <ul class="navbar-nav ml-auto">
 
         <li class="nav-item dropdown no-arrow d-sm-none">

@@ -1,13 +1,22 @@
 @extends('layouts.Client')
-@section('contente')
+@section('content')
 
-<div class="container-fluid h-custom">
+<div class="container-fluid h-custom" style="margin-top: 100px;">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                     class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form method="POST" action="{{ route('login') }}" class="user">
                 @csrf
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
@@ -50,7 +59,7 @@
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button  style="background-color: #0793ff;" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{url('layouts/register')}}"
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{url('/register')}}"
                                 class="link-danger">Register</a></p>
                     </div>
 

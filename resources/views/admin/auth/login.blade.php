@@ -5,7 +5,7 @@
 <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-9 col-lg-6 col-xl-5">
-            <img src="../Admin/img/Logo-remoteBg.png" width="300px;" height="400p3;" class="img-fluid" alt="Sample image">
+            <img src="../Admin/img/adminn.png" width="300px;" height="400p3;" class="img-fluid" alt="Sample image">
         </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form method="POST" action="{{ route('admin.login') }}" class="user">

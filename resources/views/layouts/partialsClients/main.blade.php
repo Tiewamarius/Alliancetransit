@@ -427,7 +427,7 @@
 <!-- Testimonials Section -->
 <section id="testimonials" class="testimonials section dark-background">
 
-  <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
+  <img src="Clients/assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
