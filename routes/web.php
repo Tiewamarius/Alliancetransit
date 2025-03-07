@@ -8,11 +8,11 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('layouts/login', function () {
+Route::get('login', function () {
     return view('login');
 });
 
-Route::get('layouts/register', function () {
+Route::get('register', function () {
     return view('register');
 });
 

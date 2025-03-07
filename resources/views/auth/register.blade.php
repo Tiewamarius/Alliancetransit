@@ -16,68 +16,37 @@
                     @endforeach
                 </ul>
             </div>
-            @endif    
-        <form method="POST" action="{{route('register') }}" class="user">
+            @endif
+            <form method="POST" action="{{ route('register') }}" class="user">
                 @csrf
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                    <p class="lead fw-normal mb-0 me-3">REGISTER</p>
+                    <h4>INSCRIPTION USER</h4>
                 </div>
-                <br>
-                <!-- Name input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="name" id="form3Example3" class="form-control form-control-lg"
-                        :value="__('name')"
-                        name="name" :value="old('name')"
-                        required autofocus autocomplete="username"
-                        placeholder="Enter un nom..." />
-                    <label class="form-label" for="form3Example3">Nom d'Utilisateur</label>
+                <input type="hiden" name="code_unique" value="{{$code_unique}}" style="display:none;" >
+                <div class="row mb-3">
+                    <input type="text" style="height:40px;"  class="form-control"  value="" placeholder="Nom & Prenoms(ou Username)"  name="name">
                 </div>
-                <!-- Email input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form3Example3" class="form-control form-control-lg"
-                        :value="__('Email')"
-                        name="email" :value="old('email')"
-                        required autofocus autocomplete="username"
-                        placeholder="Enter Email Address...">
-                    <label class="form-label" for="form3Example3">Email address</label>
+                <div class="row mb-3">
+                    <input type="email" id="telephone_client"  style="height:40px;"   class="form-control" value=""  placeholder="Adresse email" name="email">
                 </div>
-
-                <!-- Password input -->
-                <div data-mdb-input-init class="form-outline mb-3">
-                    <input type="password" id="form3Example4" class="form-control form-control-lg"
-                        :value="__('password')" name="password"
-                        required autocomplete="current-password"
-                        id="exampleInputPassword" placeholder="Password">
-                    <label class="form-label" for="form3Example4">Password</label>
+                <div class="row mb-3">
+                    <input type="tel" id="telephone_client"   style="height:40px;"   class="form-control" value="" placeholder="Enter N° telephone" name="numero">
                 </div>
-
-                <!-- Password input -->
-                <div data-mdb-input-init class="form-outline mb-3">
-                    <input type="password" id="form3Example4" class="form-control form-control-lg"
-                        :value="__('password_confirmation')" name="password_confirmation"
-                        required autocomplete="current-password"
-                        id="exampleInputPassword" placeholder="password_confirmation">
-                    <label class="form-label" for="form3Example4">Confirmé Password</label>
+                <div class="row mb-3">
+                    <input type="adresse" id="telephone_client"  style="height:40px;"    class="form-control" value="" placeholder="Adresse" name="adresse">
                 </div>
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <!-- Checkbox -->
-                    <div class="form-check mb-0">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                        <label class="form-check-label" for="form2Example3">
-                            Remember me
-                        </label>
-                    </div>
-                    <a href="#!" class="text-body">Forgot password?</a>
+                <div class="row mb-3">
+                    <input type="password" id="telephone_client"  style="height:40px;"    class="form-control" value="" placeholder="password"  name="password" placeholder="Password">
                 </div>
-
-                <div class="text-center text-lg-start mt-4 pt-2">
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                        style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                    <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{url('/login') }}"
-                            class="link-primary">connextion</a></p>
+                <div class="row mb-3">
+                    <input type="password" id="telephone_client"  style="height:40px;"    class="form-control" value="" placeholder="confirmé password"  name="password_confirmation">
                 </div>
-
+                <div class="row mb-3">
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">
+                        valider
+                    </button>
+                </div>
+                
             </form>
         </div>
     </div>

@@ -20,7 +20,7 @@
             <form method="POST" action="{{ route('login') }}" class="user">
                 @csrf
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">CONNEXION</p>
+                        <p class="lead fw-normal mb-0 me-3">CONNEXION USER</p>
                     </div>
                     <br>
                     <!-- Email input -->

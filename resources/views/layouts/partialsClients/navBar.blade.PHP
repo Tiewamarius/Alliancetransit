@@ -5,7 +5,7 @@
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <img src="clients/assets/img/Logo.jpg" alt="" data-aos="fade-in">
-        <h4 style="color:#1797ff;">All-Trans</h4>
+        <h5 style="color:#1797ff;">Alliance</br>Transit</h5>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -21,13 +21,20 @@
         </div>
         <ul>
           <li class="nav-item">
-            <a class="nav-link me-lg-3" href="{{url('layouts/SuiviPage')}}"><i class="bi bi-geo-alt"></i> Suivi</a>
+            <a class="nav-link me-lg-3" href="{{url('layouts/SuiviPage')}}"> Suivi</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link me-lg-3" href="#features"><i class="bi bi-person-lines-fill"></i> Particulier</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-lg-3" href="#features"><i class="bi bi-building"></i> Business</a>
+          
+          
+          <li class="dropdown"><a href="#"><span>Envoyer</span></a>
+            <ul>
+              <li>
+                <a href=" "> Particulier</a>
+              </li>
+              
+              <li>
+                <a href=" ">Business</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link me-lg-3" href="https://play.google.com/store"> <img src="{{ asset('Admin/img/android-IOSpng.png') }}" alt="Android Logo" width="32" height="32">Download</a>

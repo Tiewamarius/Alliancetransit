@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController; 
 use App\Http\Controllers\Admin\Auth\AdminCrudController;
-use App\Http\Controllers\Admin\Auth\RegisteredUserController;
+use App\Http\Controllers\Admin\Auth\RegisteredAdminController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Str;
@@ -13,8 +13,8 @@ use App\Models\expeditions;
 
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('register', [RegisteredAdminController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredAdminController::class, 'store']);
 
 
     Route::get('login', [LoginController::class, 'create'])->name('admin.login');
