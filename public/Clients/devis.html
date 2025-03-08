@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un envoi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>J'expédie en tant que...</h1>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="particulier">Personne privée</button>
+            <button class="tab" data-tab="professionnel">Professionnel</button>
+        </div>
+
+        <div class="form-container">
+            <div class="import-checkbox">
+                <input type="checkbox" id="import">
+                <label for="import">Créer un envoi d'importation</label>
+                <span class="info">ⓘ</span>
+            </div>
+
+            <div class="country-select">
+                <label for="country">De</label>
+                <div class="country-dropdown">
+                    <img src="france-flag.png" alt="France Flag">
+                    <span id="country-name">France</span>
+                    <a href="#">Changer de lieu</a>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="city">Ville</label>
+                <input type="text" id="city">
+            </div>
+
+            <div class="input-group">
+                <label for="postal-code">Code postal *</label>
+                <input type="text" id="postal-code">
+                <span class="error-message">Veuillez saisir un code postal valide pour continuer.</span>
+            </div>
+
+            <p class="billing-country">Votre pays de facturation</p>
+
+            <div class="destination-container">
+                <h2>Vers</h2>
+                <div class="input-group">
+                    <label for="destination-country">Pays ou région *</label>
+                    <input type="text" id="destination-country" placeholder="Veuillez commencer à taper pour sélectionner un...">
+                    <span class="error-message">Veuillez sélectionner un pays ou une région dans le menu déroulant pour poursuivre.</span>
+                </div>
+                <div class="input-group">
+                    <label for="destination-city">Ville</label>
+                    <input type="text" id="destination-city">
+                </div>
+                <div class="input-group">
+                    <label for="destination-postal-code">Code postal</label>
+                    <input type="text" id="destination-postal-code">
+                </div>
+            </div>
+
+            <button class="submit-button">Décrivez votre expédition</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

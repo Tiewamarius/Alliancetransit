@@ -1,0 +1,155 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use App\Models\DevisColis;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
+
+class ProfileController extends Controller
+{
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request): View
+    {
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+    }
+
+
+    public function SuiviPage(){
+        return view('Clients.SuiviPage');
+    }
+
+
+    public function Envois(){
+        return view('Clients.Envois');
+    }
+
+
+
+            public function DemandDevis(Request $request)
+        {
+            // Validation commune à tous les formulaires
+            $validatedData = $request->validate([
+                'particulier' => 'required',
+                'paysDepart' => 'required',
+                'paysArrivee' => 'required|different:paysDepart',
+                'villeDepart' => 'required',
+                'villeArrivee' => 'required',
+                'designation' => 'required',
+            ]);
+
+            // La validation a réussi, les données sont dans $validatedData
+            // Identifier le formulaire
+            if ($request->particulier === 'particulier') {
+                // Traitement du formulaire Particulier
+                $this->traiterFormulaireParticulier($request);
+            } elseif ($request->particulier === 'entreprise') {
+                // Traitement du formulaire Entreprise
+                $this->traiterFormulaireEntreprise($request);
+            }
+
+            return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
+        }
+
+        private function traiterFormulaireParticulier(Request $request)
+        {
+            // Logique spécifique pour le formulaire Particulier
+            $devis = new DevisColis();
+            $devis->particulier = $request->particulier;
+            $devis->paysDepart = $request->paysDepart;
+            $devis->villeDepart = $request->villeDepart;
+            $devis->paysArrivee = $request->paysArrivee;
+            $devis->villeArrivee = $request->villeArrivee;
+            $devis->designation = $request->designation;
+            // ... autres champs spécifiques au particulier ...
+            $devis->save();
+
+            // Autres actions spécifiques au particulier (envoi d'email, notifications, etc.)
+        }
+
+        private function traiterFormulaireEntreprise(Request $request)
+        {
+            // Logique spécifique pour le formulaire Entreprise
+            $devis = new DevisColis();
+            $devis->particulier = $request->particulier;
+            $devis->paysDepart = $request->paysDepart;
+            $devis->villeDepart = $request->villeDepart;
+            $devis->paysArrivee = $request->paysArrivee;
+            $devis->villeArrivee = $request->villeArrivee;
+            $devis->designation = $request->designation;
+            // ... autres champs spécifiques à l'entreprise ...
+            $devis->save();
+
+            // Autres actions spécifiques à l'entreprise (envoi d'email, notifications, etc.)
+}
+
+    // public function Demand(Request $request){
+    //     // Validation des données du formulaire
+    //     $validatedData = $request->validate([
+    //         'particulier' => 'required', // ou 'professionnel' => 'required|in:0,1'
+    //         'paysDepart' => 'required',
+    //         'paysArrivee' => 'required|different:paysDepart',
+    //         'villeDepart' => 'required',
+    //         'villeArrivee' => 'required',
+    //         'designation' => 'required',]);
+
+        // Envoi de l'e-mail
+        // Mail::to('votre.email@example.com')->send(new DevisRequest($validatedData));
+
+        // Envoi d'un e-mail de confirmation à l'utilisateur (si vous avez un champ email dans le formulaire)
+        // Mail::to($request->email)->send(new DevisConfirmation($validatedData));
+
+        // Stockage des données dans la base de données (si nécessaire)
+        // Devis::create($validatedData);
+
+    //     dd($validatedData);
+    //     // $expedition = DevisColis::create($validatedData);
+    //     // Redirection avec un message de succès
+    //     // return redirect()->back()->with('success', 'Votre demande de devis a été envoyée avec succès!');
+    // }
+};
