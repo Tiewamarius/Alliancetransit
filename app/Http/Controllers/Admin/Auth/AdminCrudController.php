@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\conteneurs;
 use App\Models\destinataire;
+use App\Models\DevisColis;
 use App\Models\expeditions;
 use App\Models\expediteur;
 use App\Models\clients;
@@ -21,6 +22,9 @@ class AdminCrudController extends Controller
 // WELCOME - DASHBOARD
 public function dashboard()
     {
+            $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+        
             $expeditions = expeditions::latest()->paginate(5);
             $All = expeditions::count();
 
@@ -38,12 +42,40 @@ public function dashboard()
 
            
 
-            return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions'));
+            return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
     
 
     }
 // END FUNCTION DASHBOARD
 
+// TablClien
+public function tablClients()
+    {
+        $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+        
+            $expeditions = expeditions::latest()->paginate(5);
+            $All = expeditions::count();
+
+            $colisArrives = expeditions::where('status', 'Non Livré')->count();
+            $coliLivre= expeditions::where('status', 'Livré')->count();
+            $Encour= expeditions::where('status', 'encour')->count();
+            $stock= expeditions::where('status', 'Non Livré')->count();
+            
+            $totalExpeditions = expeditions::count();
+            $nombre_aleatoire = (string)(random_int(10000, 99999));
+            $code_client = 'Cl-'. $nombre_aleatoire;
+            // $totalClients = expeditions::distinct('code_client')->count('code_client');
+            $nombre_aleatoire = (string)(random_int(10000, 99999));
+            $code_suivi = 'Al-'. $nombre_aleatoire;
+
+           
+
+            return view('admin.mission.tablClients',compact('stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
+    
+
+    }
+// End tablClients
 
 
 // PAGINATION
@@ -105,6 +137,9 @@ public function search(Request $request)
 // EXPEDITIONS CRUD
 public function ExpeditionForm()
     {
+        $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+    
         $totalExpeditions = expeditions::count();
         $nombre_aleatoire = (string)(random_int(10000, 99999));
             
@@ -117,7 +152,7 @@ public function ExpeditionForm()
         
         $expeditions = expeditions::all();
         return view('admin.mission.Ajouterexpeditions',compact(
-            'nomsClients','expeditions','code_unique','code_suivi'));
+            'nomsClients','expeditions','code_unique','code_suivi','devisNonTraites'));
     }
 
 

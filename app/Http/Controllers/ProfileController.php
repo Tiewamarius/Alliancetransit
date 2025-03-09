@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\DevisColis;
+use App\Models\expeditions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -77,7 +78,7 @@ class ProfileController extends Controller
 
 
 
-            public function DemandDevis(Request $request)
+    public function DemandDevis(Request $request)
         {
             // Validation commune à tous les formulaires
             $validatedData = $request->validate([
@@ -138,30 +139,46 @@ class ProfileController extends Controller
             $devis->save();
 
             // Autres actions spécifiques à l'entreprise (envoi d'email, notifications, etc.)
-}
+        }
 
-    // public function Demand(Request $request){
-    //     // Validation des données du formulaire
-    //     $validatedData = $request->validate([
-    //         'particulier' => 'required', // ou 'professionnel' => 'required|in:0,1'
-    //         'paysDepart' => 'required',
-    //         'paysArrivee' => 'required|different:paysDepart',
-    //         'villeDepart' => 'required',
-    //         'villeArrivee' => 'required',
-    //         'designation' => 'required',]);
 
-        // Envoi de l'e-mail
-        // Mail::to('votre.email@example.com')->send(new DevisRequest($validatedData));
+        public function storeExpedition(Request $request)
+    {
+        // Validation des données
+        $validatedData = $request->validate([
+            'expediteur_id' => 'nullable',
+            'nom_expediteur' => 'required',
+            'numero_expediteur' => 'required',
+            'email_expediteur' => 'nullable|email',
+            'adresse_expediteur' => 'nullable',
+            'destinataire_id' => 'nullable|exists:destinataires,id',
+            'nom_destinataire' => 'required',
+            'numero_destinataire' => 'required',
+            'email_destinataire' => 'nullable|email',
+            'adresse_destinataire' => 'nullable',
+            'numeroSuivi' => 'required',
+            'designation' => 'required',
+            'numeroConteneur' => 'nullable',
+            'typeService' => 'nullable',
+            'dateEnlev' => 'nullable|date',
+            'dateLivr' => 'nullable|date',
+            'montant_total' => 'required|numeric',
+            'montant_paye' => 'required|numeric',
+            'status' => 'required|in:encour,Non Livré,Livré',
+        ]);
+        // dd($validatedData);
+        $expedition = expeditions::create($validatedData);
 
-        // Envoi d'un e-mail de confirmation à l'utilisateur (si vous avez un champ email dans le formulaire)
-        // Mail::to($request->email)->send(new DevisConfirmation($validatedData));
+        // $admin = expeditions::where('email', 'yobouetiewamaruis@gmail.com')->first();
 
-        // Stockage des données dans la base de données (si nécessaire)
-        // Devis::create($validatedData);
+        // if ($admin) {
+        //     $admin->notify(new AdminCrudController($expedition));
+        // }
+        // Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
 
-    //     dd($validatedData);
-    //     // $expedition = DevisColis::create($validatedData);
-    //     // Redirection avec un message de succès
-    //     // return redirect()->back()->with('success', 'Votre demande de devis a été envoyée avec succès!');
-    // }
-};
+        
+            return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
+
+        }
+
+    };

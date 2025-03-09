@@ -56,13 +56,12 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::delete('/admin/mission/{id}', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');
 
 
-        // AllClents route view
-            // Route::get('Allclients', function () {
-            //     $client = clients::all();
-            //     return view('admin.clients.allClients',['clients' => $client]);
-            // });
-        // Ajouter-client route view
-                Route::get('Ajoutclients', function () {
+    // welcome - TableClients
+    Route::get('tablClient', [AdminCrudController::class, 'tablClients'])->name('tablClient');  
+    
+    
+    
+    Route::get('Ajoutclients', function () {
                     $nombre_aleatoire = (string)(random_int(10000, 99999));
                     $code_client = 'Cl-'. $nombre_aleatoire;
                     return view('admin.clients.Ajoutclients', ['code_client' => $code_client]);

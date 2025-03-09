@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+@auth
+<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
 
@@ -46,7 +47,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger badge-counter">7</span>
+                <span class="badge badge-danger badge-counter">{{$devisNonTraites}}</span>
             </a>
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="messagesDropdown">
@@ -58,8 +59,7 @@
 
         <div class="topbar-divider d-none d-sm-block"></div>
 
-        @auth
-            <li class="nav-item dropdown no-arrow">
+       <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="{{url('admin/dashboard')}}" id="userDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>

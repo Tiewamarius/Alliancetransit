@@ -89,7 +89,7 @@
 </div>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h3 class="h3 mb-0 text-gray-800">TABLEAU DES EXPEDITIONS</h3>
+    <h3 class="h3 mb-0 text-gray-800">TABLEAU DES DEMANDES CLIENTELLES</h3>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
     <i class="fas fa-file-export"></i> Exporter en Excel
     </a>
@@ -97,7 +97,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h3 class="h3 mb-0 text-gray-800">
         <div class="row py-2">
-            <a href="{{url('admin/tablClient')}}" class="btn btn-outline-secondary" style="margin: 10px;">Devis& Commande</a>
+            <a href="#" class="btn btn-outline-secondary" style="margin: 10px;">Devis& Commande</a>
             <a href="{{url('admin/mission')}}" class="btn btn-primary" style="margin: 10px;">CREER-ENVOI</a>
         </div>
     </h3>

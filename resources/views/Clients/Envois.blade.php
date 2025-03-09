@@ -345,7 +345,6 @@
             <!-- End Tab Content Devis -->
             <div class="tab-pane fade" id="features-tab-2">
                 <div class="row">
-                    <h3>Neque exercitationem debitis soluta quos debitis quo mollitia officia est</h3>
                     <div class="container mt-4">
                         <h3>Envois de colis</h3>
                         @if ($errors->any())
