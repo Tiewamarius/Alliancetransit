@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -66,7 +67,12 @@ class ProfileController extends Controller
 
 
     public function Envois(){
-        return view('Clients.Envois');
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+
+        $devis_colis = devisColis::latest()->get();
+        $code_suivi = 'SU-'. $nombre_aleatoire;
+
+        return view('Clients.Envois',compact('code_suivi','devis_colis'));
     }
 
 
@@ -81,6 +87,7 @@ class ProfileController extends Controller
                 'villeDepart' => 'required',
                 'villeArrivee' => 'required',
                 'designation' => 'required',
+                'status' => 'nontraite',
             ]);
 
             // La validation a réussi, les données sont dans $validatedData
@@ -92,6 +99,9 @@ class ProfileController extends Controller
                 // Traitement du formulaire Entreprise
                 $this->traiterFormulaireEntreprise($request);
             }
+
+            // Envoyer la notification à l'administrateur (ou à l'utilisateur)
+                // Notification::route('mail', 'votre_email@example.com')->notify(new DevisSubmitted($devis));
 
             return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
         }
@@ -106,6 +116,7 @@ class ProfileController extends Controller
             $devis->paysArrivee = $request->paysArrivee;
             $devis->villeArrivee = $request->villeArrivee;
             $devis->designation = $request->designation;
+            $devis->status = 'nontraite'; // Définit le statut initial
             // ... autres champs spécifiques au particulier ...
             $devis->save();
 
@@ -122,6 +133,7 @@ class ProfileController extends Controller
             $devis->paysArrivee = $request->paysArrivee;
             $devis->villeArrivee = $request->villeArrivee;
             $devis->designation = $request->designation;
+            $devis->status = 'nontraite';
             // ... autres champs spécifiques à l'entreprise ...
             $devis->save();
 

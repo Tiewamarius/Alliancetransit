@@ -16,7 +16,8 @@ class DevisColis extends Model
         'paysArrivee',
         'villeDepart',
         'villeArrivee',
-        'designation'
+        'designation',
+        'status',
     ];
 }
 

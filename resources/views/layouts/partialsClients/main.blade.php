@@ -32,7 +32,7 @@
 
           <div class="position-relative mt-4">
             <img src="assets/img/about-2.jpg" class="img-fluid rounded-4" alt="">
-            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+            <a href="" class="glightbox pulsating-play-btn"></a>
           </div>
         </div>
       </div>
@@ -427,7 +427,7 @@
 <!-- Testimonials Section -->
 <section id="testimonials" class="testimonials section dark-background">
 
-  <img src="Clients/assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
+  <img src="../Clients/assets/img/jeune.jpg" class="testimonials-bg" alt="">
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -451,7 +451,7 @@
 
         <div class="swiper-slide">
           <div class="testimonial-item">
-            <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+            <img src="Clients/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
             <h3>Saul Goodman</h3>
             <h4>Ceo &amp; Founder</h4>
             <div class="stars">
@@ -743,7 +743,7 @@
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
         <div class="member">
-          <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
+          <div class="pic"><img src="Clients/assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
           <div class="member-info">
             <h4>Sarah Jhonson</h4>
             <span>Product Manager</span>

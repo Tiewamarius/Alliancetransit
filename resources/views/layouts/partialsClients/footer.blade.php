@@ -7,10 +7,18 @@
             <span class="sitename">ALLIANCETRANSIT</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>Abj. Bingerville</p>
+            <p>Abj. Cocody-Angre</p>
             <p>COTE D'IVOIRE, CI 00225</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+22500000000</span></p>
-            <p><strong>Email:</strong> <span>tiewamaruis@gmail.com</span></p>
+            <p class="mt-3">
+              <strong>Phone:</strong> <span>+22500000000</span><br>
+              <strong>Phone:</strong> <span>+3300000000</span>
+            </p>
+            <p>
+              <strong>Email:</strong> <span>tiewamaruis@gmail.com</span>
+            </p>
+            <p>
+              <strong>Email2:</strong> <span>tiewamaruis@gmail.com</span>
+            </p>
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>

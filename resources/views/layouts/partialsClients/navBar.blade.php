@@ -1,4 +1,4 @@
-<header id="header" class="header d-flex align-items-center fixed-top" style="background-color: white;">
+<header id="header" class="header d-flex align-items-center fixed-top" style="background-color:hsl(189, 48.70%, 92.40%);">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="{{url('/')}}" class="logo d-flex align-items-center me-auto">
@@ -46,7 +46,11 @@
           @guest
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{url('/login')}}"><i class="bi bi-person"></i> Mon espace</a></li>
           @else
+          
           <li class="nav-item">
+            <a class="nav-link me-lg-3" href="" ><i class="bi bi-box-seam">Mes Colis</i>
+            </a>
+          </li><li class="nav-item">
             <a class="nav-link me-lg-3" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
               Déconnexion
             </a>
