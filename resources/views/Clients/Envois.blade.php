@@ -62,6 +62,7 @@
                                 </ul>
                             </div>
                             @endif
+                            <!-- Demande devis Entreprise -->
                             <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
                                 <div class="row gy-4">
@@ -85,7 +86,7 @@
                                             <option value="cote_divoire">Côte d'Ivoire</option>
                                             <option value="djibouti">Djibouti</option>
                                             <option value="egypte">Égypte</option>
-                                            <option value="cote_divoire">France</option>
+                                            <option value="france">France</option>
                                             <option value="gabon">Gabon</option>
                                             <option value="guinee">Guinée</option>
                                             <option value="guinee_bissau">Guinée-Bissau</option>
@@ -135,7 +136,7 @@
                                             <option value="cote_divoire">Côte d'Ivoire</option>
                                             <option value="djibouti">Djibouti</option>
                                             <option value="egypte">Égypte</option>
-                                            <option value="cote_divoire">France</option>
+                                            <option value="france">France</option>
                                             <option value="gabon">Gabon</option>
                                             <option value="guinee">Guinée</option>
                                             <option value="guinee_bissau">Guinée-Bissau</option>
@@ -186,6 +187,11 @@
                                         <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
                                     </div>
 
+                                    <div class="col-md-12">
+                                        <label for="exampleFormControlInpu1" class="form-label">Montant du devis qui vous sera communiqué</label>
+                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0" >
+                                    </div>
+
                                     <div class="col-md-12 text-center">
                                         <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
                                     </div>
@@ -206,6 +212,7 @@
                                 </ul>
                             </div>
                             @endif
+                            <!-- Devis Particulier  -->
                             <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
                                 <div class="row gy-4">
@@ -227,7 +234,7 @@
                                             <option value="cote_divoire">Côte d'Ivoire</option>
                                             <option value="djibouti">Djibouti</option>
                                             <option value="egypte">Égypte</option>
-                                            <option value="cote_divoire">France</option>
+                                            <option value="france">France</option>
                                             <option value="gabon">Gabon</option>
                                             <option value="guinee">Guinée</option>
                                             <option value="guinee_bissau">Guinée-Bissau</option>
@@ -277,7 +284,7 @@
                                             <option value="cote_divoire">Côte d'Ivoire</option>
                                             <option value="djibouti">Djibouti</option>
                                             <option value="egypte">Égypte</option>
-                                            <option value="cote_divoire">France</option>
+                                            <option value="france">France</option>
                                             <option value="gabon">Gabon</option>
                                             <option value="guinee">Guinée</option>
                                             <option value="guinee_bissau">Guinée-Bissau</option>
@@ -328,6 +335,11 @@
                                         <textarea class="form-control" name="designation" rows="4" placeholder="Information du colis" required=""></textarea>
                                     </div>
 
+                                    <div class="col-md-12">
+                                        <label for="exampleFormControlInpu1" class="form-label">Montant du devis qui vous sera communiqué</label>
+                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0" >
+                                    </div>
+
                                     <div class="col-md-12 text-center">
                                         <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
                                     </div>
@@ -356,7 +368,7 @@
                             </ul>
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('storeExpedition') }}">
+                        <form method="POST" action="{{ route('EnvoisColis') }}">
                             @csrf
                             <br>
                             <div class="card" style="display: none;">
@@ -370,7 +382,7 @@
                                             <input type="tel" id="telephone_client" name="numero_expediteur" class="form-control" value="{{ Auth::user()->numero}}">
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="email" id="email_client" name="email" class="form-control" value="{{ Auth::user()->email}}">
+                                            <input type="email" id="email_client" name="email_expediteur" class="form-control" value="{{ Auth::user()->email}}">
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" value="{{ Auth::user()->adresse}}">
@@ -479,54 +491,60 @@
                                 </ul>
                             </div>
                             @endif
-                            <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
+                            <form method="POST" action="{{route('storeRdv')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="alert alert-warning" role="alert">
-                                        <center> Veuillez noté le nombre de Rdv est Limité à 30/Jr.<br>
-                                            Rvd restant: <mark>25</mark></center>
+                                        <center> Veuillez noter que le nombre de Rdv est limité à 30/Jr.<br>
+                                            Rdv restant: <mark>{{ $remaining }}</mark></center>
                                     </div>
-                                    <div>
-                                        <label for="nom">Nom et prénom :</label>
-                                        <input type="text" class="form-control" id="nom" name="nom" required placeholder="Votre Nom Ou Nom complet du preneur">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlInput1" class="form-label">N° Telephpone</label>
-                                        <input type="text" class="form-control" name="villeArrivee" placeholder="Précisez la Ville" required="">
-                                    </div>
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    @if ($dailyCount->count < 30)
+                                        <div>
+                                            <label for="nom">Nom et prénom :</label>
+                                            <input type="text" class="form-control" id="nom" name="nom" required placeholder="Votre Nom Ou Nom complet du preneur">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleFormControlInput1" class="form-label">N° Telephpone</label>
+                                            <input type="text" class="form-control" name="telephone" placeholder="N° Tel" required="">
+                                        </div>
 
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlInput1" class="form-label">Numero Suivie</label>
-                                        <input type="text" class="form-control" name="villeArrivee" placeholder="Précisez la Ville" required="">
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Numero Suivie</label>
+                                            <input type="text" class="form-control" name="numero_suivi" placeholder="Numero Suivi de votre colis" required="">
+                                        </div>
 
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlInput1" class="form-label">Date du retrait</label>
-                                        <input type="date" class="form-control" name="villeArrivee" placeholder="Précisez la Ville" required="">
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Date du retrait</label>
+                                            <input type="date" class="form-control" name="date_retrait" placeholder="Précisez la Ville" required="">
+                                        </div>
 
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlInput1" class="form-label">Heure souhaitée (plage horaire):</label>
-                                        <select class="form-select form-select-sm" name="paysArrivee">
-                                            <option selected>Sélectionnez une plage</option>
-                                            <option value="matin">Matin (9h-12h)</option>
-                                            <option value="apres-midi">Après-midi (14h-17h)</option>
-                                        </select>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Heure souhaitée (plage horaire):</label>
+                                            <select class="form-select form-select-sm" name="heure_retrait">
+                                                <option selected>Sélectionnez une plage</option>
+                                                <option value="matin_9-12">Matin (9h-12h)</option>
+                                                <option value="soir_14-17">Après-midi (14h-17h)</option>
+                                            </select>
+                                        </div>
 
-                                    <div class="col-md-12">
-                                        <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
-                                    </div>
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
+                                        </div>
 
-                                    <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
-                                    </div>
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
+                                        </div>
 
-                                </div>
-                            </form>
+                                    </div>
+                                </form>
 
                         </div>
-                    </div>
+                    </div>@endif
                     <div class="col-lg-6 order-1 order-lg-2 text-center">
                         <img src="../Clients/assets/img/jeune.jpg" alt="" class="img-fluid">
                     </div>

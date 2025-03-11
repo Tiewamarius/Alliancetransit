@@ -29,7 +29,14 @@ Route::middleware('auth')->group(function () {
     // Devis
     Route::post('/DemandDevis', [ProfileController::class, 'DemandDevis'])->name('DemandDevis');
     // Route::get('/envoisParticulier', [ProfileController::class, 'commande'])->name('envoisParticulier');
-        
+    
+     // ExpeditionStor - Route
+     Route::post('/EnvoisColis', [ProfileController::class, 'EnvoisColis'])->name('EnvoisColis');
+
+    //  Store RDV
+    Route::post('/storeRdv', [ProfileController::class, 'storeRdv'])->name('storeRdv');
+
+    
 });
 
 require __DIR__.'/auth.php';

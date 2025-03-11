@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\DevisColis;
+use App\Models\DailyRendezVousCount;
+use App\Models\rendevous;
+use Carbon\Carbon;
 use App\Models\expeditions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -73,13 +76,34 @@ class ProfileController extends Controller
         $devis_colis = devisColis::latest()->get();
         $code_suivi = 'SU-'. $nombre_aleatoire;
 
-        return view('Clients.Envois',compact('code_suivi','devis_colis'));
+        
+        $today = Carbon::today();
+        $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
+        $remaining = 30 - $dailyCount->count;
+        return view('Clients.Envois',compact('code_suivi','devis_colis','remaining','dailyCount'));
     }
 
 
 
     public function DemandDevis(Request $request)
         {
+                // $sid = getenv("TWILIO_SID");
+                // $token = getenv("TWILIO_TOKEN");
+                // $numEnvoi = getenv("TWILIO_PHONE");
+                // $twilio = new Client($sid, $token);
+
+                // $message = $twilio->messages->create(
+                //     "+22501649504", // To
+                //     [
+                //         "body" =>
+                //             "Bonjour Merci de me donnez suite a ma demande de Devis
+                //             combien je paierai pour cette Expedition
+                //             Merci...",
+                //         "from" => $numEnvoi,
+                //     ]
+                // );
+
+
             // Validation commune à tous les formulaires
             $validatedData = $request->validate([
                 'particulier' => 'required',
@@ -88,6 +112,7 @@ class ProfileController extends Controller
                 'villeDepart' => 'required',
                 'villeArrivee' => 'required',
                 'designation' => 'required',
+                'montant_total' => 'required',
                 'status' => 'nontraite',
             ]);
 
@@ -104,6 +129,7 @@ class ProfileController extends Controller
             // Envoyer la notification à l'administrateur (ou à l'utilisateur)
                 // Notification::route('mail', 'votre_email@example.com')->notify(new DevisSubmitted($devis));
 
+                // dd('sucess');
             return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
         }
 
@@ -142,7 +168,7 @@ class ProfileController extends Controller
         }
 
 
-        public function storeExpedition(Request $request)
+        public function EnvoisColis(Request $request)
     {
         // Validation des données
         $validatedData = $request->validate([
@@ -177,8 +203,52 @@ class ProfileController extends Controller
         // Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
 
         
-            return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
+            return redirect()->back()->with('success', 'Expédition supprimée avec succès.');
 
         }
+
+        // fonction Rendevous
+
+        public function storeRdv(Request $request)
+            {
+                $request->validate([
+                    'nom' => 'required',
+                    'telephone' => 'required',
+                    'numero_suivi' => 'required',
+                    'date_retrait' => 'required|date',
+                    'heure_retrait' => 'required',
+                    'designation' => 'required',
+                ]);
+
+                $today = Carbon::today();
+                $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
+
+                if ($dailyCount->count >= 30) {
+                    return redirect()->back()->with('error', 'Le nombre maximal de rendez-vous pour aujourd\'hui a été atteint.');
+                }
+
+                $rendezVous = new rendevous();
+                $rendezVous->nom = $request->nom;
+                $rendezVous->telephone = $request->telephone;
+                $rendezVous->numero_suivi = $request->numero_suivi;
+                $rendezVous->date_retrait = $request->date_retrait;
+                $rendezVous->heure_retrait = $request->heure_retrait;
+                $rendezVous->designation = $request->designation;
+                $rendezVous->save();
+
+                $dailyCount->count++;
+                $dailyCount->save();
+
+                return redirect()->back()->with('success', 'Rendez-vous pris avec succès.');
+            }
+    
+            public function showForm()
+            {
+                $today = Carbon::today();
+                $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
+                $remaining = 30 - $dailyCount->count;
+
+                return view('votre_vue', ['remaining' => $remaining, 'dailyCount' => $dailyCount]);
+            }
 
     };

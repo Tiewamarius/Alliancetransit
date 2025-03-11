@@ -3,22 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
-class DevisColis extends Model
+class rendevous extends Model
 {
-    
     use HasFactory;
 
     protected $fillable = [
-        'particulier',
-        'paysDepart',
-        'paysArrivee',
-        'villeDepart',
-        'villeArrivee',
+        'nom',
+        'telephone',
+        'numero_suivi',
+        'date_retrait',
+        'heure_retrait',
         'designation',
-        'montant_total',
-        'status',
     ];
 }
-

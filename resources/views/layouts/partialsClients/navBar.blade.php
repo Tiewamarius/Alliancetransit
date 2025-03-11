@@ -27,7 +27,7 @@
           
           <li class="dropdown"><a href="{{url('layouts/Envois')}}"><span>Envoyer</span></a></li>
           <li class="nav-item">
-            <a class="nav-link me-lg-3" href="https://play.google.com/store"> <img src="{{ asset('Admin/img/android-IOSpng.png') }}" alt="Android Logo" width="32" height="32">Download</a>
+            <a class="nav-link me-lg-3" href="https://play.google.com/store" target="_blank"> <img src="{{ asset('Admin/img/android-IOSpng.png') }}" alt="Android Logo" width="32" height="32">Download</a>
           </li>
           <li class="dropdown"><a href="#"><span>Contactez-Nous</span><i class="bi-chat-text-fill me-2"></i></a>
             <ul>

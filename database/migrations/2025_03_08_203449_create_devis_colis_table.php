@@ -15,6 +15,7 @@ return new class extends Migration{
             $table->string('paysArrivee');
             $table->string('villeArrivee');
             $table->text('designation');
+            $table->decimal('montant_total', 8, 2)->default(0); 
             $table->timestamps();
         });
     }
