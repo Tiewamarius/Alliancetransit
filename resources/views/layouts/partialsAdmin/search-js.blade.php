@@ -69,3 +69,4 @@
     <script src="{{asset('Admin/js/demo/chart-pie-demo.js')}}"></script>
 
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+

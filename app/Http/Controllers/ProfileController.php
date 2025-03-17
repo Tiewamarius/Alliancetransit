@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 use Twilio\Rest\Client;
-use Illuminate\Support\Facades\Notification;
+// use Illuminate\Support\Facades\Notification;
+use Exception;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Mail\postMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\DevisColis;
+use App\Models\DevisColis;  
 use App\Models\DailyRendezVousCount;
 use App\Models\rendevous;
 use Carbon\Carbon;
 use App\Models\expeditions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -87,23 +90,7 @@ class ProfileController extends Controller
 
     public function DemandDevis(Request $request)
         {
-                // $sid = getenv("TWILIO_SID");
-                // $token = getenv("TWILIO_TOKEN");
-                // $numEnvoi = getenv("TWILIO_PHONE");
-                // $twilio = new Client($sid, $token);
-
-                // $message = $twilio->messages->create(
-                //     "+22501649504", // To
-                //     [
-                //         "body" =>
-                //             "Bonjour Merci de me donnez suite a ma demande de Devis
-                //             combien je paierai pour cette Expedition
-                //             Merci...",
-                //         "from" => $numEnvoi,
-                //     ]
-                // );
-
-
+            
             // Validation commune à tous les formulaires
             $validatedData = $request->validate([
                 'particulier' => 'required',
@@ -125,13 +112,36 @@ class ProfileController extends Controller
                 // Traitement du formulaire Entreprise
                 $this->traiterFormulaireEntreprise($request);
             }
+            
+            Mail::to('yobouetiewamaruis@gmail.com')->send(new postMail($validatedData));
 
-            // Envoyer la notification à l'administrateur (ou à l'utilisateur)
-                // Notification::route('mail', 'votre_email@example.com')->notify(new DevisSubmitted($devis));
 
-                // dd('sucess');
+
             return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
         }
+
+
+
+    // private function envoyerNotificationSMS()
+    // {
+    //     $receiver_number = "+22501649504";
+    //     $message = "Un client demande un devis d'expédition de son colis.";
+
+    //     try {
+    //         $account_sid = getenv("TWILIO_SID");
+    //         $auth_token = getenv("TWILIO_TOKEN");
+    //         $twilio_number = getenv("TWILIO_FROM");
+
+    //         $client = new Client($account_sid, $auth_token);
+    //         $client->messages->create($receiver_number, [
+    //             'From' => $twilio_number,
+    //             'Body' => $message
+    //         ]);
+    //     } catch (Exception $e) {
+    //         // Log l'erreur Twilio
+    //         // Log::error('Erreur Twilio : ' . $e->getMessage());
+    //     }
+    // }
 
         private function traiterFormulaireParticulier(Request $request)
         {
@@ -195,13 +205,7 @@ class ProfileController extends Controller
         // dd($validatedData);
         $expedition = expeditions::create($validatedData);
 
-        // $admin = expeditions::where('email', 'yobouetiewamaruis@gmail.com')->first();
-
-        // if ($admin) {
-        //     $admin->notify(new AdminCrudController($expedition));
-        // }
-        // Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
-
+        // dd($expedition);
         
             return redirect()->back()->with('success', 'Expédition supprimée avec succès.');
 
@@ -220,10 +224,16 @@ class ProfileController extends Controller
                     'designation' => 'required',
                 ]);
 
-                $today = Carbon::today();
-                $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
+                // $today = Carbon::today();
+                
+                // $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
 
-                if ($dailyCount->count >= 30) {
+                
+                
+                $dateRendezVous = Carbon::parse($request->date_retrait)->toDateString();
+                $dailyCount = DailyRendezVousCount::whereDate('date', $dateRendezVous)->count();
+               
+                if ($dailyCount>= 30) {
                     return redirect()->back()->with('error', 'Le nombre maximal de rendez-vous pour aujourd\'hui a été atteint.');
                 }
 
@@ -236,8 +246,12 @@ class ProfileController extends Controller
                 $rendezVous->designation = $request->designation;
                 $rendezVous->save();
 
-                $dailyCount->count++;
-                $dailyCount->save();
+                // Logique pour mettre à jour DailyRendezVousCount (si nécessaire)
+                $dailyRendezVousCount = DailyRendezVousCount::firstOrCreate(['date' => $dateRendezVous]);
+                $dailyRendezVousCount->count++;
+                $dailyCount=$dailyRendezVousCount->count++; // Incrémente le compteur
+                $dailyRendezVousCount->save();
+                
 
                 return redirect()->back()->with('success', 'Rendez-vous pris avec succès.');
             }

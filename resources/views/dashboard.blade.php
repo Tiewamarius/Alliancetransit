@@ -24,14 +24,12 @@
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
         <h3>Le travail le plus digne procure du plaisir, à moins que quelqu'un n'en tire profit.</h3>
         <img src="Clients/assets/img/OIP.jpeg" class="img-fluid rounded-4 mb-4" alt="">
-        <p>Ut fugiat ut sunt quia veniam. Voluptate perferendis perspiciatis quod nisi et. Placeat debitis quia recusandae odit et consequatur voluptatem. Dignissimos pariatur consectetur fugiat voluptas ea.</p>
-        <p>Temporibus nihil enim deserunt sed ea. Provident sit expedita aut cupiditate nihil vitae quo officia vel. Blanditiis eligendi possimus et in cum. Quidem eos ut sint rem veniam qui. Ut ut repellendus nobis tempore doloribus debitis explicabo similique sit. Accusantium sed ut omnis beatae neque deleniti repellendus.</p>
       </div>
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
         <div class="content ps-0 ps-lg-5">
           <p class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua.
+          En tant qu'entreprise de logistique mondiale de premier rang, nous nous efforçons de rester à l'avant-garde du développement
+          durable dans le secteur de la logistique
           </p>
           <ul>
             <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
@@ -70,8 +68,8 @@
           <div class="col-lg-12">
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
               <i class="bi bi-geo-alt"></i>
-              <h3>Abidjan-CI</h3>
-              <p>Bingerville, COTE d'IVOIRE, CI 00225</p>
+              <h3>France</h3>
+              <p>43 avenue du gros chêne 95220 Herblay</p>
             </div>
           </div><!-- End Info Item -->
 
@@ -79,15 +77,16 @@
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
               <i class="bi bi-telephone"></i>
               <h3>Appelez-nous</h3>
-              <p>+2250143633011</p>
+              <p>+33 6 69 43 55 82</p>
+              <p>+225 071887 3222</p>
             </div>
           </div><!-- End Info Item -->
 
           <div class="col-md-6">
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
               <i class="bi bi-envelope"></i>
-              <h3>Email Us</h3>
-              <p>info@example.com</p>
+              <h3>Email</h3>
+              <p>alliancetransit@gmail.com</p>
             </div>
           </div><!-- End Info Item -->
 

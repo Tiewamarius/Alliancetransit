@@ -58,7 +58,7 @@
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
     <h2>Contact</h2>
-    <p>Répondre à ses besoins.</p>
+    <p>Répondre à vos besoins.</p>
   </div><!-- End Section Title -->
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -79,7 +79,8 @@
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
               <i class="bi bi-telephone"></i>
               <h3>Appelez-nous</h3>
-              <p>+2250143633011</p>
+              <p>+33 6 69 43 55 82</p>
+              <p>+225 071887 3222</p>
             </div>
           </div><!-- End Info Item -->
 
@@ -87,7 +88,8 @@
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
               <i class="bi bi-envelope"></i>
               <h3>Email Us</h3>
-              <p>info@example.com</p>
+              <p>secretariat@transit.com</p>
+              <p>alliancetransit@gmail.com</p>
             </div>
           </div><!-- End Info Item -->
 
@@ -95,7 +97,7 @@
       </div>
 
       <div class="col-lg-6">
-        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+        <form action=" " method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
           <div class="row gy-4">
 
             <div class="col-md-6">

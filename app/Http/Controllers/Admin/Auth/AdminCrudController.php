@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\conteneurs;
-use App\Models\destinataire;
+use Illuminate\Support\Facades\Notification; // Importez la façade Notification
+use App\Notifications\NouvelleExpedition;
+use App\Models\rendevous;
 use App\Models\DevisColis;
+use App\Models\expeditionsClients;
 use App\Models\expeditions;
 use App\Models\expediteur;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use App\Models\clients;
 use Brian2694\Toastr\Facades\Toastr;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Admin;
+// use App\Models\User; Importez le modèle Admin
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 use function Termwind\render;
@@ -25,6 +30,8 @@ public function dashboard()
             $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
 
         
+
+            $expeditionsClient = expeditionsClients::latest()->paginate(5);
             $expeditions = expeditions::latest()->paginate(5);
             $All = expeditions::count();
 
@@ -42,7 +49,7 @@ public function dashboard()
 
            
 
-            return view('admin.dashboard',compact('stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
+            return view('admin.dashboard',compact('devisNonTraites','stock','Encour','All','colisArrives','coliLivre','expeditions','expeditionsClient'));
     
 
     }
@@ -54,7 +61,9 @@ public function tablClients()
         $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
 
         
-            $expeditions = expeditions::latest()->paginate(5);
+        
+        $expeditions = expeditions::latest()->paginate(5);
+            $expeditionClient = expeditionsClients::latest()->paginate(5);
             $All = expeditions::count();
 
             $colisArrives = expeditions::where('status', 'Non Livré')->count();
@@ -71,7 +80,7 @@ public function tablClients()
 
            
 
-            return view('admin.mission.tablClients',compact('stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
+            return view('admin.mission.tablClients',compact('expeditionClient','stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
     
 
     }
@@ -103,40 +112,70 @@ public function pagination()
 
     }
 
+    public function allRdv()
+    {
+        $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+        
+        
+        // $expeditions = expeditions::latest()->paginate(5);
+        //     $expeditionClient = expeditionsClients::latest()->paginate(5);
+            $rendevouses = rendevous::all();
+
+            // $colisArrives = expeditions::where('status', 'Non Livré')->count();
+            // $coliLivre= expeditions::where('status', 'Livré')->count();
+            // $Encour= expeditions::where('status', 'encour')->count();
+            // $stock= expeditions::where('status', 'Non Livré')->count();
+            
+            // $totalExpeditions = expeditions::count();
+            // $nombre_aleatoire = (string)(random_int(10000, 99999));
+            // $code_client = 'Cl-'. $nombre_aleatoire;
+            // // $totalClients = expeditions::distinct('code_client')->count('code_client');
+            // $nombre_aleatoire = (string)(random_int(10000, 99999));
+            // $code_suivi = 'Al-'. $nombre_aleatoire;
+
+           
+
+            return view('admin.clients.allRdv',compact('devisNonTraites','rendevouses'));
+    
+
+    }
+// End allRdvs
+
 //SEARCH FONCTION----------------------------------------------------
 public function search(Request $request)
-{
-     $expeditions = expeditions::where('expediteur_id', 'like', '%'.$request->search_string.'%')
-            ->orWhere('nom_expediteur', 'like', '%'.$request->search_string .'%')
-            ->orWhere('numero_expediteur', 'like', '%' . $request->search_string . '%')
-            ->orWhere('email_expediteur', 'like', '%' . $request->search_string . '%')
-            ->orWhere('adresse_expediteur', 'like', '%' . $request->search_string . '%')
-            ->orWhere('nom_destinataire', 'like', '%' . $request->search_string . '%')
-            ->orWhere('numero_destinataire', 'like', '%' . $request->search_string . '%')
-            ->orWhere('email_destinataire', 'like', '%' . $request->search_string . '%')
-            ->orWhere('adresse_destinataire', 'like', '%' . $request->search_string . '%')
-            ->orWhere('numeroSuivi', 'like', '%' .$request->search_string .'%')
-            ->orWhere('designation', 'like', '%' . $request->search_string . '%')
-            ->orWhere('numeroConteneur', 'like', '%' . $request->search_string . '%')
-            ->orWhere('typeService', 'like', '%' . $request->search_string . '%')
-            ->orWhere('status', 'like', '%' . $request->search_string . '%')
-            ->paginate(5);
-    
-            if($expeditions->count()>=1){
-                return view('admin.dashboard_pagination',compact('expeditions'))->render();   
-            }else{
-                return response()->json(
-                    [ 'status'=>'Inexistant'],
-                );
-            }
-            }
+        {
+            $expeditions = expeditions::where('expediteur_id', 'like', '%'.$request->search_string.'%')
+                    ->orWhere('nom_expediteur', 'like', '%'.$request->search_string .'%')
+                    ->orWhere('numero_expediteur', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('email_expediteur', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('adresse_expediteur', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('nom_destinataire', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('numero_destinataire', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('email_destinataire', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('adresse_destinataire', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('numeroSuivi', 'like', '%' .$request->search_string .'%')
+                    ->orWhere('designation', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('numeroConteneur', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('typeService', 'like', '%' . $request->search_string . '%')
+                    ->orWhere('status', 'like', '%' . $request->search_string . '%')
+                    ->paginate(5);
+            
+                    if($expeditions->count()>=1){
+                        return view('admin.dashboard_pagination',compact('expeditions'))->render();   
+                    }else{
+                        return response()->json(
+                            [ 'status'=>'Inexistant'],
+                        );
+                    }
+                    }
 
 
 
 
-// EXPEDITIONS CRUD
-public function ExpeditionForm()
-    {
+        // EXPEDITIONS CRUD
+        public function ExpeditionForm()
+        {
         $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
 
     
@@ -156,10 +195,10 @@ public function ExpeditionForm()
     }
 
 
-public function storeExpedition(Request $request)
-    {
-        // Validation des données
-        $validatedData = $request->validate([
+        public function storeExpedition(Request $request)
+        {
+            // Validation des données
+            $validatedData = $request->validate([
             'expediteur_id' => 'nullable',
             'nom_expediteur' => 'required',
             'numero_expediteur' => 'required',
@@ -179,104 +218,149 @@ public function storeExpedition(Request $request)
             'montant_total' => 'required|numeric',
             'montant_paye' => 'required|numeric',
             'status' => 'required|in:encour,Non Livré,Livré',
-        ]);
-        // dd($validatedData);
-        $expedition = expeditions::create($validatedData);
+            ]);
+            // dd($validatedData);
+            $expedition = expeditions::create($validatedData);
+            
 
-        // $admin = expeditions::where('email', 'yobouetiewamaruis@gmail.com')->first();
+            if ($expedition->email_destinataire) {
+                Notification::route('mail', $expedition->email_destinataire)
+                    ->notify(new NouvelleExpedition($expedition));
+            }
 
-        // if ($admin) {
-        //     $admin->notify(new AdminCrudController($expedition));
-        // }
-        Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
+            Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
 
-        
+            
             return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
 
         }
 // EDIT EXPEDITION
-    public function editExpedition($id)
+        public function editExpedition($id)
+            {
+                $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+                $expeditions = expeditions::find($id);
+                return view('admin.mission.editExpedition', compact('devisNonTraites','expeditions'));
+        }
+        // Delete
+        public function deleteExpedition($id)
         {
-            $expeditions = expeditions::find($id);
-            return view('admin.mission.editExpedition', compact('expeditions'));
-    }
-// Delete
-public function deleteExpedition($id)
-{
-    // 1. Trouver l'expédition à supprimer
-    $expedition = expeditions::find($id);
-
-    // 2. Vérifier si l'expédition existe
-    if (!$expedition) {
-        // Gérer le cas où l'expédition n'existe pas (par exemple, afficher un message d'erreur)
-        return redirect()->route('admin.dashboard')->with('error', 'Expédition non trouvée.');
-    }
-
-    // 3. Supprimer l'expédition
-    $expedition->delete();
-
-    // 4. Rediriger avec un message de succès
-    return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
-}
-
-public function updateExpedition(Request $request, $id)
-    {
-        // Validation des données
-        $validatedData = $request->validate([
-            'expediteur_id' => 'nullable',
-            'nom_expediteur' => 'nullable',
-            'numero_expediteur' => 'nullable',
-            'email_expediteur' => 'nullable|email',
-            'adresse_expediteur' => 'nullable',
-            'destinataire_id' => 'nullable|exists:destinataires,id',
-            'nom_destinataire' => 'nullable',
-            'numero_destinataire' => 'nullable',
-            'email_destinataire' => 'nullable|email',
-            'adresse_destinataire' => 'nullable',
-            'numeroSuivi' => 'nullable',
-            'designation' => 'nullable',
-            'numeroConteneur' => 'nullable',
-            'typeService' => 'nullable',
-            'dateEnlev' => 'nullable|date',
-            'dateLivr' => 'nullable|date',
-            'montant_total' => 'nullable|numeric',
-            'montant_paye' => 'nullable|numeric',
-            'status' => 'nullable|in:encour,Non Livré,Livré',
-        ]);
-        // dd($validatedData);
-        // Trouver l'expédition à mettre à jour
-             $expedition = expeditions::find($id);
-             if (!$expedition) {
-                return redirect()->route('admin.dashboard')->with('error', 'Expédition non trouvée.');
-                            }
-    
-                // Mettre à jour l'expédition avec les données validées
-                $expedition->update($validatedData);
-                Toastr::success("<h4 style='color:white; background:green;'>enregistrées avec succès !</h>");
-
-        
             
-                return redirect()->route('admin.dashboard')->with('success', 'Expédition mise à jour avec succès.');
+            $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+            // 1. Trouver l'expédition à supprimer
+            $expedition = expeditions::find($id);
+
+            // 2. Vérifier si l'expédition existe
+            if (!$expedition) {
+                // Gérer le cas où l'expédition n'existe pas (par exemple, afficher un message d'erreur)
+                return redirect()->route('admin.dashboard')->with('error', 'Expédition non trouvée.');
+            }
+
+            // 3. Supprimer l'expédition
+            $expedition->delete();
+
+            // 4. Rediriger avec un message de succès
+            return redirect()->route('admin.dashboard')->with('devisNonTraites','success', 'Expédition supprimée avec succès.');
+        }
+
+        public function updateExpedition(Request $request, $id)
+            {
+                // Validat
+                    $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+                    
+                $validatedData = $request->validate([
+                    'expediteur_id' => 'nullable',
+                    'nom_expediteur' => 'nullable',
+                    'numero_expediteur' => 'nullable',
+                    'email_expediteur' => 'nullable|email',
+                    'adresse_expediteur' => 'nullable',
+                    'destinataire_id' => 'nullable|exists:destinataires,id',
+                    'nom_destinataire' => 'nullable',
+                    'numero_destinataire' => 'nullable',
+                    'email_destinataire' => 'nullable|email',
+                    'adresse_destinataire' => 'nullable',
+                    'numeroSuivi' => 'nullable',
+                    'designation' => 'nullable',
+                    'numeroConteneur' => 'nullable',
+                    'typeService' => 'nullable',
+                    'dateEnlev' => 'nullable|date',
+                    'dateLivr' => 'nullable|date',
+                    'montant_total' => 'nullable|numeric',
+                    'montant_paye' => 'nullable|numeric',
+                    'status' => 'nullable|in:encour,Non Livré,Livré',
+                ]);
+                // dd($validatedData);
+                // Trouver l'expédition à mettre à jour
+                    $expedition = expeditions::find($id);
+                    if (!$expedition) {
+                        return redirect()->route('admin.dashboard')->with('error', 'Expédition non trouvée.');
+                                    }
+            
+                        // Mettre à jour l'expédition avec les données validées
+                        $expedition->update($validatedData);
+                        // Toastr::success("<h4 style='color:white; background:green;'>enregistrées avec succès !</h>");
+
+                // Envoi du SMS
+            try {
+                $client = new Client();
+                $response = $client->post(env('ORANGE_SMS_API_URL'), [
+                    'headers' => [
+                        'Authorization' => 'Basic ' . base64_encode(env('ORANGE_SMS_CLIENT_ID') . ':' . env('ORANGE_SMS_CLIENT_SECRET')),
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'outboundSMSMessageRequest' => [
+                            'address' => 'tel:' . env('ORANGE_SMS_RECIPIENT_PREFIX') . $request->numero_destinataire, // Assurez-vous que le champ existe
+                            'senderAddress' => 'tel:' . env('ORANGE_SMS_SENDER_ADDRESS'),
+                            'outboundSMSTextMessage' => [
+                                'message' => 'Salut, Votre colis est .',
+                            ],
+                        ],
+                    ],
+                ]);
+
+                // Gestion de la réponse de l'API (par exemple, journalisation)
+                // Log::info('Réponse de l\'API SMS Orange : ' . $response->getBody());
+
+                $successMessage = 'Votre demande a été soumise avec succès et un SMS a été envoyé.';
+            } catch (\Exception $e) {
+                // \Log::error('Erreur lors de l\'envoi du SMS : ' . $e->getMessage());
+                $successMessage = 'Votre demande a été soumise avec succès, mais une erreur est survenue lors de l\'envoi du SMS.';
+            }
+
+            
+                return redirect()->route('admin.dashboard')->with('success', $successMessage);
     
 
             }
 
-public function voirExpedition(expeditions $expedition)
+        public function voirExpedition(expeditions $expedition)
     {
-        return view('mission.showExpedition{$id}', compact('expedition')); 
+        
+        $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
+        return view('mission.showExpedition{$id}', compact('devisNonTraites','expedition')); 
     }
 
-public function destroyExpedition(expeditions $expedition)
-    {
-        $expedition->delete();
+        public function destroyExpedition(expeditions $expedition)
+            {
+                $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
 
-        return redirect()->route('expeditions')->with('success', 'Expédition supprimée avec succès.');
-    }
+                $expedition->delete();
+
+                return redirect()->route('expeditions')->with('success', 'Expédition supprimée avec succès.');
+            }
 // END EXPEDITION CRUD
+
+
+
 
 // FONCTION SUIVI
 public function rechercherSuivi(Request $request)
 {
+    $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+
     $numeroSuivi = $request->input('numeroSuivi');
 
     if ($numeroSuivi) {
@@ -346,196 +430,195 @@ public function storeCommand(Request $request)
 
 
 //CLIENT CRUD----------------------------------------------------------
-    public function storeClient(Request $request)
-    {
-        // Validation des données du formulaire
-        $request->validate([
-        'code_client' => 'required|unique:clients,code_client', // Validation de l'unicité
-        'nom_client' => 'required|string|max:255',
-        'prenom_client' => 'nullable|string|max:255',
-        'numero_client' => 'required|string|max:20', // Ajuster la longueur max si nécessaire
-        'email_client' => 'required|email|max:255',
-        'adresse_client' => 'required|string|max:255',]);
+    // public function storeClient(Request $request)
+    // {
+    //     // Validation des données du formulaire
+    //     $request->validate([
+    //     'code_client' => 'required|unique:clients,code_client', // Validation de l'unicité
+    //     'nom_client' => 'required|string|max:255',
+    //     'prenom_client' => 'nullable|string|max:255',
+    //     'numero_client' => 'required|string|max:20', // Ajuster la longueur max si nécessaire
+    //     'email_client' => 'required|email|max:255',
+    //     'adresse_client' => 'required|string|max:255',]);
 
-        $client = new clients();
-        $client->code_client = $request->input('code_client'); // Utilisation du code unique
-        $client->nom_client = $request->input('nom_client');
-        $client->prenom_client = $request->input('prenom_client');
-        $client->numero_client = $request->input('numero_client');
-        $client->email_client = $request->input('email_client');
-        $client->adresse_client = $request->input('adresse_client');
-        $client->save();
+    //     $client = new clients();
+    //     $client->code_client = $request->input('code_client'); // Utilisation du code unique
+    //     $client->nom_client = $request->input('nom_client');
+    //     $client->prenom_client = $request->input('prenom_client');
+    //     $client->numero_client = $request->input('numero_client');
+    //     $client->email_client = $request->input('email_client');
+    //     $client->adresse_client = $request->input('adresse_client');
+    //     $client->save();
 
 
-        // Redirection avec un message de succès
-        return redirect()->route('admin.dashboard')->with('success', 'Client ajouté avec succès.'); // Ajuster la route de redirection
-        }
+    //     // Redirection avec un message de succès
+    //     return redirect()->route('admin.dashboard')->with('success', 'Client ajouté avec succès.'); // Ajuster la route de redirection
+    //     }
 
-        // Edit client
-        public function editCliens($id)
-            {
-            // Récupérer le client par son ID
-            $client = clients::findOrFail($id);
+    //     // Edit client
+    //     public function editCliens($id)
+    //         {
+    //         // Récupérer le client par son ID
+    //         $client = clients::findOrFail($id);
 
-            // Passer le client à la vue de modification
-            return view('admin.clients.editClients', ['client' => $client]);
-        }
+    //         // Passer le client à la vue de modification
+    //         return view('admin.clients.editClients', ['client' => $client]);
+    //     }
 
-            // Updateclient
-            public function updateClient(Request $request, $id)
-            {
-            // Validation des données du formulaire
-            $request->validate([
-                'code_client' => 'required|string|max:255',
-                'nom_client' => 'required|string|max:255',
-                'prenom_client' => 'nullable|string|max:255',
-                'numero_client' => 'required|string|max:20',
-                'email_client' => 'required|email|max:255',
-                'adresse_client' => 'required|string|max:255',
-            ]);
+    //         // Updateclient
+    //         public function updateClient(Request $request, $id)
+    //         {
+    //         // Validation des données du formulaire
+    //         $request->validate([
+    //             'code_client' => 'required|string|max:255',
+    //             'nom_client' => 'required|string|max:255',
+    //             'prenom_client' => 'nullable|string|max:255',
+    //             'numero_client' => 'required|string|max:20',
+    //             'email_client' => 'required|email|max:255',
+    //             'adresse_client' => 'required|string|max:255',
+    //         ]);
 
-            // Récupérer le client par son ID
-            $client = clients::findOrFail($id);
+    //         // Récupérer le client par son ID
+    //         $client = clients::findOrFail($id);
 
-            // Mettre à jour les données du client
-            $client->nom_client = $request->input('nom_client');
-            $client->prenom_client = $request->input('prenom_client');
-            $client->numero_client = $request->input('numero_client');
-            $client->email_client = $request->input('email_client');
-            $client->adresse_client = $request->input('adresse_client');
-            $client->save();
+    //         // Mettre à jour les données du client
+    //         $client->nom_client = $request->input('nom_client');
+    //         $client->prenom_client = $request->input('prenom_client');
+    //         $client->numero_client = $request->input('numero_client');
+    //         $client->email_client = $request->input('email_client');
+    //         $client->adresse_client = $request->input('adresse_client');
+    //         $client->save();
 
-            // Rediriger avec un message de succès
-            return redirect()->route('admin.clients')->with('success', 'Client mis à jour avec succès.');
+    //         // Rediriger avec un message de succès
+    //         return redirect()->route('admin.clients')->with('success', 'Client mis à jour avec succès.');
     
-    }
+    // }
 //END CLIENT CRUD----------------------------------------------------
 
 
 //CRUD DESTINATAIRE--------------------------------------------------
-    public function storeDestinataire(Request $request)
-    {
-        // Validation des données du formulaire
-        $request->validate([
-        'code_unique' => 'required|unique:destinataire,code_unique', // Validation de l'unicité
-        'nom_destinataire' => 'required|string|max:255',
-        'prenom_destinataire' => 'nullable|string|max:255',
-        'numero_destinataire' => 'required|string|max:20', // Ajuster la longueur max si nécessaire
-        'email_destinataire' => 'required|email|max:255',
-        'adresse_destinataire' => 'required|string|max:255',]);
+    // public function storeDestinataire(Request $request)
+    // {
+    //     // Validation des données du formulaire
+    //     $request->validate([
+    //     'code_unique' => 'required|unique:destinataire,code_unique', // Validation de l'unicité
+    //     'nom_destinataire' => 'required|string|max:255',
+    //     'prenom_destinataire' => 'nullable|string|max:255',
+    //     'numero_destinataire' => 'required|string|max:20', // Ajuster la longueur max si nécessaire
+    //     'email_destinataire' => 'required|email|max:255',
+    //     'adresse_destinataire' => 'required|string|max:255',]);
 
-        $destinataire = new destinataire();
-        $destinataire->code_unique = $request->input('code_unique'); // Utilisation du code unique
-        $destinataire->nom_destinataire = $request->input('nom_destinataire');
-        $destinataire->prenom_destinataire = $request->input('prenom_destinataire');
-        $destinataire->numero_destinataire = $request->input('numero_destinataire');
-        $destinataire->email_destinataire = $request->input('email_destinataire');
-        $destinataire->adresse_destinataire = $request->input('adresse_destinataire');
-        $destinataire->save();
+    //     $destinataire = new destinataire();
+    //     $destinataire->code_unique = $request->input('code_unique'); // Utilisation du code unique
+    //     $destinataire->nom_destinataire = $request->input('nom_destinataire');
+    //     $destinataire->prenom_destinataire = $request->input('prenom_destinataire');
+    //     $destinataire->numero_destinataire = $request->input('numero_destinataire');
+    //     $destinataire->email_destinataire = $request->input('email_destinataire');
+    //     $destinataire->adresse_destinataire = $request->input('adresse_destinataire');
+    //     $destinataire->save();
 
 
-        // Redirection avec un message de succès
-        return redirect()->route('admin.dashboard')->with('success', 'Client ajouté avec succès.'); // Ajuster la route de redirection
-        }
+    //     // Redirection avec un message de succès
+    //     return redirect()->route('admin.dashboard')->with('success', 'Client ajouté avec succès.'); // Ajuster la route de redirection
+    //     }
 
-        // Edit client
-        public function editDestinataire($id)
-        {
-            // Récupérer le client par son ID
-            $destinataire = destinataire::findOrFail($id);
+    //     // Edit client
+    //     public function editDestinataire($id)
+    //     {
+    //         // Récupérer le client par son ID
+    //         $destinataire = destinataire::findOrFail($id);
 
-            // Passer le destinataire à la vue de modification
-            return view('admin.destinataires.editdestinataire', ['destinataire' => $destinataire]);
-        }
+    //         // Passer le destinataire à la vue de modification
+    //         return view('admin.destinataires.editdestinataire', ['destinataire' => $destinataire]);
+    //     }
 
-            // Updatedestinataire
-            public function updatedestinataire(Request $request, $id)
-            {
-            // Validation des données du formulaire
-            $request->validate([
-                'nom_destinataire' => 'required|string|max:255',
-                'prenom_destinataire' => 'nullable|string|max:255',
-                'numero_destinataire' => 'required|string|max:20',
-                'email_destinataire' => 'required|email|max:255',
-                'adresse_destinataire' => 'required|string|max:255',
-            ]);
+    //         // Updatedestinataire
+    //         public function updatedestinataire(Request $request, $id)
+    //         {
+    //         // Validation des données du formulaire
+    //         $request->validate([
+    //             'nom_destinataire' => 'required|string|max:255',
+    //             'prenom_destinataire' => 'nullable|string|max:255',
+    //             'numero_destinataire' => 'required|string|max:20',
+    //             'email_destinataire' => 'required|email|max:255',
+    //             'adresse_destinataire' => 'required|string|max:255',
+    //         ]);
 
-        // Récupérer le destinataire par son ID
-        $destinataire = destinataire::findOrFail($id);
+    //     // Récupérer le destinataire par son ID
+    //     $destinataire = destinataire::findOrFail($id);
 
-        // Mettre à jour les données du destinataire
-        $destinataire->nom_destinataire = $request->input('nom_destinataire');
-        $destinataire->prenom_destinataire = $request->input('prenom_destinataire');
-        $destinataire->numero_destinataire = $request->input('numero_destinataire');
-        $destinataire->email_destinataire = $request->input('email_destinataire');
-        $destinataire->adresse_destinataire = $request->input('adresse_destinataire');
-        $destinataire->save();
+    //     // Mettre à jour les données du destinataire
+    //     $destinataire->nom_destinataire = $request->input('nom_destinataire');
+    //     $destinataire->prenom_destinataire = $request->input('prenom_destinataire');
+    //     $destinataire->numero_destinataire = $request->input('numero_destinataire');
+    //     $destinataire->email_destinataire = $request->input('email_destinataire');
+    //     $destinataire->adresse_destinataire = $request->input('adresse_destinataire');
+    //     $destinataire->save();
 
-        // Rediriger avec un message de succès
-        return redirect()->route('admin.destinataire')->with('success', 'Destinatair mis à jour avec succès.');
+    //     // Rediriger avec un message de succès
+    //     return redirect()->route('admin.destinataire')->with('success', 'Destinatair mis à jour avec succès.');
             
-    }
+    // }
 //END CRUD DESTINATAIRE--------------------------------------------------
             
   
 //CRUD CONTENEUR---------------------------------------------------------
-    public function storeConteneur(Request $request)
-    {
-        // Validation des données
-        $request->validate([
-            'container_number' => 'required|unique:conteneurs',
-            'type' => 'required',
-            'location' => 'required',
-        ]);
+    // public function storeConteneur(Request $request)
+    // {
+    //     // Validation des données
+    //     $request->validate([
+    //         'container_number' => 'required|unique:conteneurs',
+    //         'type' => 'required',
+    //         'location' => 'required',
+    //     ]);
 
-        // Création et enregistrement du conteneur
-        $conteneur = new conteneurs();
-        $conteneur->container_number = $request->input('container_number');
-        $conteneur->type = $request->input('type');
-        $conteneur->location = $request->input('location');
-        $conteneur->save();
+    //     // Création et enregistrement du conteneur
+    //     $conteneur = new conteneurs();
+    //     $conteneur->container_number = $request->input('container_number');
+    //     $conteneur->type = $request->input('type');
+    //     $conteneur->location = $request->input('location');
+    //     $conteneur->save();
 
-        // Redirection avec un message de succès
-        return redirect()->route('admin.dashboard')->with('success', 'Conteneur créé avec succès.');
-        }
-        public function editConteneur($id)
-        {
-            // Récupérer le conteneur par son ID
-            $conteneur = conteneurs::findOrFail($id);
+    //     // Redirection avec un message de succès
+    //     return redirect()->route('admin.dashboard')->with('success', 'Conteneur créé avec succès.');
+    //     }
+    //     public function editConteneur($id)
+    //     {
+    //         // Récupérer le conteneur par son ID
+    //         $conteneur = conteneurs::findOrFail($id);
 
-            // Passer le conteneur à la vue de modification
-            return view('admin.conteneur.', ['conteneur' => $conteneur]);
-        }
+    //         // Passer le conteneur à la vue de modification
+    //         return view('admin.conteneur.', ['conteneur' => $conteneur]);
+    //     }
 
-        // Updatedestinataire
-        public function updateconteneur(Request $request, $id)
-        {
-        // Validation des données du formulaire
-        $request->validate([
-            'conteneur_number' => 'required|string|max:255',
-            'type' => 'nullable|string|max:255',
-            'location' => 'required|string|max:255',
-        ]);
+        // // Updatedestinataire
+        // public function updateconteneur(Request $request, $id)
+        // {
+        // // Validation des données du formulaire
+        // $request->validate([
+        //     'conteneur_number' => 'required|string|max:255',
+        //     'type' => 'nullable|string|max:255',
+        //     'location' => 'required|string|max:255',
+        // ]);
 
-        // Récupérer le destinataire par son ID
-        $conteneur = conteneurs::findOrFail($id);
+        // // Récupérer le destinataire par son ID
+        // $conteneur = conteneurs::findOrFail($id);
 
-        // Mettre à jour les données du destinataire
-        $conteneur->conteneur_number = $request->input('conteneur_number');
-        $conteneur->type = $request->input('type');
-        $conteneur->location = $request->input('location');
-        $conteneur->save();
+        // // Mettre à jour les données du destinataire
+        // $conteneur->conteneur_number = $request->input('conteneur_number');
+        // $conteneur->type = $request->input('type');
+        // $conteneur->location = $request->input('location');
+        // $conteneur->save();
 
-        // Rediriger avec un message de succès
-        return redirect()->route('admin.destinataire')->with('success', 'Client mis à jour avec succès.');
+        // // Rediriger avec un message de succès
+        // return redirect()->route('admin.destinataire')->with('success', 'Client mis à jour avec succès.');
         
 
-    }
-//END CRUD CONTENEUR--------------------------------------------------
+        // }
+        //END CRUD CONTENEUR--------------------------------------------------
             
                 
 //CRUD-EXPEDITEUR
-        
     public function storeExpediteur(Request $request)
     {
         // Validation des données du formulaire
@@ -572,54 +655,33 @@ public function storeCommand(Request $request)
         }
 
             // Update expediteur
-            public function updateExpediteur(Request $request, $id)
-            {
-            // Validation des données du formulaire
-            $request->validate([
-                'nom_expediteur' => 'required|string|max:255',
-                'prenom_expediteur' => 'nullable|string|max:255',
-                'numero_expediteur' => 'required|string|max:20',
-                'email_expediteur' => 'required|email|max:255',
-                'adresse_expediteur' => 'required|string|max:255',
-            ]);
+    //         public function updateExpediteur(Request $request, $id)
+    //         {
+    //         // Validation des données du formulaire
+    //         $request->validate([
+    //             'nom_expediteur' => 'required|string|max:255',
+    //             'prenom_expediteur' => 'nullable|string|max:255',
+    //             'numero_expediteur' => 'required|string|max:20',
+    //             'email_expediteur' => 'required|email|max:255',
+    //             'adresse_expediteur' => 'required|string|max:255',
+    //         ]);
 
-            // Récupérer le expediteur par son ID
-            $expediteur = expediteur::findOrFail($id);
+    //         // Récupérer le expediteur par son ID
+    //         $expediteur = expediteur::findOrFail($id);
 
-            // Mettre à jour les données du expedieteur
-            $expediteur->nom_expediteur = $request->input('nom_expediteur');
-            $expediteur->prenom_expediteur = $request->input('prenom_expediteur');
-            $expediteur->numero_expediteur = $request->input('numero_expediteur');
-            $expediteur->email_expediteur = $request->input('email_expediteur');
-            $expediteur->adresse_expediteur = $request->input('adresse_expediteur');
-            $expediteur->save();
+    //         // Mettre à jour les données du expedieteur
+    //         $expediteur->nom_expediteur = $request->input('nom_expediteur');
+    //         $expediteur->prenom_expediteur = $request->input('prenom_expediteur');
+    //         $expediteur->numero_expediteur = $request->input('numero_expediteur');
+    //         $expediteur->email_expediteur = $request->input('email_expediteur');
+    //         $expediteur->adresse_expediteur = $request->input('adresse_expediteur');
+    //         $expediteur->save();
 
-            // Rediriger avec un message de succès
-            return redirect()->route('admin.expediteur')->with('success', '_expediteur mis à jour avec succès.');
+    //         // Rediriger avec un message de succès
+    //         return redirect()->route('admin.expediteur')->with('success', '_expediteur mis à jour avec succès.');
         
-    }
+    // }
 
 
-// Update status
 
-
-public function updateStatus(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'status' => 'nullable|in:encour,depot,terminer',
-    ]);
-
-    $expedition = expeditions::find($id);
-
-    if (!$expedition) {
-        dd($validatedData);
-        // return redirect()->back()->with('error', 'Expédition non trouvée.');
-    }
-
-    dd($validatedData);
-
-    // $expedition->update($validatedData);
-
-    // return redirect()->back()->with('success', 'Statut mis à jour avec succès.');
-}
 }

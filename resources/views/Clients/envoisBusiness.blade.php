@@ -1,4 +1,4 @@
-@extends('layouts.Client')
+<!-- @extends('layouts.Client')
 @section('contente')
 <style>
     body {
@@ -175,4 +175,4 @@
     });
 </script>
 
-@endsection
+@endsection -->

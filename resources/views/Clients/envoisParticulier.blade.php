@@ -1,4 +1,4 @@
-@extends('layouts.Client')
+<!-- @extends('layouts.Client')
 @section('content')
 <style>
     body {
@@ -183,6 +183,6 @@
 </script>
   </div>
 
-</section><!-- /Hero Section -->
+</section> /Hero Section --
 
-@endsection
+@endsection -->

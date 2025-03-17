@@ -72,6 +72,7 @@
                                     </div>
                                     <input type="text" name="particulier" value="entreprise" style="display: none;">
                                     <div class="col-md-6">
+                                        <input type="hidden" name="numero" value="{{ Auth::user()->numero}}">
                                         <label for="exampleFormControlInput1" class="form-label">Pays-Depart:</label>
                                         <select class="form-select form-select-lg mb-3" aria-label="Default select example" name="paysDepart">
                                             <option selected>Sélectionnez un pays</option>
@@ -220,6 +221,7 @@
                                         Vous demandez en tant qu'un Particulier.
                                     </div><input type="text" name="particulier" value="particulier" style="display: none;">
                                     <div class="col-md-6">
+                                        <input type="hidden" name="numero" value="+225 01 43 63 3011">
                                         <label for="exampleFormControlInput1" class="form-label">Pays-Depart:</label>
                                         <select class="form-select form-select-lg mb-3" name="paysDepart">
                                             <option selected>Sélectionnez un pays</option>
@@ -491,19 +493,20 @@
                                 </ul>
                             </div>
                             @endif
-                            <form method="POST" action="{{route('storeRdv')}}" data-aos="fade-up" data-aos-delay="500">
+                                <div class="alert alert-warning" role="alert">
+                                    <center> Veuillez noter que le nombre de Rdv est limité à 30/Jr.<br>
+                                        Rdv restant: <mark>{{ $remaining }}</mark></center>
+                                </div>
+                            
+                            @if ($dailyCount->count < 30)
+                                <form method="POST" action="{{route('storeRdv')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
-                                <div class="row gy-4">
-                                    <div class="alert alert-warning" role="alert">
-                                        <center> Veuillez noter que le nombre de Rdv est limité à 30/Jr.<br>
-                                            Rdv restant: <mark>{{ $remaining }}</mark></center>
-                                    </div>
-                                    @if (session('error'))
+                                    <div class="row gy-4">
+                                        @if (session('error'))
                                         <div class="alert alert-danger">
                                             {{ session('error') }}
                                         </div>
-                                    @endif
-                                    @if ($dailyCount->count < 30)
+                                        @endif
                                         <div>
                                             <label for="nom">Nom et prénom :</label>
                                             <input type="text" class="form-control" id="nom" name="nom" required placeholder="Votre Nom Ou Nom complet du preneur">
@@ -525,7 +528,7 @@
 
                                         <div class="col-md-6">
                                             <label for="exampleFormControlInput1" class="form-label">Heure souhaitée (plage horaire):</label>
-                                            <select class="form-select form-select-sm" name="heure_retrait">
+                                            <select class="form-select form-select-sm" name="heure_retrait" required>
                                                 <option selected>Sélectionnez une plage</option>
                                                 <option value="matin_9-12">Matin (9h-12h)</option>
                                                 <option value="soir_14-17">Après-midi (14h-17h)</option>
@@ -536,15 +539,16 @@
                                             <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
                                         </div>
 
-                                        <div class="col-md-12 text-center">
-                                            <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
+                                        <div class="col-md-6 text-center">
+                                            <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
                                         </div>
-
                                     </div>
                                 </form>
+                                @endif
+                            </div>
 
-                        </div>
-                    </div>@endif
+                        
+                    </div>
                     <div class="col-lg-6 order-1 order-lg-2 text-center">
                         <img src="../Clients/assets/img/jeune.jpg" alt="" class="img-fluid">
                     </div>

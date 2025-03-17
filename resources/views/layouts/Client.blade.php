@@ -12,6 +12,8 @@
   <link href="Clients/asset/img/favicon.png" rel="icon">
   <link href="Clients/asset/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+  
+  <link rel="stylesheet" href="styleCompte.css">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

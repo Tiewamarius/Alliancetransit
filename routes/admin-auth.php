@@ -45,7 +45,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     
     Route::get('rechercher.suivi', [AdminCrudController::class, 'rechercherSuivi'])->name('rechercher.suivi');
     
-    // Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
+    Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
     Route::post('/admin/expeditions/{id}/status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
 
     Route::get('/expeditions/delete/{id}', [AdminCrudController::class, 'deleteExpedition'])->name('expeditions.delete');
@@ -57,8 +57,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
     // welcome - TableClients
-    Route::get('tablClient', [AdminCrudController::class, 'tablClients'])->name('tablClient');  
+    Route::get('allRdv', [AdminCrudController::class, 'allRdv'])->name('allRdv');  
     
+    //  END RDV Request
     
     
     Route::get('Ajoutclients', function () {

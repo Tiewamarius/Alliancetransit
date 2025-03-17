@@ -48,7 +48,7 @@
           @else
           
           <li class="nav-item">
-            <a class="nav-link me-lg-3" href="" ><i class="bi bi-box-seam">Mes Colis</i>
+            <a class="nav-link me-lg-3" href="{{url('layouts/Envois')}}" ><i class="bi bi-box-seam">Mes Colis</i>
             </a>
           </li><li class="nav-item">
             <a class="nav-link me-lg-3" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

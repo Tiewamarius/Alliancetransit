@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vos Commandes</title>
+    <link rel="stylesheet" href="styleCompte.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item active">
+                <img src="images/account.png" >
+                Votre compte
+            </div>
+            <div class="sidebar-item">
+                <img src="images/orders.png" >
+                Vos commandes
+            </div>
+            <div class="sidebar-item">
+                <img src="images/inbox.png" >
+                Boîte de réception
+            </div>
+            <div class="sidebar-item">
+                <img src="images/reviews.png" >
+                Vos avis en attente
+            </div>
+            <div class="sidebar-item">
+                <img src="images/coupons.png" >
+                Bons d'achat
+            </div>
+            <div class="sidebar-item">
+                <img src="images/recent.png" >
+                Vus récemment
+            </div>
+            <div class="sidebar-item manage">
+                Gérez votre Compte
+            </div>
+        </aside>
+        <main class="content">
+            <div class="content-header">
+                <h1>Vos commandes</h1>
+                <div class="tabs">
+                    <div class="tab active" data-tab="en-cours">EN COURS/LIVRÉES</div>
+                    <div class="tab" data-tab="annulees">ANNULÉES/RETOURNÉES</div>
+                </div>
+            </div>
+            <div class="order" data-tab="en-cours">
+                <div class="order-image">
+                    <img src="images/ps4_controller.png">
+                </div>
+                <div class="order-details">
+                    <div class="order-title">Manette PS4</div>
+                    <div class="order-id">Commande 352651838</div>
+                    <div class="order-status delivered">COLIS LIVRÉ</div>
+                    <div class="order-date">Le 25-11</div>
+                </div>
+                <div class="order-actions">
+                    <a href="#" class="details-link" data-order-id="352651838">Détails</a>
+                </div>
+                <div class="order-details-expanded" id="details-352651838" style="display: none;">
+                    </div>
+            </div>
+            <div class="order" data-tab="en-cours">
+                <div class="order-image">
+                    <img src="images/shirt.png" >
+                </div>
+                <div class="order-details">
+                    <div class="order-title">Chemise Homme Manches Courtes Tee Shirt Fleurs</div>
+                    <div class="order-id">Commande 317792938</div>
+                    <div class="order-size">Size: XXL</div>
+                    <div class="order-status delivered">COLIS LIVRÉ</div>
+                    <div class="order-date">Le 18-11</div>
+                </div>
+                <div class="order-actions">
+                    <a href="#" class="details-link" data-order-id="317792938">Détails</a>
+                </div>
+                <div class="order-details-expanded" id="details-317792938" style="display: none;">
+                    </div>
+            </div>
+            <div class="order" data-tab="annulees" style="display: none;">
+                <div class="order-image">
+                    <img src="images/shirt.png">
+                </div>
+                <div class="order-details">
+                    <div class="order-title">Chemise Homme Manches Courtes Tee Shirt Fleurs</div>
+                    <div class="order-id">Commande 317792938</div>
+                    <div class="order-size">Size: XXL</div>
+                    <div class="order-status delivered">COLIS LIVRÉ</div>
+                    <div class="order-date">Le 18-11</div>
+                </div>
+                <div class="order-actions">
+                    <a href="#" class="details-link" data-order-id="317792938">Détails</a>
+                </div>
+                <div class="order-details-expanded" id="details-317792938" style="display: none;">
+                    </div>
+            </div>
+        </main>
+    </div>
+    <script src="scriptCompte.js"></script>
+</body>
+</html>
