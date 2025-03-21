@@ -10,7 +10,8 @@ use App\Models\DevisColis;
 use App\Models\expeditionsClients;
 use App\Models\expeditions;
 use App\Models\expediteur;
-use GuzzleHttp\Client;
+// use GuzzleHttp\Client;
+use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Models\clients;
 use Brian2694\Toastr\Facades\Toastr;
@@ -31,7 +32,7 @@ public function dashboard()
 
         
 
-            $expeditionsClient = expeditionsClients::latest()->paginate(5);
+            $expeditionsClient = expeditions::latest()->paginate(5);
             $expeditions = expeditions::latest()->paginate(5);
             $All = expeditions::count();
 
@@ -56,34 +57,34 @@ public function dashboard()
 // END FUNCTION DASHBOARD
 
 // TablClien
-public function tablClients()
-    {
-        $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
+// public function tablClients()
+//     {
+//         $devisNonTraites = DevisColis::where('status', 'nontraite')->count();
 
         
         
-        $expeditions = expeditions::latest()->paginate(5);
-            $expeditionClient = expeditionsClients::latest()->paginate(5);
-            $All = expeditions::count();
+//         $expeditions = expeditions::latest()->paginate(5);
+//             $expeditionClient = expeditionsClients::latest()->paginate(5);
+//             $All = expeditions::count();
 
-            $colisArrives = expeditions::where('status', 'Non Livré')->count();
-            $coliLivre= expeditions::where('status', 'Livré')->count();
-            $Encour= expeditions::where('status', 'encour')->count();
-            $stock= expeditions::where('status', 'Non Livré')->count();
+//             $colisArrives = expeditions::where('status', 'Non Livré')->count();
+//             $coliLivre= expeditions::where('status', 'Livré')->count();
+//             $Encour= expeditions::where('status', 'encour')->count();
+//             $stock= expeditions::where('status', 'Non Livré')->count();
             
-            $totalExpeditions = expeditions::count();
-            $nombre_aleatoire = (string)(random_int(10000, 99999));
-            $code_client = 'Cl-'. $nombre_aleatoire;
-            // $totalClients = expeditions::distinct('code_client')->count('code_client');
-            $nombre_aleatoire = (string)(random_int(10000, 99999));
-            $code_suivi = 'Al-'. $nombre_aleatoire;
+//             $totalExpeditions = expeditions::count();
+//             $nombre_aleatoire = (string)(random_int(10000, 99999));
+//             $code_client = 'Cl-'. $nombre_aleatoire;
+//             // $totalClients = expeditions::distinct('code_client')->count('code_client');
+//             $nombre_aleatoire = (string)(random_int(10000, 99999));
+//             $code_suivi = 'Al-'. $nombre_aleatoire;
 
            
 
-            return view('admin.mission.tablClients',compact('expeditionClient','stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
+//             return view('admin.mission.tablClients',compact('expeditionClient','stock','Encour','All','colisArrives','coliLivre','expeditions','devisNonTraites'));
     
 
-    }
+//     }
 // End tablClients
 
 
@@ -195,46 +196,113 @@ public function search(Request $request)
     }
 
 
-        public function storeExpedition(Request $request)
+    public function storeExpedition(Request $request)
         {
             // Validation des données
             $validatedData = $request->validate([
-            'expediteur_id' => 'nullable',
-            'nom_expediteur' => 'required',
-            'numero_expediteur' => 'required',
-            'email_expediteur' => 'nullable|email',
-            'adresse_expediteur' => 'nullable',
-            'destinataire_id' => 'nullable|exists:destinataires,id',
-            'nom_destinataire' => 'required',
-            'numero_destinataire' => 'required',
-            'email_destinataire' => 'nullable|email',
-            'adresse_destinataire' => 'nullable',
-            'numeroSuivi' => 'required',
-            'designation' => 'required',
-            'numeroConteneur' => 'nullable',
-            'typeService' => 'nullable',
-            'dateEnlev' => 'nullable|date',
-            'dateLivr' => 'nullable|date',
-            'montant_total' => 'required|numeric',
-            'montant_paye' => 'required|numeric',
-            'status' => 'required|in:encour,Non Livré,Livré',
+                'particulier' => 'nullable',
+                'expediteur_id' => 'nullable',
+                'nom_expediteur' => 'required',
+                'numero_expediteur' => 'required',
+                'email_expediteur' => 'nullable|email',
+                'adresse_expediteur' => 'nullable',
+                'destinataire_id' => 'nullable|exists:destinataires,id',
+                'nom_destinataire' => 'required',
+                'numero_destinataire' => 'required',
+                'email_destinataire' => 'nullable|email',
+                'adresse_destinataire' => 'nullable',
+                'numeroSuivi' => 'required',
+                'designation' => 'required',
+                'numeroConteneur' => 'nullable',
+                'typeService' => 'nullable',
+                'dateEnlev' => 'nullable|date',
+                'dateLivr' => 'nullable|date',
+                'montant_total' => 'required|numeric',
+                'montant_paye' => 'required|numeric',
+                'status' => 'required|in:encour,Non Livré,Livré',
+                'image_colis' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            // dd($validatedData);
+    
+            // Gestion de l'image du colis
+            if ($request->hasFile('image_colis')) {
+                $imagePath = $request->file('image_colis')->store('expeditions', 'public');
+                $validatedData['image_colis'] = $imagePath;
+            }
+    
+            // Création de l'expédition
             $expedition = expeditions::create($validatedData);
-            
-
+    
+            // Notification par email (si l'email du destinataire est fourni)
             if ($expedition->email_destinataire) {
                 Notification::route('mail', $expedition->email_destinataire)
                     ->notify(new NouvelleExpedition($expedition));
             }
-
-            Toastr::success('Les données ont été enregistrées avec succès !', 'Succès');
-
-            
-            return redirect()->route('admin.dashboard')->with('success', 'Expédition supprimée avec succès.');
-
+    
+            $numeroExpediteur = $request->input('numero_expediteur');
+            $numeroDestinataire = $request->input('numero_destinataire');
+        
+            $messageExpediteur = "Bonjour Mr/Mme, Alliance Transit vous informe que votre colis vient d’arriver à Abidjan, merci de nous envoyer votre adresse précise de livraison et d’informer votre correspondant à Abidjan. Toutefois, tous les clients indisponibles lors de la livraison passeront récupérer leur colis au dépôt. Merci pour votre compréhension.";
+            $messageDestinataire = "Bonjour Mme/Mr, Alliance Transit vous informe que la livraison de votre colis s’effectuera demain. Nous vous rappelons que toutes personnes injoignables passera au dépôt récupérer son coli. Merci de prendre vos dispositions pour la bonne réception du colis.";
+        
+            try {
+                $client = new Client();
+                $accessToken = "eyJ0eXAiOiJKV1QiLCJ2ZXIiOiIxLjAiLCJhbGciOiJFUzM4NCIsImtpZCI6Ikg1RkdUNXhDUlJWU0NseG5vTXZCWEtUM1AyckhTRVZUNV9VdE16UFdCYTQifQ.eyJpc3MiOiJodHRwczovL2FwaS5vcmFuZ2UuY29tL29hdXRoL3YzIiwiYXVkIjpbIm9wZSJdLCJleHAiOjE3NDI1NzYxMzksImlhdCI6MTc0MjU3MjUzOSwianRpIjoiN3ZRTnAxWUk5TXF1R2x6SUJqRkpYNlFMWEN0U2JJSDZWemxwZXlxUHJjWDVtc3BRc2JOczlBczNwNDhtTTRHRTdOWE1IRFZrT3QwMERmVDd3ZnFUWk9RSU1sbDlrUTFhZ3lmWSIsImNsaWVudF9pZCI6Im53MGtmWGRibHgzSjBrcUVCeGhFQVBWMHZJaDhYZWo0Iiwic3ViIjoibncwa2ZYZGJseDNKMGtxRUJ4aEVBUFYwdkloOFhlajQiLCJjbGllbnRfbmFtZSI6eyJkZWZhdWx0IjoiYWxsaWFuY2V0cmFuc2l0In0sImNsaWVudF90YWciOiI1UGtRZlJGMjlIbkFZS3d0Iiwic2NvcGUiOlsib3BlOnNtc19hZG1pbjp2MTphY2Nlc3MiLCJvcGU6c21zbWVzc2FnaW5nOnYxOmFjY2VzcyJdLCJtY28iOiJTRUtBUEkifQ.zkX-m1dysMy-CaqOoe-KCbPnMsAG7aHKo2V7UDzLxkgx29HLrQI8RT7t05-RikeNFnaaFI10rQcBKn3ddhvPC3l8eIf6IL2wyIZX8NZXMVzGDznjvsIoATi-lq0SAcbZ"; // Remplacez par votre jeton d'accès
+        
+                $this->sendOrangeSms($client, $accessToken, $numeroExpediteur, $messageExpediteur);
+                $this->sendOrangeSms($client, $accessToken, $numeroDestinataire, $messageDestinataire);
+        
+                // ... logique de succès ...
+            } catch (\Exception $e) {
+                echo('Erreur lors de l\'envoi de SMS Orange : ');
+                // ... logique de gestion des erreurs ...
+            }
+    
+            // Redirection avec message de succès
+            return redirect()->route('admin.dashboard')->with('success', 'Expédition enregistrée avec succès.');
         }
-// EDIT EXPEDITION
+    
+        private function getOrangeAccessToken(Client $client)
+        {
+            $response = $client->post('https://api.orange.com/oauth/v3/token', [
+                'headers' => [
+                    'Authorization' => 'Basic ' . base64_encode(env('ORANGE_CLIENT_ID') . ':' . env('ORANGE_CLIENT_SECRET')),
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+                'form_params' => [
+                    'grant_type' => 'client_credentials',
+                ],
+            ]);
+    
+            $data = json_decode($response->getBody(), true);
+            return $data['access_token'];
+        }
+    
+        private function sendOrangeSms(Client $client, $accessToken, $phoneNumber, $message)
+{
+    $response = $client->post('https://api.orange.com/smsmessaging/v1/outbound/tel%3A+' . urlencode('+' . env('ORANGE_SENDER_NUMBER')) . '/requests', [
+        'headers' => [
+            'Authorization' => 'Bearer ' . $accessToken, // Utilisation du jeton d'accès
+            'Content-Type' => 'application/json',
+        ],
+        'json' => [
+            'outboundSMSMessageRequest' => [
+                'address' => 'tel:' . $phoneNumber,
+                'senderAddress' => 'tel:' . '+' . env('ORANGE_SENDER_NUMBER'),
+                'outboundSMSTextMessage' => [
+                    'message' => $message,
+                ],
+            ],
+        ],
+    ]);
+
+    if ($response->getStatusCode() !== 201) {
+        throw new \Exception('Erreur lors de l\'envoi du SMS : ' . $response->getBody());
+    }
+
+    return $response;
+}
+    
+        // EDIT EXPEDITION
         public function editExpedition($id)
             {
                 $devisNonTraites = DevisColis::where('status', 'nontraite')->count();

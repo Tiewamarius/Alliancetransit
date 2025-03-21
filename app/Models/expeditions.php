@@ -10,6 +10,7 @@ class expeditions extends Model
     use HasFactory;
 
     protected $fillable= [
+        'particulier',
         'expediteur_id',
         'nom_expediteur',
         'numero_expediteur',

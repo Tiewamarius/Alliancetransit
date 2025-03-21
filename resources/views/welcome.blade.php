@@ -24,23 +24,18 @@
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
         <h3>Le travail le plus digne procure du plaisir, à moins que quelqu'un n'en tire profit.</h3>
         <img src="Clients/assets/img/OIP.jpeg" class="img-fluid rounded-4 mb-4" alt="">
-        <p>Ut fugiat ut sunt quia veniam. Voluptate perferendis perspiciatis quod nisi et. Placeat debitis quia recusandae odit et consequatur voluptatem. Dignissimos pariatur consectetur fugiat voluptas ea.</p>
-        <p>Temporibus nihil enim deserunt sed ea. Provident sit expedita aut cupiditate nihil vitae quo officia vel. Blanditiis eligendi possimus et in cum. Quidem eos ut sint rem veniam qui. Ut ut repellendus nobis tempore doloribus debitis explicabo similique sit. Accusantium sed ut omnis beatae neque deleniti repellendus.</p>
+        <p>
+          
+        </p>
       </div>
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
         <div class="content ps-0 ps-lg-5">
-          <p class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua.
-          </p>
-          <ul>
-            <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-            <li><i class="bi bi-check-circle-fill"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-            <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-          </ul>
           <p>
-            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+          Expedition de colis de Paris vers Abidjan et d'Abidjan vers Paris. AllianceTransit est une agence de transport aerien qui se dévoue entièrement à la satisfaction de ses clients. Aux fils des années AllianceTransit s'est spécialistée en transport aerien de colis, marchandises, plis et effet divers. AllianceTransit fait preuve d'un service méticuleux et scrupuleux dans l'unique but de répondre au mieu aux besoins de ses clients, ce qui lui donne son positionnement et sa réputation aujourd'hui.
+
+Livraison de toutes vos expéditions, quelque soit leurs spécificités à Paris et à Abidjan, AllianceTransit c'est des envois réguliers 2 à 3 fois par semaine afin de repopndre aux besoins chaque clients. Avec AllianceTransit, gagnez en performance : respect de nos engagements, intégrité des produits livrés.
+
+Économique et efficace, nos expedition express 48h, permet la livraison de plis et colis vers Abidjan et Depuis Abidjan vers les autres villes d'Europe. En 24-48 profitez d’un service sur mesure pour vos envois de colis express B to B ou B to C ainsi que de notre réseau de distribution express.
           </p>
         </div>
       </div>

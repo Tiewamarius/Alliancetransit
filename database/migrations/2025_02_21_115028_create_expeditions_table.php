@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('expeditions', function (Blueprint $table) {
             $table->id();
+            $table->string('particulier')->nullable();
             $table->string('expediteur_id');
             $table->string('nom_expediteur')->nullable();
             $table->string('numero_expediteur')->nullable();
@@ -31,7 +32,9 @@ return new class extends Migration
             $table->dateTime('dateLivr')->nullable();
             $table->decimal('montant_total', 8, 2)->default(0); // Définir l'ordre ici
             $table->decimal('montant_paye', 8, 2)->default(0); // Définir l'ordre ici
-            $table->enum('status', ['encour', 'Non Livré', 'Livré']);
+            $table->enum('status', ['NonTraité','encour', 'Non Livré', 'Livré']);
+            $table->boolean('marque')->default(false);
+            $table->string('image_colis')->nullable(); // Ajout de la colonne image_colis
             $table->timestamps();
         });
     }
@@ -43,6 +46,8 @@ return new class extends Migration
     {
         
         Schema::table('expeditions', function (Blueprint $table) {
+            $table->dropColumn('marque');
+            $table->dropColumn('image_colis'); // Suppression de la colonne image_colis
             $table->dropColumn(['montant_total', 'montant_paye']);
         });
         Schema::dropIfExists('expeditions');

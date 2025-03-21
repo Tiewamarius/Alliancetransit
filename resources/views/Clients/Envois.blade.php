@@ -31,8 +31,8 @@
             </li>
             <li class="nav-item col-3">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-4">
-                    <i class="bi bi-house"></i>
-                    <h4 class="d-none d-lg-block">MON COMPTE</h4>
+                    <i class="bi bi-info-circle"></i>
+                    <h4 class="d-none d-lg-block">Bon a Savoir</h4>
                 </a>
             </li>
         </ul>
@@ -43,9 +43,6 @@
             <div class="tab-pane fade active show" id="features-tab-1">
                 <div class="row">
                     <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-                        <p class="fst-italic">
-                            Demander un devis Maintenant pour.........
-                        </p>
                         <h3>J'expédie en tant que...</h3>
                         <div class="tabs">
                             <button type="submit" class="btn btn-secondary  btn-lg" id="btn-particulier">Particulier</button>
@@ -66,7 +63,6 @@
                             <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
                                 <div class="row gy-4">
-
                                     <div class="alert alert-info" role="alert">
                                         Vous demandez en tant qu'une Entreprise.
                                     </div>
@@ -190,7 +186,7 @@
 
                                     <div class="col-md-12">
                                         <label for="exampleFormControlInpu1" class="form-label">Montant du devis qui vous sera communiqué</label>
-                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0" >
+                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0">
                                     </div>
 
                                     <div class="col-md-12 text-center">
@@ -201,8 +197,6 @@
                             </form>
 
                         </div>
-
-
                         <div class="container" display: none; style="margin-top: 15px;" id="form-particulier">
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -339,7 +333,7 @@
 
                                     <div class="col-md-12">
                                         <label for="exampleFormControlInpu1" class="form-label">Montant du devis qui vous sera communiqué</label>
-                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0" >
+                                        <input type="text" readonly class="form-control" name="montant_total" value="0,0">
                                     </div>
 
                                     <div class="col-md-12 text-center">
@@ -356,134 +350,16 @@
                     </div>
                 </div>
             </div>
-            <!-- End Tab Content Devis -->
+<!-- End Tab Content Devis -->
             <div class="tab-pane fade" id="features-tab-2">
                 <div class="row">
-                    <div class="container mt-4">
-                        <h3>Envois de colis</h3>
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
-                        <form method="POST" action="{{ route('EnvoisColis') }}">
-                            @csrf
-                            <br>
-                            <div class="card" style="display: none;">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <input type="hiden" name="expediteur_id" class="form-control" value="{{ Auth::user()->code_unique}}">
-                                        <div class="col-md-6">
-                                            <input type="text" name="nom_expediteur" class="form-control" value="{{ Auth::user()->name }}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="tel" id="telephone_client" name="numero_expediteur" class="form-control" value="{{ Auth::user()->numero}}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="email" id="email_client" name="email_expediteur" class="form-control" value="{{ Auth::user()->email}}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" value="{{ Auth::user()->adresse}}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <h4>Information du Destinataire</h4>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="floatingInputGrid">Destinataire</label>
-                                            <input type="text" name="nom_destinataire" class="form-control" id="floatingInputGrid" placeholder="Nom du destinataire" value="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="telephone_client" class="form-label">Téléphone</label>
-                                            <input type="text" id="telephone_client" name="numero_destinataire" class="form-control" value="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="email_client" name="emai_destin" class="form-label">Email</label>
-                                            <input type="email" id="email_client" name="email_destinataire" class="form-control" value="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="adresse_client" name="adresse" class="form-label">Adresse</label>
-                                            <input type="text" id="adresse_client" name="adresse_destinataire" class="form-control">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <h4>Information du colis</h4>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="nom_client" class="form-label">Code de suivi</label>
-                                            <input type="text" id="nom_client" name="numeroSuivi" value="{{$code_suivi}}" class="form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="prenom_client" class="form-label">Desigation</label>
-                                            <input type="text" id="prenom_client" name="designation" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="telephone_client" class="form-label">N° CONTENEUR</label>
-                                            <input type="text" id="telephone_client" name="numeroConteneur" class="form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="email_client" class="form-label">Remarque</label>
-                                            <input type="text" id="email_client" name="typeService" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="telephone_client" class="form-label">Date-Enlevement</label>
-                                            <input type="datetime-local" id="telephone_client" name="dateEnlev" class="form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="telephone_client" class="form-label">Date-Livraison</label>
-                                            <input type="datetime-local" id="telephone_client" name="dateLivr" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="montant_total">Montant Total</label>
-                                            <input type="number" step="0.01" name="montant_total" id="montant_total" value="0">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="montant_paye">Montant Payé</label>
-                                            <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <br><label for="statut" class="form-label">STATUS D'EXP.</label>
-                                            <select name="status" id="status">
-                                                <option value="encour" {{ old('status') == 'encour' ? 'selected' : '' }}>Encours</option>
-                                                <option value="Non Livré" {{ old('status') == "Non Livré" ? 'selected' : '' }}>Non Livré</option>
-                                                <option value="Livré" {{ old('status') == 'Livré' ? 'selected' : '' }}>Livré</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3" style="float: right;">
-                                        <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                    <h3>J'expédie en tant que...</h3>
+                    <div class="tabs">
+                        <button type="submit" class="btn btn-secondary  btn-lg" id="btnparticul">Particulier</button>
+                        <button type="submit" class="btn btn-secondary  btn-lg" id="btnprofession">Business</button>
                     </div>
-                </div>
-            </div>
-            <!-- End Tab Content  colis evois -->
-            <div class="tab-pane fade" id="features-tab-3">
-                <div class="row">
-                    <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-
-                        <div class="container" style="margin-top: 15px;" id="form-professionnel">
+                    <div class="container mt-4">
+                        <div class="container" id="formparticul">
                             @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -493,61 +369,325 @@
                                 </ul>
                             </div>
                             @endif
-                                <div class="alert alert-warning" role="alert">
-                                    <center> Veuillez noter que le nombre de Rdv est limité à 30/Jr.<br>
-                                        Rdv restant: <mark>{{ $remaining }}</mark></center>
+                            <form method="POST" action="{{route('EnvoisColis') }}">
+                                @csrf
+                                <div class="alert alert-info" role="alert">
+                                    Vous demandez en tant qu'une Particulier.
                                 </div>
-                            
+                                <h4>Information de l'Expediteur</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <input type="text" name="particulier" value="particulier" style="display: none;">
+                                            <input type="hiden" name="expediteur_id" class="form-control" value="{{ Auth::user()->code_unique}}"  style="display: none;">
+                                            <div class="col-md-6">
+                                                <label for="floatingInputGrid">Expediteur</label>
+                                                <input type="text" name="nom_expediteur" class="form-control" id="floatingInputGrid" placeholder="Nom de expediteur" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">Téléphone</label>
+                                                <input type="text" id="telephone_client" name="numero_expediteur" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" name="emai_expediteur" class="form-label">Email</label>
+                                                <input type="email" id="email_client" name="email_expediteur" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="adresse_client" name="adresse" class="form-label">Adresse</label>
+                                                <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <h4>Information du Destinataire</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="floatingInputGrid">Destinataire</label>
+                                                <input type="text" name="nom_destinataire" class="form-control" id="floatingInputGrid" placeholder="Nom du destinataire" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">Téléphone</label>
+                                                <input type="text" id="telephone_client" name="numero_destinataire" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" name="emai_destinataire" class="form-label">Email</label>
+                                                <input type="email" id="email_client" name="email_destinataire" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="adresse_client" name="adresse" class="form-label">Adresse</label>
+                                                <input type="text" id="adresse_client" name="adresse_destinataire" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <h4>Information du colis</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6" style="display: none;">
+                                                <label for="nom_client" class="form-label">Code de suivi</label>
+                                                <input type="text" id="nom_client" name="numeroSuivi" value="{{$code_suivi}}" class="form-control"  style="display: none;">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="prenom_client" class="form-label">Desigation</label>
+                                                <input type="text" id="prenom_client" name="designation" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">N° CONTENEUR</label>
+                                                <input type="text" id="telephone_client" name="numeroConteneur" class="form-control" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" class="form-label">Remarque</label>
+                                                <input type="text" id="email_client" name="typeService" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="telephone_client" class="form-label">Date-Enlevement</label>
+                                                <input type="datetime-local" id="telephone_client" name="dateEnlev" class="form-control">
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="telephone_client" class="form-label">Date-Livraison</label>
+                                                <input type="datetime-local" id="telephone_client" name="dateLivr" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="montant_total"  style="display: none;">Montant Total</label>
+                                                <input type="number" step="0.01" name="montant_total" id="montant_total" value="0" required>
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="montant_paye">Montant Payé</label>
+                                                <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <br><label for="statut" class="form-label">STATUS D'EXP.</label>
+                                                <select name="status" id="status">
+                                                    <option value="NonTraité" {{ old('status') == 'NonTraité' ? 'selected' : '' }}>NonTraité</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="image_colis">Image du Colis</label>
+                                                <input type="file" name="image_colis" id="image_colis" class="form-control-file">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3" style="float: right;">
+                                            <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <div class="container" id="formprofession">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                            <form method="POST" action="{{route('EnvoisColis') }}">
+                                @csrf
+                                <div class="alert alert-info" role="alert">
+                                    Vous demandez en tant qu'une Entreprise.
+                                </div>
+                                <h4>Information de l'Expediteur</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <input type="text" name="particulier" value="entreprise" style="display: none;">
+                                            <input type="hiden" name="expediteur_id" class="form-control" value="{{ Auth::user()->code_unique}}"  style="display: none;">
+                                            <div class="col-md-6">
+                                                <label for="floatingInputGrid">Expediteur</label>
+                                                <input type="text" name="nom_expediteur" class="form-control" id="floatingInputGrid" placeholder="Nom de expediteur" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">Téléphone</label>
+                                                <input type="text" id="telephone_client" name="numero_expediteur" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" name="emai_expediteur" class="form-label">Email</label>
+                                                <input type="email" id="email_client" name="email_expediteur" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="adresse_client" name="adresse" class="form-label">Adresse</label>
+                                                <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <h4>Information du Destinataire</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="floatingInputGrid">Destinataire</label>
+                                                <input type="text" name="nom_destinataire" class="form-control" id="floatingInputGrid" placeholder="Nom du destinataire" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">Téléphone</label>
+                                                <input type="text" id="telephone_client" name="numero_destinataire" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" name="emai_destinataire" class="form-label">Email</label>
+                                                <input type="email" id="email_client" name="email_destinataire" class="form-control" value="" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="adresse_client" name="adresse" class="form-label">Adresse</label>
+                                                <input type="text" id="adresse_client" name="adresse_destinataire" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <h4>Information du colis</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="nom_client" class="form-label">Code de suivi</label>
+                                                <input type="text" id="nom_client" name="numeroSuivi" value="{{$code_suivi}}" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="prenom_client" class="form-label">Desigation</label>
+                                                <input type="text" id="prenom_client" name="designation" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="telephone_client" class="form-label">N° CONTENEUR</label>
+                                                <input type="text" id="telephone_client" name="numeroConteneur" class="form-control" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="email_client" class="form-label">Remarque</label>
+                                                <input type="text" id="email_client" name="typeService" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="telephone_client" class="form-label">Date-Enlevement</label>
+                                                <input type="datetime-local" id="telephone_client" name="dateEnlev" class="form-control">
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="telephone_client" class="form-label">Date-Livraison</label>
+                                                <input type="datetime-local" id="telephone_client" name="dateLivr" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="montant_total">Montant Total</label>
+                                                <input type="number" step="0.01" name="montant_total" id="montant_total" value="0" required>
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <label for="montant_paye">Montant Payé</label>
+                                                <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
+                                            </div>
+                                            <div class="col-md-6"  style="display: none;">
+                                                <br><label for="statut" class="form-label">STATUS D'EXP.</label>
+                                                <select name="status" id="status">
+                                                    <option value="NonTraité" {{ old('status') == 'NonTraité' ? 'selected' : '' }}>NonTraité</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="image_colis">Image du Colis</label>
+                                                <input type="file" name="image_colis" id="image_colis" class="form-control-file">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3" style="float: right;">
+                                            <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ <!--End table Envois colis  -->
+             <div class="tab-pane fade" id="features-tab-3">
+                <div class="row">
+                    <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
+
+                        <div class="container" id="formprofession">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                            <div class="alert alert-warning" role="alert">
+                                <center> Veuillez noter que le nombre de Rdv est limité à 30/Jr.<br>
+                                    Rdv restant: <mark>{{ $remaining }}</mark></center>
+                            </div>
+
                             @if ($dailyCount->count < 30)
                                 <form method="POST" action="{{route('storeRdv')}}" data-aos="fade-up" data-aos-delay="500">
                                 @csrf
-                                    <div class="row gy-4">
-                                        @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                        @endif
-                                        <div>
-                                            <label for="nom">Nom et prénom :</label>
-                                            <input type="text" class="form-control" id="nom" name="nom" required placeholder="Votre Nom Ou Nom complet du preneur">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleFormControlInput1" class="form-label">N° Telephpone</label>
-                                            <input type="text" class="form-control" name="telephone" placeholder="N° Tel" required="">
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="exampleFormControlInput1" class="form-label">Numero Suivie</label>
-                                            <input type="text" class="form-control" name="numero_suivi" placeholder="Numero Suivi de votre colis" required="">
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="exampleFormControlInput1" class="form-label">Date du retrait</label>
-                                            <input type="date" class="form-control" name="date_retrait" placeholder="Précisez la Ville" required="">
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="exampleFormControlInput1" class="form-label">Heure souhaitée (plage horaire):</label>
-                                            <select class="form-select form-select-sm" name="heure_retrait" required>
-                                                <option selected>Sélectionnez une plage</option>
-                                                <option value="matin_9-12">Matin (9h-12h)</option>
-                                                <option value="soir_14-17">Après-midi (14h-17h)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
-                                        </div>
-
-                                        <div class="col-md-6 text-center">
-                                            <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
-                                        </div>
+                                <div class="row gy-4">
+                                    @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
                                     </div>
+                                    @endif
+                                    <div>
+                                        <label for="nom">Nom et prénom :</label>
+                                        <input type="text" class="form-control" id="nom" name="nom" required placeholder="Votre Nom Ou Nom complet du preneur">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlInput1" class="form-label">N° Telephpone</label>
+                                        <input type="text" class="form-control" name="telephone" placeholder="N° Tel" required="">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlInput1" class="form-label">Numero Suivie</label>
+                                        <input type="text" class="form-control" name="numero_suivi" placeholder="Numero Suivi de votre colis" required="">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlInput1" class="form-label">Date du retrait</label>
+                                        <input type="date" class="form-control" name="date_retrait" placeholder="Précisez la Ville" required="">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlInput1" class="form-label">Heure souhaitée (plage horaire):</label>
+                                        <select class="form-select form-select-sm" name="heure_retrait" required>
+                                            <option selected>Sélectionnez une plage</option>
+                                            <option value="matin_9-12">Matin (9h-12h)</option>
+                                            <option value="soir_14-17">Après-midi (14h-17h)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" name="designation" rows="4" placeholder="Details de votre colis" required=""></textarea>
+                                    </div>
+
+                                    <div class="col-md-6 text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                                    </div>
+                                </div>
                                 </form>
                                 @endif
-                            </div>
+                        </div>
 
-                        
+
                     </div>
                     <div class="col-lg-6 order-1 order-lg-2 text-center">
                         <img src="../Clients/assets/img/jeune.jpg" alt="" class="img-fluid">
@@ -557,116 +697,25 @@
             <!-- End Tab Content Item -->
 
             <div class="tab-pane fade" id="features-tab-4">
-                <div class="row">
-                    <div class="table-data">
-                        <div style="overflow-x: auto;">
-                            <table class="table table-striped" id="expeditionsTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th style="color:black;text-align:center;">STATUS</th>
-                                        <th style="color:black">CREDITS</th>
-                                        <th>DATE-Enlevements</th>
-                                        <th>Num° CONTENEURS</th>
-                                        <th>Num° SUIVIS</th>
-                                        <th>EXPEDITEURS</th>
-                                        <th>ADRESSE-Expedit.</th>
-                                        <th>DESIGNATIONS-Colis</th>
-                                        <th>DATE-LIVRAISON</th>
-                                        <th>REMARQUE</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($devis_colis as $devis_colis)
-                                    <tr>
-                                        <td>
-                                            <a href="editExpedition/{{$devis_colis->id}}" class="btn btn-outline-danger" style="color: orangered;width: 40px; padding:5px;"><i class="fas fa-edit"></i></a>
-                                        </td>
-                                        <td>
-                                            @if ($devis_colis->status === 'encour')
-                                            @if (Auth::user()->code_unique == $devis_colis->expediteur_id)
-                                            <div class="dropdown">
-                                                <a class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{ $devis_colis->status}}
-                                                </a>
-                                            </div>
-                                            @else
-                                            <form method="POST" action="{{ route('update.status', $devis_colis->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="dropdown">
-                                                    <a class="btn btn-warning dropdowntoggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{ $devis_colis->status }}
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="{{ route('update.status', $devis_colis->id) }}" onclick="updateStatus('{{ $devis_colis->id }}', 'encour')">ENCOUR</a></li>
-                                                        <li><a class="dropdown-item" href="{{ route('update.status', $devis_colis->id) }}" onclick="updateStatus('{{ $devis_colis->id }}', 'depot')">STOCK</a></li>
-                                                        <li><a class="dropdown-item" href="{{ route('update.status', $devis_colis->id) }}" onclick="updateStatus('{{ $devis_colis->id }}', 'terminer')">TERMINER</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="hidden" name="status" id="statusInput">
-                                            </form>
-                                            @endif
-                                            @elseif ($devis_colis->status === 'Non Livré' )
-                                            @if (Auth::user()->code_unique == $devis_colis->expediteur_id)
-                                            <div class="dropdown">
-                                                <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{ $devis_colis->status}}
-                                                </a>
-                                            </div>
-                                            @else
-                                            <form method="POST" action="{{ route('update.status', $devis_colis->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="dropdown">
-                                                    <a class="btn btn-secondary dropdowntoggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{ $devis_colis->status }}
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $devis_colis->id }}', 'encour')">ENCOUR</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $devis_colis->id }}', 'depot')">STOCK</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('{{ $devis_colis->id }}', 'terminer')">Livré</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="hidden" name="status" id="statusInput">
-                                            </form>
-                                            @endif
-                                            @elseif ($devis_colis->status === 'Livré')
-                                            <a class="btn btn-success" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ $devis_colis->status}}
-                                            </a>
-                                            @endif
 
-                                        </td>
-                                        <td>{{ $devis_colis->montant_total - $devis_colis->montant_paye }}</td>
-                                        <td>{{ $devis_colis->dateEnlev }}</td>
-                                        <td>{{ $devis_colis->numeroConteneur}}</td>
-                                        <td>{{ $devis_colis->nom_expediteur}}</td>
-                                        <td>{{ $devis_colis->adresse_expediteur}}</td>
-                                        <td>{{ $devis_colis->designation }}</td>
-                                        <td>{{ $devis_colis->numeroSuivi}}</td>
-                                        <td>{{ $devis_colis->nom_destinataire}}</td>
-                                        <td>{{ $devis_colis->adresse_expediteur}}</td>
-                                        <td>{{ $devis_colis->dateLivr}}</td>
-                                        <td>{{ $devis_colis->typeService}}</td>
-                                        <td>
-                                            <a href="{{ route('expeditions.delete', $devis_colis->id) }}" class="btn btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette expédition ?')"><i class="fas fa-trash-alt"></i></a>
+                    INFOS UTILES
+                    1 Tout colis dont le poids est inferieur à 2kg sera facturé au prix de 2kg sauf tarification spéciale.
+                    2 3 Jours après la disponibilité du colis, des frais supplémenatires de garde à hauteur de 4€ à paris et de 1.500F à Abidjan sont appliqués. Nous vous invitons à prendre toutes les mesures nécessaires afin de proceder au retrait du colis au plus vite.
+                    3 Tout colis dont le poids présente une décimale est comptabilisé au demi supérieure. (Exemple : un colis de 2,10kg à 2,49kg sera comptabilisé à 2,50kg ou encore un colis de 2,51kg à 2,99kg seracompté comme 3kg)
+                    ASSURANCE & INDEMNISATION EN CAS DE PERTE
+                    3 EN CAS DE SOUSCRIPTION A L'ASSURANCE
+                    - Aircolis rembourse la valeur déclarée du colis ainsi que les frais d'expédition payés
+                    - Indemnisation Ad Valorem : Selon la valeur déclarée (max 1000€), Si plus favorable pour le client : AirColis indemnise à hauteur de 21€/kg
+                    3 EN CAS DE NON SOUSCRIPTION A L'ASSURANCE
+                    - AirColis indemnise le client uniquement à hauteur de 21€/kg peut importe la valeur du colis.
 
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    Dans les deux cas, les frais d'expeditions sont déduits dans le montant à rembourser, si le client choisi le règlement à la livraison.
                 </div>
+
             </div>
-            
         </div>
     </div>
-</div>
-            <!-- End Tab Content Item -->
+<!-- End Tab Content Item -->
 </section>
 <!-- /Features Section -->
 
@@ -715,6 +764,38 @@
             alert("Les pays de départ et d'arrivée doivent être différents");
             event.preventDefault();
         }
+    });
+
+
+    // script Envois colis
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnParticul = document.getElementById('btnparticul');
+        const btnProfession = document.getElementById('btnprofession');
+        const formParticul = document.getElementById('formparticul');
+        const formProfession = document.getElementById('formprofession');
+
+        // Afficher le formulaire professionnel par défaut
+        formParticul.style.display = 'none';
+        formProfession.style.display = 'block';
+
+        btnParticul.addEventListener('click', function() {
+            formParticul.style.display = 'block';
+            formProfession.style.display = 'none';
+            btnParticul.classList.remove('btn-secondary');
+            btnParticul.classList.add('btn-primary');
+            btnProfession.classList.remove('btn-primary');
+            btnProfession.classList.add('btn-secondary');
+        });
+
+        btnProfession.addEventListener('click', function() {
+            formParticul.style.display = 'none';
+            formProfession.style.display = 'block';
+            btnProfession.classList.remove('btn-secondary');
+            btnProfession.classList.add('btn-primary');
+            formParticul.classList.remove('btn-primary');
+            formParticul.classList.add('btn-secondary');
+        });
     });
 </script>
 @endsection

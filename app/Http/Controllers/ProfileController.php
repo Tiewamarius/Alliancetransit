@@ -6,9 +6,12 @@ use Twilio\Rest\Client;
 use Exception;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Mail\postMail;
+use Illuminate\Support\Facades\Notification; 
+use App\Notifications\NouvelleExpedition;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\DevisColis;  
+use App\Models\DevisColis; 
+use Illuminate\Support\Facades\Storage ;
 use App\Models\DailyRendezVousCount;
 use App\Models\rendevous;
 use Carbon\Carbon;
@@ -67,6 +70,28 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+
+    // Fonction compte
+    public function compte(){
+        $user = Auth::user();
+
+        $expedNonTr = expeditions::where('expediteur_id', $user->code_unique)
+            ->where('status', 'NonTraité')->get();
+
+        $expedEncour = expeditions::where('expediteur_id', $user->code_unique)
+            ->where('status', 'encour')->get();
+
+        $nombre_aleatoire = (string)(random_int(10000, 99999));
+
+        $devis_colis = devisColis::latest()->get();
+        $code_suivi = 'SU-'. $nombre_aleatoire;
+
+        
+        $today = Carbon::today();
+        $dailyCount = DailyRendezVousCount::firstOrCreate(['date' => $today]);
+        $remaining = 30 - $dailyCount->count;
+        return view('Clients.Compte',compact('expedNonTr','expedEncour','code_suivi','devis_colis','remaining','dailyCount'));
+    }
 
     public function SuiviPage(){
         return view('Clients.SuiviPage');
@@ -179,36 +204,52 @@ class ProfileController extends Controller
 
 
         public function EnvoisColis(Request $request)
-    {
-        // Validation des données
-        $validatedData = $request->validate([
-            'expediteur_id' => 'nullable',
-            'nom_expediteur' => 'required',
-            'numero_expediteur' => 'required',
-            'email_expediteur' => 'nullable|email',
-            'adresse_expediteur' => 'nullable',
-            'destinataire_id' => 'nullable|exists:destinataires,id',
-            'nom_destinataire' => 'required',
-            'numero_destinataire' => 'required',
-            'email_destinataire' => 'nullable|email',
-            'adresse_destinataire' => 'nullable',
-            'numeroSuivi' => 'required',
-            'designation' => 'required',
-            'numeroConteneur' => 'nullable',
-            'typeService' => 'nullable',
-            'dateEnlev' => 'nullable|date',
-            'dateLivr' => 'nullable|date',
-            'montant_total' => 'required|numeric',
-            'montant_paye' => 'required|numeric',
-            'status' => 'required|in:encour,Non Livré,Livré',
-        ]);
-        // dd($validatedData);
-        $expedition = expeditions::create($validatedData);
-
-        // dd($expedition);
+        {
+            // Validation des données
+            $validatedData = $request->validate([
+                'particulier' => 'nullable',
+                'expediteur_id' => 'nullable',
+                'nom_expediteur' => 'required',
+                'numero_expediteur' => 'required',
+                'email_expediteur' => 'nullable|email',
+                'adresse_expediteur' => 'nullable',
+                'destinataire_id' => 'nullable|exists:destinataires,id',
+                'nom_destinataire' => 'required',
+                'numero_destinataire' => 'required',
+                'email_destinataire' => 'nullable|email',
+                'adresse_destinataire' => 'nullable',
+                'numeroSuivi' => 'required',
+                'designation' => 'required',
+                'numeroConteneur' => 'nullable',
+                'typeService' => 'nullable',
+                'dateEnlev' => 'nullable|date',
+                'dateLivr' => 'nullable|date',
+                'montant_total' => 'required|numeric',
+                'montant_paye' => 'required|numeric',
+                'status' => 'required|in:NonTraité,encour,Non Livré,Livré',
+                'image_colis' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
         
-            return redirect()->back()->with('success', 'Expédition supprimée avec succès.');
-
+            // Gestion de l'image du colis
+            if ($request->hasFile('image_colis')) {
+                $imagePath = $request->file('image_colis')->store('expeditions', 'public');
+                $validatedData['image_colis'] = $imagePath;
+            }
+        
+            // Création de l'expédition
+            $expedition = expeditions::create($validatedData);
+        
+            // Notification par email (si l'email du destinataire est fourni)
+            if ($expedition->email_destinataire) {
+                Notification::route('mail', $expedition->email_destinataire)
+                    ->notify(new NouvelleExpedition($expedition));
+            }
+        
+            // Message de succès avec Toastr
+            // Alert::success('Les données ont été enregistrées avec succès !', 'Succès');
+        
+            // Redirection avec message de succès
+            return redirect()->route('admin.dashboard')->with('success', 'Expédition enregistrée avec succès.');
         }
 
         // fonction Rendevous

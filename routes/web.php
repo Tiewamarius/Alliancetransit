@@ -20,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+
+    // Compte
+    
+    Route::get('/compte', [ProfileController::class, 'compte'])->name('compte');
+    
 // Suivi route
     Route::get('layouts/SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
 
