@@ -27,20 +27,20 @@
                     <div class="col-md-6">
                         <div class="form-floating">
                             <label for="floatingInputGrid">Nom Expediteur</label>
-                            <input type="text" name="nom_expediteur" class="form-control" id="floatingInputGrid" value="{{ Auth::user()->name }}">
+                            <input type="text" name="nom_expediteur" class="form-control" id="floatingInputGrid" value="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="telephone_client" class="form-label">Téléphone</label>
-                        <input type="tel" id="telephone_client" name="numero_expediteur" class="form-control" value="{{ Auth::user()->numero}}">
+                        <input type="tel" id="telephone_client" name="numero_expediteur" class="form-control" value="">
                     </div>
                     <div class="col-md-6">
                         <label for="email_client" name="email_expediteur" class="form-label">Email_expediteur</label>
-                        <input type="email" id="email_client" name="email" class="form-control" value="{{ Auth::user()->email}}">
+                        <input type="email" id="email_client" name="email" class="form-control" value="">
                     </div>
                     <div class="col-md-6">
                         <label for="adresse_client" name="adresse" class="form-label">Adresse_expediteur</label>
-                        <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" value="{{ Auth::user()->adresse}}">
+                        <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" value="">
                     </div>
                 </div>
             </div>

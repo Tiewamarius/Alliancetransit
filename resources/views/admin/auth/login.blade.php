@@ -14,7 +14,7 @@
                     <h4>CONNEXION</h4>
                 </div>
                 <div class="row mb-3">
-                    <input type="email" id="telephone_client" class="form-control" value="" placeholder="Adresse Email" name="email" placeholder="Password">
+                    <input type="email" id="telephone_client" class="form-control" value="" placeholder="Adresse Email" name="email" placeholder="Email">
                 </div>
                 <div class="row mb-3">
                     <input type="password" id="telephone_client" class="form-control" value="" placeholder="password":value="__('password')" name="password" placeholder="Password">

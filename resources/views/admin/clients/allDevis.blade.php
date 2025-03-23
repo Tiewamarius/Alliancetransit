@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($rendevouses as $devis)
+            @foreach($devis as $devis)
             <tr>
                 <td>{{ $devis->numero_suivi}}</td>
                 <td>{{ $devis->nom}}</td>

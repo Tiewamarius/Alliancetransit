@@ -9798,11 +9798,16 @@ a:focus {
   display: flex;
 }
 
-#wrapper #content-wrapper {
-  background-color: #f8f9fc;
+#wrapper{
+  background-image: url("../Admin/img/background1.jpg");
   width: 100%;
   overflow-x: hidden;
 }
+/* #wrapper #content-wrapper {
+  background-image: url("../Admin/img/background1.jpg");
+  width: 100%;
+  overflow-x: hidden;
+} */
 
 #wrapper #content-wrapper #content {
   flex: 1 0 auto;
