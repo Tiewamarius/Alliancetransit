@@ -8,8 +8,8 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{url('admin/dashboard')}}">
-        <img src="../Admin/img/Logo-remoteBg.png" height="60px">
-            <span>allianceTRANS</span></a>
+            <img src="../Admin/img/Logo.png" height="100px" width="200px">
+        </a>
     </li>
 
     <!-- Divider -->

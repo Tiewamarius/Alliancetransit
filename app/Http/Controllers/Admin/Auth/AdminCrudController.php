@@ -19,7 +19,13 @@ use Illuminate\Http\Request;
 // use App\Models\Admin;
 // use App\Models\User; Importez le modèle Admin
 // use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
+use Infobip\Configuration;
+use Infobip\ApiException;
+use Infobip\Model\SmsAdvancedTextualRequest;
+use Infobip\Model\SmsDestination;
+use Infobip\Api\SmsApi;
+use Infobip\Model\SmsTextualMessage;
+use Informagenie\OrangeSDK;//Orange sdk
 use function Termwind\render;
 
 class AdminCrudController extends Controller
@@ -220,15 +226,47 @@ public function search(Request $request)
             'image_colis' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        try {
+        $numero1=$request->input('numero_expediteur');
+            $numero2=$request->input('numero_destinataire');
+            $nomDest=$request->input('nom_destinataire');
+            $nSuivi=$request->input('numeroSuivi');
+        
             // Gestion de l'image du colis
             if ($request->hasFile('image_colis')) {
                 $imagePath = $request->file('image_colis')->store('expeditions', 'public');
                 $validatedData['image_colis'] = $imagePath;
             }
 
+            // SMS ORANGE
+                        $credentials = [
+                            'client_id' => 'nw0kfXdblx3J0kqEBxhEAPV0vIh8Xej4',
+                            'client_secret' => 'zc1LhLeZZmncCUVFDUcVf22a8p2Q3GOJn14idFJZi0i4'
+                        ];
+                    
+                        $version = 2.0; //per default 
+                    
+                        /*
+                        You can use directly authorization header instead of client_id and client_secret
+                        $credentials = [
+                            'authorization_header' => 'Basic bncwa2ZYZGJseDNKMGtxRUJ4aEVBUFYwdkloOFhlajQ6emMxTGhMZVpabW5jQ1VWRkRVY1ZmMjJhOHAyUTNHT0puMTRpZEZKWmkwaTQ=',
+                        ];
+                        */
+                    
+                        $sms = new OrangeSDK($credentials);
+                    
+                        $response = $sms->message("Bonjour Mme/Mr ".$nomDest.",
+                            Alliance Transit vous informe que la livraison de votre colis s'effectuera demain. 
+                            Nous vous rappelons que toutes personnes injoignables passera au dépôt récupérer son coli.
+                            Merci de prendre vos dispositions pour la bonne réception du colis.
+                            code de suivi:".$nSuivi.".", $version)
+                            ->from(2250718873222)       // Sender phone's number
+                            ->as('SMS 262017')      // Sender's name (optional)
+                            ->to($numero2)      // Recipiant phone's number
+                            ->send();
+                            dd($response);
+
             // Création de l'expédition
-            $expedition = expeditions::create($validatedData);
+            // $expedition = expeditions::create($validatedData);
 
             // Notification par email (si l'email du destinataire est fourni)
             if ($expedition->email_destinataire) {
@@ -236,29 +274,43 @@ public function search(Request $request)
                     ->notify(new NouvelleExpedition($expedition));
             }
 
-            $numero=$request->input('numero_destinataire');
-            // Envoi de SMS
-            $response = Http::get('https://panel.smsing.app/smsAPI', [
-                'sendsms' => '',
-                'apikey' => 'YFrqsDP1VP47xHQEVYZTlS6uBBELZler',
-                'apitoken' => '0YbR1742649869',
-                'type' => 'sms',
-                'from' => 'Alliance002',
-                'to' => $numero,
-                'text' => 'MY_MESSAGE',
-            ]);
-            dd($numero);
             
-            // echo $response->body();
+            // Envoi de SMS
+            $configuration = new Configuration(
+                host: 'jj2yev.api.infobip.com',
+                apiKey: '19341c28a2f0e189bd198a3cc835a937-78d1ec90-9ed4-46e2-bc9d-cfd01a7609a9'
+            );
 
-            // Redirection avec message de succès
-            return redirect()->route('admin.dashboard')->with('success', 'Expédition enregistrée avec succès.');
+            $sendSmsApi = new SmsApi(config: $configuration);
 
-        } catch (\Exception $e) {
-            Log::error('Erreur lors de l\'enregistrement de l\'expédition : ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Erreur lors de l\'enregistrement de l\'expédition.']);
+        $message = new SmsTextualMessage(
+            destinations: [
+                new SmsDestination( to: $numero2)
+            ],
+            from: 'Alliancetrans',
+            text:"Bonjour Mme/Mr ".$nomDest.",
+            Alliance Transit vous informe que la livraison de votre colis s'effectuera demain. 
+            Nous vous rappelons que toutes personnes injoignables passera au dépôt récupérer son coli.
+            Merci de prendre vos dispositions pour la bonne réception du colis.
+            code de suivi:".$nSuivi."."
+
+            
+        );
+
+        $request = new SmsAdvancedTextualRequest(messages: [$message]);
+
+        try {
+            $smsResponse = $sendSmsApi->sendSmsMessage($request);
+            return redirect()->route('admin.dashboard')->with('success','Sms envoyé');
+           
+        } catch (ApiException $apiException) {
+            return redirect()->route('admin.dashboard')->with('fail', $apiException->getMessage());
+            
         }
+            
+            
     }
+
 
     
     
@@ -682,33 +734,33 @@ public function storeCommand(Request $request)
             return view('admin.expediteurs.editExpediteur', ['expediteur' => $expediteur]);
         }
 
-            // Update expediteur
-    //         public function updateExpediteur(Request $request, $id)
-    //         {
-    //         // Validation des données du formulaire
-    //         $request->validate([
-    //             'nom_expediteur' => 'required|string|max:255',
-    //             'prenom_expediteur' => 'nullable|string|max:255',
-    //             'numero_expediteur' => 'required|string|max:20',
-    //             'email_expediteur' => 'required|email|max:255',
-    //             'adresse_expediteur' => 'required|string|max:255',
-    //         ]);
+        // Update expediteur
+            //         public function updateExpediteur(Request $request, $id)
+            //         {
+            //         // Validation des données du formulaire
+            //         $request->validate([
+            //             'nom_expediteur' => 'required|string|max:255',
+            //             'prenom_expediteur' => 'nullable|string|max:255',
+            //             'numero_expediteur' => 'required|string|max:20',
+            //             'email_expediteur' => 'required|email|max:255',
+            //             'adresse_expediteur' => 'required|string|max:255',
+            //         ]);
 
-    //         // Récupérer le expediteur par son ID
-    //         $expediteur = expediteur::findOrFail($id);
+            //         // Récupérer le expediteur par son ID
+            //         $expediteur = expediteur::findOrFail($id);
 
-    //         // Mettre à jour les données du expedieteur
-    //         $expediteur->nom_expediteur = $request->input('nom_expediteur');
-    //         $expediteur->prenom_expediteur = $request->input('prenom_expediteur');
-    //         $expediteur->numero_expediteur = $request->input('numero_expediteur');
-    //         $expediteur->email_expediteur = $request->input('email_expediteur');
-    //         $expediteur->adresse_expediteur = $request->input('adresse_expediteur');
-    //         $expediteur->save();
+            //         // Mettre à jour les données du expedieteur
+            //         $expediteur->nom_expediteur = $request->input('nom_expediteur');
+            //         $expediteur->prenom_expediteur = $request->input('prenom_expediteur');
+            //         $expediteur->numero_expediteur = $request->input('numero_expediteur');
+            //         $expediteur->email_expediteur = $request->input('email_expediteur');
+            //         $expediteur->adresse_expediteur = $request->input('adresse_expediteur');
+            //         $expediteur->save();
 
-    //         // Rediriger avec un message de succès
-    //         return redirect()->route('admin.expediteur')->with('success', '_expediteur mis à jour avec succès.');
-        
-    // }
+            //         // Rediriger avec un message de succès
+            //         return redirect()->route('admin.expediteur')->with('success', '_expediteur mis à jour avec succès.');
+                
+            // }
 
 
 

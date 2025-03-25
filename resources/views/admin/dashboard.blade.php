@@ -90,7 +90,22 @@
                 </div>
             </div>
         </div>
-
+            @if(Session::has('success'))
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                <div>
+                    {{Session::get('success')}}
+                </div>
+            </div>
+            @endif
+            @if(Session::has('fail'))
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                <div>
+                    {{Session::get('fail')}}
+                </div>
+            </div>
+            @endif
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h3 class="h3 mb-0 text-gray-800">TABLEAU DES EXPEDITIONS</h3>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">

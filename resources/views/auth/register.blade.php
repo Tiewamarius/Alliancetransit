@@ -22,8 +22,7 @@
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                     <h4>INSCRIPTION</h4>
                 </div>
-                {{$code_unique}}
-                <input type="hiden" name="code_unique" value="{{$code_unique}}">
+                <input type="hiden" name="code_unique" value="{{$code_unique}}" style="display: none;">
                 
                 <div class="row mb-3">
                     <input type="text" style="height:40px;"  class="form-control"  value="" placeholder="Nom & Prenoms(ou Username)"  name="name">

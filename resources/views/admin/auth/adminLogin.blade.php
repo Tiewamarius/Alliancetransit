@@ -1,164 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<!-- Coding by CodingNepal | www.codingnepalweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Login and Registration Form in HTML & CSS | CodingLab </title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
   <!-- Design by foolishdeveloper.com -->
-    <title>Glassmorphism login Form Tutorial in html css</title>
- 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
+   <!--Stylesheet-->
     <style media="screen">
-      *,
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+    /* Google Font Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-body{
-    background-color:rgb(58, 190, 238);
-}
-#wrapper #content-wrapper {
-  background-image: url("../Admin/img/background1.jpg");
-  width: 100%;
-  overflow-x: hidden;
-}
-.background{
-    width: 430px;
-    height: 520px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
-}
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-.shape:first-child{
-    background: linear-gradient(
-        #1845ad,
-        #23a2f6
-    );
-    left: -80px;
-    top: -80px;
-}
-.shape:last-child{
-    background: linear-gradient(
-        to right,
-        #ff512f,
-        #f09819
-    );
-    right: -30px;
-    bottom: -80px;
-}
-form{
-    height: 520px;
-    width: 400px;
-    background-color: rgba(255,255,255,0.13);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
-}
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-}
-form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
-}
-
-label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-}
-input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-::placeholder{
-    color: #e5e5e5;
-}
-button{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.social{
-  margin-top: 30px;
+body {
+  min-height: 100vh;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6bc4f4;
+  padding: 30px;
 }
-.social div{
-  background: red;
-  width: 150px;
-  border-radius: 3px;
-  padding: 5px 10px 10px 5px;
-  background-color: rgba(255,255,255,0.27);
-  color: #eaf0fb;
+.container {
+    border-radius: 8px;
+  position: relative;
+  max-width: 850px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  perspective: 2700px;
+}
+.container .cover {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 50%;
+  z-index: 98;
+  transition: all 1s ease;
+  transform-origin: left;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.container #flip:checked ~ .cover {
+  transform: rotateY(-180deg);
+}
+.container #flip:checked ~ .forms .login-form {
+  pointer-events: none;
+}
+.container .cover .front,
+.container .cover .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.cover .back {
+  transform: rotateY(180deg);
+}
+.container .cover img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 10;
+}
+.container .cover .text {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.container .cover .text::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  background: #6bc4f4;
+}
+.cover .text .text-1,
+.cover .text .text-2 {
+  z-index: 20;
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
   text-align: center;
 }
-.social div:hover{
-  background-color: rgba(255,255,255,0.47);
+.cover .text .text-2 {
+  font-size: 15px;
+  font-weight: 500;
 }
-.social .fb{
-  margin-left: 25px;
+.container .forms {
+  height: 100%;
+  width: 100%;
+  background: #fff;
 }
-.social i{
-  margin-right: 4px;
+.container .form-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
-    </style>
+.form-content .login-form,
+.form-content .signup-form {
+  width: calc(100% / 2 - 25px);
+}
+.forms .form-content .title {
+  position: relative;
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+}
+.forms .form-content .title:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 25px;
+  background:#6bc4f4;
+}
+.forms .signup-form .title:before {
+  width: 17px;
+}
+.forms .form-content .input-boxes {
+  margin-top: 30px;
+}
+.forms .form-content .input-box {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  width: 100%;
+  margin: 10px 0;
+  position: relative;
+}
+.form-content .input-box input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  padding: 0 25px;
+  font-size: 13px;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.form-content .input-box input:focus,
+.form-content .input-box input:valid {
+  border-color: #6bc4f4;
+}
+.form-content .input-box i {
+  position: absolute;
+  color: #6bc4f4;
+  font-size: 17px;
+}
+.forms .form-content .text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+.forms .form-content .text a {
+  text-decoration: none;
+}
+.forms .form-content .text a:hover {
+  text-decoration: underline;
+}
+.forms .form-content .button {
+  color: #fff;
+  margin-top: 40px;
+}
+.forms .form-content .button input {
+  color: #fff;
+  background: #6bc4f4;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.forms .form-content .button input:hover {
+  background:#253af2;
+}
+.forms .form-content label {
+  color: #253af2;
+  cursor: pointer;
+}
+.forms .form-content label:hover {
+  text-decoration: underline;
+}
+.forms .form-content .login-text,
+.forms .form-content .sign-up-text {
+  text-align: center;
+  margin-top: 25px;
+}
+.container #flip {
+  display: none;
+}
+@media (max-width: 730px) {
+  .container .cover {
+    display: none;
+  }
+  .form-content .login-form,
+  .form-content .signup-form {
+    width: 100%;
+  }
+  .form-content .signup-form {
+    display: none;
+  }
+  .container #flip:checked ~ .forms .signup-form {
+    display: block;
+  }
+  .container #flip:checked ~ .forms .login-form {
+    display: none;
+  }
+}
+</style>
 </head>
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <form method="POST" action="{{ route('admin.adminLogin') }}" class="user">
-        @csrf
-        <h3>Login Here</h3>
-
-        <label for="username">Adresse Email</label>
-        <input type="email" placeholder="Email"  name="email"  id="username">
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="password":value="__('password')" name="password"id="password">
-
-        <button type="submit">Log In</button>
-        <div class="social">
-          <div class="go"><i class="fab fa-google"></i>  Google</div>
-          <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+    <div class="container">
+    <input type="checkbox" id="flip">
+    <div class="cover">
+      <div class="front">
+        <img src="../Admin/img/frontImg.jpg" alt="">
+        <div class="text">
+          <span class="text-1">Every new friend is a <br> new adventure</span>
+          <span class="text-2">Let's get connected</span>
         </div>
-    </form>
+      </div>
+      <div class="back">
+        <img class="backImg" src="../Admin/img/backImg.jpg" alt="">
+        <div class="text">
+          <span class="text-1">Complete miles of journey <br> with one step</span>
+          <span class="text-2">Let's get started</span>
+        </div>
+      </div>
+    </div>
+    <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+            <div class="title">Connexion</div>
+          <form method="POST" action="{{ route('admin.adminLogin') }}" class="user">
+            @csrf
+          <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email"  name="email"  id="username">
+              </div>
+              <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="password":value="__('password')" name="password"id="password">
+              </div>
+              <div class="text"><a href="#">password?</a></div>
+              <div class="button input-box">
+                <input type="submit" value="Sumbit">
+              </div>
+              <div class="text sign-up-text">Pas de Compte? <label for="flip">Creer maintenant</label></div>
+            </div>
+        </form>
+      </div>
+      @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+        <div class="signup-form">
+          <div class="title">S'inscrire'</div>
+        <form  method="POST" action="{{ route('admin.register') }}" class="user">
+            @csrf
+            <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-user"></i>
+                <input type="hiden" name="code_unique" value="{{$code_unique}}" style="display:none;" >
+                <input type="text" placeholder="Enter your name" value="" name="name" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Enter your email"value="" name="email" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-phone"></i>
+                <input type="tel" placeholder="Enter your number"value="" name="numero" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-gps"></i>
+                <input type="text" placeholder="Adresse"value="" name="adresse" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="password" placeholder="Enter your password"value=""  name="password" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="confirmé password"value=""  name="password_confirmation" required>
+              </div>
+              <div class="button input-box">
+                <input type="submit" value="Sumbit">
+              </div>
+              <div class="text sign-up-text">Deja inscrit? <label for="flip">Connectez-Vous</label></div>
+            </div>
+      </form>
+    </div>
+    </div>
+    </div>
+  </div>
 </body>
 </html>

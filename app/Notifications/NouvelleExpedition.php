@@ -28,12 +28,13 @@ class NouvelleExpedition extends Notification
     {
         return (new MailMessage)
             ->subject('Nouvelle expédition enregistrée')
-            ->line('Une nouvelle expédition a été enregistrée :')
-            ->line('Numéro de suivi : ' . $this->expedition->numeroSuivi)
-            ->line('Désignation : ' . $this->expedition->designation)
-            ->line('Montant total : ' . $this->expedition->montant_total)
-            ->action('Voir l\'expédition', url('/admin/expeditions/' . $this->expedition->id)) // Adaptez l'URL
-            ->line('Merci d\'utiliser notre application !');
+            ->line("Bonjour Mme/Mr ". $this->expedition->nom_destinataire.",
+            Alliance Transit vous informe que la livraison de votre colis s'effectuera demain. 
+            Nous vous rappelons que toutes personnes injoignables passera au dépôt récupérer son coli.
+            Merci de prendre vos dispositions pour la bonne réception du colis.
+            code de suivi:". $this->expedition->numeroSuivi.".");
+            // ->action('Voir l\'expédition', url('/admin/expeditions/' . $this->expedition->id)) // Adaptez l'URL
+            
     }
 
     public function toArray($notifiable)

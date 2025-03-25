@@ -1,11 +1,11 @@
 <header id="header" class="header d-flex align-items-center fixed-top" style="background-color:hsl(189, 48.70%, 92.40%);">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="{{url('/')}}" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
+      <a href="{{url('/')}}">
+        <!-- Uncomment the line below if you also wish to use an image logo  class="logo d-flex align-items-center me-auto" -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <img src="clients/assets/img/Logo.jpg" alt="" data-aos="fade-in">
-        <h5 style="color:#1797ff;">Alliance</br>Transit</h5>
+        <img src="clients/assets/img/LogoPng.png" height="80px" data-aos="fade-in">
+        
       </a>
 
       <nav id="navmenu" class="navmenu">
