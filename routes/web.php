@@ -7,9 +7,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('layouts/SuiviPage', function () {
-//     return view('SuiviPage');
-// });
+Route::get('/SuiviPage', function () {
+    return view('Clients.SuiviPage');
+});
+// Suivi route without auth
+Route::get(' /SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
+
+Route::get('/search', [ProfileController::class, 'search'])->name('search');
+
+
+Route::post('/contact', [ProfileController::class, 'sendContactForm'])->name('contact.send');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -26,10 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/compte', [ProfileController::class, 'compte'])->name('compte');
     
 // Suivi route
-    Route::get('layouts/SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
+    // Route::get(' /SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
 
+    // Route::get('/search', [ProfileController::class, 'search'])->name('search');
     // Envoi route
-    Route::get('layouts/Envois', [ProfileController::class, 'Envois'])->name('Envois');
+    Route::get('/Envois', [ProfileController::class, 'Envois'])->name('Envois');
     
     // Devis
     Route::post('/DemandDevis', [ProfileController::class, 'DemandDevis'])->name('DemandDevis');

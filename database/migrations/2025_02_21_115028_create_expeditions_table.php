@@ -32,7 +32,8 @@ return new class extends Migration
             $table->dateTime('dateLivr')->nullable();
             $table->decimal('montant_total', 8, 2)->default(0); // Définir l'ordre ici
             $table->decimal('montant_paye', 8, 2)->default(0); // Définir l'ordre ici
-            $table->enum('status', ['NonTraité','encour', 'Non Livré', 'Livré']);
+            $table->decimal('montant_verse', 10, 2)->default(0); // Ajoute la colonne montant_verse
+            $table->enum('status', ['Non Traité','Encour','Arrivé', 'Depot','Non Livré', 'Livré']);
             $table->boolean('marque')->default(false);
             $table->string('image_colis')->nullable(); // Ajout de la colonne image_colis
             $table->timestamps();
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->dropColumn('marque');
             $table->dropColumn('image_colis'); // Suppression de la colonne image_colis
             $table->dropColumn(['montant_total', 'montant_paye']);
+            $table->dropColumn('montant_verse'); // Supprime la colonne montant_verse
         });
         Schema::dropIfExists('expeditions');
     }

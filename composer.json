@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.2",
         "brian2694/laravel-toastr": "^5.59",
-        "guzzlehttp/guzzle": "^7.9",
+        "guzzlehttp/guzzle": "*",
         "infobip/infobip-api-php-client": "5.0.0",
         "informagenie/orange-sms": "^1.4",
         "ismaeltoe/osms": "^2.0",

@@ -8,7 +8,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{url('admin/dashboard')}}">
-            <img src="../Admin/img/Logo.png" height="100px" width="200px">
+            <img src="../Admin/img/Logo.png" height="70px" width="100px" title="Logo de l'entreprise" >
         </a>
     </li>
 
@@ -33,7 +33,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="{{url('admin/mission')}}">CREER UN ENVOI</a>
-                <a class="collapse-item" href="#">DEVIS DEMANDER</a>
+                <a class="collapse-item" href="{{url('admin/allDevis')}}">DEVIS DEMANDEE</a>
             </div>
         </div>
     </li>

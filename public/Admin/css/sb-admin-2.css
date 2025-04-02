@@ -9799,7 +9799,7 @@ a:focus {
 }
 
 #wrapper{
-  background-image: url("../Admin/img/background1.jpg");
+  background-image: url("../Admin/img/background1.jpg") !important;
   width: 100%;
   overflow-x: hidden;
 }

@@ -1,7 +1,20 @@
 @extends('layouts.admin')
 @section('title','EnvoiColis')
 @section('content')
-
+<style>
+    h4{
+        color:blue;
+    }
+    label{
+        color:black;
+        font-weight: 400;
+    }
+    .form-control{
+        border: 1px solid blue;
+        color:black;
+        font-weight:800;
+    }
+</style>
 <div class="container mt-4">
     <h2>Créer une expédition</h2>
     @if ($errors->any())
@@ -23,7 +36,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
-                <input type="hiden" name="expediteur_id" class="form-control" value="{{ Auth::user()->code_unique}}">
+                <input type="hiden" name="expediteur_id" class="form-control" value="{{ Auth::user()->code_unique}}"  style="display: none;" >
                     <div class="col-md-6">
                         <div class="form-floating">
                             <label for="floatingInputGrid">Nom Expediteur</label>
@@ -35,11 +48,11 @@
                         <input type="tel" id="telephone_client" name="numero_expediteur" class="form-control" value="">
                     </div>
                     <div class="col-md-6">
-                        <label for="email_client" name="email_expediteur" class="form-label">Email_expediteur</label>
-                        <input type="email" id="email_client" name="email" class="form-control" value="">
+                        <label for="email_client" class="form-label">Email_expediteur</label>
+                        <input type="email" id="email_client" name="email_expediteur" class="form-control" value="">
                     </div>
                     <div class="col-md-6">
-                        <label for="adresse_client" name="adresse" class="form-label">Adresse_expediteur</label>
+                        <label for="adresse_client" class="form-label">Adresse_expediteur</label>
                         <input type="text" id="adresse_client" name="adresse_expediteur" class="form-control" value="">
                     </div>
                 </div>
@@ -80,7 +93,7 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="nom_client" class="form-label">Code de suivi</label>
-                        <input type="text" id="nom_client" name="numeroSuivi" value="{{$code_suivi}}" class="form-control"  >
+                        <input type="text" readonly id="nom_client" name="numeroSuivi" value="{{$code_suivi}}" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label for="prenom_client" class="form-label">Desigation</label>
@@ -119,7 +132,9 @@
                     <div  class="col-md-6">
                         <br><label for="statut" class="form-label">STATUS D'EXP.</label>
                         <select name="status" id="status">
-                            <option value="encour" {{ old('status') == 'encour' ? 'selected' : '' }}>Encours</option>
+                            <option value="Encour" {{ old('status') == 'Encour' ? 'selected' : '' }}>Encour</option>
+                            <option value="Arrivé" {{ old('status') == 'Arrivé' ? 'selected' : '' }}>Arrivé</option>
+                            <option value="Depot" {{ old('status') == 'Depot' ? 'selected' : '' }}>Depot</option>
                             <option value="Non Livré" {{ old('status') == "Non Livré" ? 'selected' : '' }}>Non Livré</option>
                             <option value="Livré" {{ old('status') == 'Livré' ? 'selected' : '' }}>Livré</option>
                         </select>

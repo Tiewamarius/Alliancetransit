@@ -1,43 +1,40 @@
 @extends('layouts.Client')
 @section('content')
-<!-- <section id="hero" class="hero section dark-background">
-
-<img src="clients/assets/img/Home.jpg" alt="" data-aos="fade-in"> -->
-
-
+<br><br><br><br>
 <style>
     body {
-        /* font-family: sans-serif;
-    margin: 0;
-    padding: 0; */
         background-image: url("clients/assets/img/Bckg.png");
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: cover; /* Cover to fill the entire viewport */
+        background-position: center; /* Center the background image */
     }
 
-    .container {
-        margin-top: 20px;
-        /* Réduction de la marge pour les petits écrans */
+    
+    th {
+                white-space: nowrap;
+            }
+    .containerr {
         display: flex;
-        flex-direction: column;
-        /* Passage en colonne pour les petits écrans */
+        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        margin: 20px auto; /* Center the container */
+        width: 100%; /* Limit container width for larger screens */
     }
 
     .sidebar {
-        border: 1px solid #666;
-        width: 100%;
-        /* Pleine largeur sur les petits écrans */
+        flex: 0 0 250px; /* Fixed width for sidebar */
         background-color: #fff;
-        padding: 10px;
-        /* Réduction du padding */
+        border: 1px solid #ddd;
+        padding: 20px;
+        box-sizing: border-box; /* Include padding in width calculation */
     }
 
     .sidebar-item {
         display: flex;
         align-items: center;
-        padding: 8px;
-        /* Réduction du padding */
+        padding: 10px;
         cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 5px;
     }
 
     .sidebar-item i {
@@ -51,53 +48,44 @@
     }
 
     .sidebar-item.manage {
-        margin-top: 10px;
-        /* Réduction de la marge */
-        padding: 8px;
-        /* Réduction du padding */
+        margin-top: 15px;
+        padding: 10px;
         border-top: 1px solid #eee;
         cursor: pointer;
     }
 
-    .content {
-        width: 100%;
-        /* Pleine largeur sur les petits écrans */
-        padding: 10px;
-        /* Réduction du padding */
+    .contentt {
+        flex: 1 1 auto; /* Allow content to grow and shrink */
+        width: 778px;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        box-sizing: border-box; /* Include padding in width calculation */
     }
 
     .content-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
-        /* Réduction de la marge */
-        flex-direction: column;
-        /* Passage en colonne pour les petits écrans */
-        align-items: flex-start;
-        /* Alignement à gauche pour les petits écrans */
+        margin-bottom: 20px;
+        flex-wrap: wrap; /* Allow header items to wrap */
     }
 
     .content-header h2 {
-        margin-bottom: 5px;
-        /* Ajout d'une petite marge */
+        margin-bottom: 10px;
     }
 
     .tabs {
         display: flex;
         flex-wrap: wrap;
-        /* Permet aux onglets de passer à la ligne */
     }
 
     .tab {
-        padding: 8px 15px;
-        /* Réduction du padding */
+        padding: 10px 20px;
         border: 1px solid #ddd;
         border-radius: 5px 5px 0 0;
         margin-right: 5px;
-        /* Réduction de la marge */
         margin-bottom: 5px;
-        /* Ajout d'une petite marge */
         cursor: pointer;
     }
 
@@ -107,186 +95,108 @@
     }
 
     .order {
-        display: flex;
-        flex-direction: column;
-        /* Passage en colonne pour les petits écrans */
-        background-color: #fff;
-        padding: 10px;
-        /* Réduction du padding */
-        margin-bottom: 10px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        margin-bottom: 15px;
         border-radius: 5px;
+        overflow-x: auto; /* Enable horizontal scrolling for tables */
     }
 
-    .order-image {
-        width: 100%;
-        /* Pleine largeur sur les petits écrans */
-        margin-right: 0;
-        /* Suppression de la marge */
-        margin-bottom: 10px;
-        /* Ajout d'une marge */
-    }
-
-    .order-image img {
-        width: 100%;
-    }
-
-    .order-details {
-        width: 100%;
-        /* Pleine largeur sur les petits écrans */
-    }
-
-    .order-title {
-        font-weight: bold;
-        margin-bottom: 3px;
-        /* Réduction de la marge */
-    }
-
-    .order-id,
-    .order-size,
-    .order-date {
-        font-size: 12px;
-        /* Réduction de la taille de police */
-        color: #666;
-        margin-bottom: 2px;
-        /* Réduction de la marge */
-    }
-
-    .order-status {
-        background-color: #d4edda;
-        color: rgb(31, 228, 77);
-        padding: 3px 8px;
-        /* Réduction du padding */
-        border-radius: 3px;
-        font-size: 10px;
-        /* Réduction de la taille de police */
-        font-weight: bold;
-        display: inline-block;
-    }
-
-    .order-status.delivered {
-        background-color: #d4edda;
-        color: #155724;
-    }
-
-    .order-actions {
-        display: flex;
-        justify-content: flex-end;
-        /* Alignement à droite */
-        margin-top: 10px;
-        /* Ajout d'une marge */
-    }
-
-    .content-section {
-        display: block;
-    }
-
-    /* Requêtes média pour les écrans plus larges */
-    @media (min-width: 768px) {
-        .container {
-            flex-direction: row;
-            /* Retour à la disposition en ligne */
-            margin-top: 100px;
-        }
-
-        .sidebar {
-            width: 260px;
-            /* Retour à la largeur initiale */
-            padding: 20px;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .content-header {
-            flex-direction: row;
-            /* Retour à la disposition en ligne */
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .order {
-            flex-direction: row;
-            /* Retour à la disposition en ligne */
-        }
-
-        .order-image {
-            width: 100px;
-            /* Retour à la largeur initiale */
-            margin-right: 20px;
-            margin-bottom: 0;
-        }
-
-        .order-details {
-            width: auto;
-            /* Retour à la largeur automatique */
-        }
-    }
-
-    /* Style Facture */
-    body {
-        /* font-family: sans-serif;
-    margin: 0;
-    padding: 20px; */
-    }
-
-    .facture {
-        width: 100%;
-        /* margin: 0 auto; */
-        border: 1px solid #ddd;
-        padding: 10px;
-    }
-
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        /* margin-bottom: 20px; */
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .infos-entreprise p {
-        margin: 5px 0;
-    }
-
-    .infos-client {
-        margin-bottom: 5px;
-    }
-
-    .details-facture table {
+    .order table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .details-facture th,
-    .details-facture td {
+    .order th, .order td {
         border: 1px solid #ddd;
-        padding: 3px;
+        padding: 8px;
         text-align: left;
     }
 
-    .details-facture th {
+    .order th {
         background-color: #f0f0f0;
     }
 
-    .details-facture tfoot td {
+    .order-status {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    /* Facture Styles */
+    .facture {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .facture header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .facture .infos-client {
+        margin-bottom: 15px;
+    }
+
+    .facture table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .facture th, .facture td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .facture th {
+        background-color: #f0f0f0;
+    }
+
+    .facture tfoot td {
         text-align: right;
     }
 
-    footer {
-        text-align: center;
-        margin-top: 5px;
-        border-top: 1px solid #ddd;
-        padding-top: 5px;
-    }
+    /* Responsive Adjustments */
+            @media (max-width: 800px) {
+                .sidebar {
+                    flex: 0 0 100%; /* Full width on small screens */
+                    margin-bottom: 15px;
+                }
 
-    /* End style Facture */
+                .contentt {
+            flex: 1 1 auto; /* Permet au contenu de grandir et de rétrécir */
+        }
+
+        /* Media query pour les écrans de tablettes (par exemple, jusqu'à 768px) */
+        @media (max-width: 800px) {
+            .contentt {
+                flex: 0 0 100%; /* Full width sur les tablettes */
+            }
+        }
+
+        /* Media query pour les écrans de smartphones (par exemple, jusqu'à 480px) */
+        @media (max-width: 200px) {
+            .contentt {
+                flex: 0 0 100%; /* Full width sur les smartphones */
+            }
+        }
+
+        .content-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
 </style>
-<div class="container">
+
+<div class="containerr">
     <aside class="sidebar">
         <div class="sidebar-item active" data-content="compte">
             <i class="bi bi-person-check"></i> Votre compte
@@ -298,7 +208,7 @@
             <i class="bi bi-cash-coin"></i> Factures
         </div>
         <div class="sidebar-item" data-content="rendezvous">
-            <i class="bi bi-calendar3"></i>Rendez-Vous
+            <i class="bi bi-calendar3"></i> Rendez-Vous
         </div>
         <div class="sidebar-item" data-content="aide">
             <i class="bi bi-info-circle"></i> Aide / Support
@@ -310,119 +220,169 @@
             Gérez votre Compte
         </div>
     </aside>
-    <main class="content">
+    <main class="contentt">
         <div id="compte" class="content-section">
             <h2>Votre compte</h2>
-            <p>Informations du compte...</p>
+            <p><strong>Nom :</strong> {{ Auth::user()->name }}</p>
+            <p><strong>Adresse :</strong> {{ Auth::user()->adresse }}</p>
+            <p><strong>Téléphone :</strong> {{ Auth::user()->numero }}</p>
+            <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
         </div>
         <div id="colis" class="content-section" style="display: none;">
             <div class="content-header">
                 <h2>Mes colis</h2>
                 <div class="tabs">
-                    <div class="tab active" data-tab="en-cours">En cour/Livrés</div>
-                    <div class="tab" data-tab="annulees">En Stock</div>
+                    <div class="tab active" data-tab="Non-traite">Non Traité</div>
+                    <div class="tab" data-tab="En-cours">En cours</div>
+                    <div class="tab" data-tab="Arr-Depot">Arrivés/Depots</div>
+                    <div class="tab" data-tab="Livre">Livrés</div>
                 </div>
             </div>
-            <div class="order" data-tab="en-cours">
+            <div class="order " data-tab="Non-traite">
                 <div class="table-data">
-                    <div style="overflow-x: auto;">
-                        <table class="table table-striped" id="expeditionsTable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>N° suivi</th>
-                                    <th style="color:black;text-align:center;">status</th>
-                                    <th style="color:black">prix</th>
-                                    <th>date d'enlevements</th>
-                                    <th>N° conteneurs</th>
-                                    <th>design-Colis</th>
-                                    <th>date-Livr</th>
-                                    <th>remarque</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($expedNonTr as $expedition)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $expedition->numeroSuivi}}</td>
-                                    <td>{{ $expedition->status}}</td>
-                                    <td>{{ $expedition->montant_total}}</td>
-                                    <td>{{ $expedition->dateEnlev}}</td>
-                                    <td>{{ $expedition->conteneurs}}</td>
-                                    <td>{{ $expedition->designation}}</td>
-                                    <td>{{ $expedition->dateLivr}}</td>
-                                    <td>{{ $expedition->typeService}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div style="overflow-x: auto;">
+            
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N° suivi</th>
+                                <th>Status</th>
+                                <th>à Payer</th>
+                                <th>Date d'enlèvement</th>
+                                <th>N° conteneurs</th>
+                                <th>Designation</th>
+                                <th>Date livraison</th>
+                                <th>Remarque</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($expedNonTr as $expedNonT)
+                            <tr>
+                                <td>{{ $expedNonT->numeroSuivi }}</td>
+                                <td>{{ $expedNonT->status }}</td>
+                                <td>{{ $expedNonT->montant_total }}</td>
+                                <td>{{ $expedNonT->dateEnlev }}</td>
+                                <td>{{ $expedNonT->conteneur }}</td>
+                                <td>{{ $expedNonT->designation }}</td>
+                                <td>{{ $expedNonT->dateLivr }}</td>
+                                <td>{{ $expedNonT->typeService }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </div>
-            <div class="order" data-tab="annulees" style="display: none;">
-                <div class="table-data">
-                    <div style="overflow-x: auto;">
-                        <table class="table table-striped" id="expeditionsTable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>N° suivi</th>
-                                    <th style="color:black;text-align:center;">status</th>
-                                    <th style="color:black">prix</th>
-                                    <th>date d'enlevements</th>
-                                    <th>N° conteneurs</th>
-                                    <th>design-Colis</th>
-                                    <th>date-Livr</th>
-                                    <th>remarque</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($expedEncour as $expedition)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $expedition->numeroSuivi}}</td>
-                                    <td>{{ $expedition->status}}</td>
-                                    <td>{{ $expedition->montant_total}}</td>
-                                    <td>{{ $expedition->dateEnlev}}</td>
-                                    <td>{{ $expedition->conteneurs}}</td>
-                                    <td>{{ $expedition->designation}}</td>
-                                    <td>{{ $expedition->dateLivr}}</td>
-                                    <td>{{ $expedition->typeService}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="order" data-tab="En-cours" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° suivi</th>
+                            <th>Status</th>
+                            <th>à Payer</th>
+                            <th>Date d'enlèvement</th>
+                            <th>N° conteneurs</th>
+                            <th>Designation</th>
+                            <th>Date livraison</th>
+                            <th>Remarque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($expedEncour as $expeditionEncourr)
+                        <tr>
+                            <td>{{ $expeditionEncourr->numeroSuivi }}</td>
+                            <td>{{ $expeditionEncourr->status }}</td>
+                            <td>{{ $expeditionEncourr->montant_total - $expeditionEncourr->montant_paye }}</td>
+                            <td>{{ $expeditionEncourr->dateEnlev }}</td>
+                            <td>{{ $expeditionEncourr->conteneurs }}</td>
+                            <td>{{ $expeditionEncourr->designation }}</td>
+                            <td>{{ $expeditionEncourr->dateLivr }}</td>
+                            <td>{{ $expeditionEncourr->typeService }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="order" data-tab="Arr-Depot" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° suivi</th>
+                            <th>Status</th>
+                            <th>à Payer</th>
+                            <th>Date d'enlèvement</th>
+                            <th>N° conteneurs</th>
+                            <th>Designation</th>
+                            <th>Date livraison</th>
+                            <th>Remarque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($expedDepot_Arriv as $expedDepot_Arr)
+                        <tr>
+                            <td>{{ $expedDepot_Arr->numeroSuivi }}</td>
+                            <td>{{ $expedDepot_Arr->status }}</td>
+                            <td>{{ $expedDepot_Arr->montant_total - $expedDepot_Arr->montant_paye }}</td>
+                            <td>{{ $expedDepot_Arr->dateEnlev }}</td>
+                            <td>{{ $expedDepot_Arr->conteneurs }}</td>
+                            <td>{{ $expedDepot_Arr->designation }}</td>
+                            <td>{{ $expedDepot_Arr->dateLivr }}</td>
+                            <td>{{ $expedDepot_Arr->typeService }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="order" data-tab="Livre" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° suivi</th>
+                            <th>Status</th>
+                            <th>à Payer</th>
+                            <th>Date d'enlèvement</th>
+                            <th>N° conteneurs</th>
+                            <th>Designation</th>
+                            <th>Date livraison</th>
+                            <th>Remarque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($expedLivre as $expedLivr)
+                        <tr>
+                            <td>{{ $expedLivr->numeroSuivi }}</td>
+                            <td>{{ $expedLivr->status }}</td>
+                            <td>{{ $expedLivr->montant_total }}</td>
+                            <td>{{ $expedLivr->dateEnlev }}</td>
+                            <td>{{ $expedLivr->conteneurs }}</td>
+                            <td>{{ $expedLivr->designation }}</td>
+                            <td>{{ $expedLivr->dateLivr }}</td>
+                            <td>{{ $expedLivr->typeService }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- Facture -->
-        <!-- <div id="factures" class="content-section" style="display: none;">
-            <h2>Factures</h2>
-
+        <div id="factures" class="content-section" style="display: none;">
+            <h3>Factures</h3>
             <div class="facture">
-                <header>
-                    <div class="logo">
-                        Votre Logo
-                    </div>
+                <!-- <header>
+                    <div class="logo">Votre Logo</div>
                     <div class="infos-entreprise">
                         <p>Votre Entreprise</p>
                         <p>Adresse</p>
                         <p>Téléphone : 01 23 45 67 89</p>
                         <p>Email : contact@votreentreprise.com</p>
                     </div>
-                </header>
-
-                <section class="infos-client">
+                </header> -->
+                <!-- <section class="infos-client">
                     <h2>Facture N° 12345</h2>
                     <p>Date : 2023-10-27</p>
                     <p>Client : Nom du Client</p>
                     <p>Adresse : Adresse du Client</p>
-                </section>
-
-                <section class="details-facture">
+                </section> -->
+                <!-- <section class="details-facture">
                     <table>
                         <thead>
                             <tr>
@@ -461,52 +421,45 @@
                             </tr>
                         </tfoot>
                     </table>
-                </section>
-
+                </section> -->
                 <footer>
                     <p>Merci de votre confiance.</p>
                 </footer>
             </div>
-        </div> -->
-        <!-- End facture -->
-
+        </div>
         <div id="rendezvous" class="content-section" style="display: none;">
             <h2>Mes Rendez-Vous</h2>
-                <div class="table-data">
-                    <div style="overflow-x: auto;">
-                        <table class="table table-striped" id="expeditionsTable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>N° suivi</th>
-                                    <th style="color:black;text-align:center;">status</th>
-                                    <th style="color:black">prix</th>
-                                    <th>date d'enlevements</th>
-                                    <th>N° conteneurs</th>
-                                    <th>design-Colis</th>
-                                    <th>date-Livr</th>
-                                    <th>remarque</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($expedEncour as $expedition)
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            @if($Rdv->count()< 0)
+            <a class="btn btn-primary" href="{{url('/envois')}}">
+                Ajouter Rdv
+            </a>
+            @endif
+            <div class="order">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>N° Téléphone</th>
+                            <th>Code Suivi</th>
+                            <th>Date retrait</th>
+                            <th>Heure retrait</th>
+                            <th>Designation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($Rdv as $rdv)
+                        <tr>
+                            <td>{{ $rdv->nom }}</td>
+                            <td>{{ $rdv->telephone }}</td>
+                            <td>{{ $rdv->numero_suivi }}</td>
+                            <td>{{ $rdv->date_retrait }}</td>
+                            <td>{{ $rdv->heure_retrait }}</td>
+                            <td>{{ $rdv->designation }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="aide" class="content-section" style="display: none;">
             <h2>Aide / Support</h2>
@@ -518,69 +471,34 @@
         </div>
     </main>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Gestion du menu latéral
         const sidebarItems = document.querySelectorAll('.sidebar-item');
         const contentSections = document.querySelectorAll('.content-section');
+        const tabs = document.querySelectorAll('.tab');
 
         sidebarItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Retirer la classe 'active' de tous les éléments du menu
                 sidebarItems.forEach(i => i.classList.remove('active'));
-                // Ajouter la classe 'active' à l'élément cliqué
                 this.classList.add('active');
 
-                // Afficher/masquer les sections de contenu
-                const contentId = this.getAttribute('data-content');
-                contentSections.forEach(section => {
-                    if (section.id === contentId) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
+                contentSections.forEach(section => section.style.display = 'none');
+                document.getElementById(this.dataset.content).style.display = 'block';
             });
         });
 
-        // Gestion des onglets
-        const tabs = document.querySelectorAll('.tab');
         tabs.forEach(tab => {
             tab.addEventListener('click', function() {
-                // Retirer la classe 'active' de tous les onglets
                 tabs.forEach(t => t.classList.remove('active'));
-                // Ajouter la classe 'active' à l'onglet cliqué
                 this.classList.add('active');
-                // Afficher/masquer les commandes en fonction de l'onglet
-                const tabId = this.getAttribute('data-tab');
-                const orders = document.querySelectorAll('.order');
-                orders.forEach(order => {
-                    if (order.getAttribute('data-tab') === tabId) {
-                        order.style.display = 'flex';
-                    } else {
-                        order.style.display = 'none';
-                    }
-                });
-            });
-        });
 
-        // Gestion des détails de la commande
-        const detailsLinks = document.querySelectorAll('.details-link');
-        detailsLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const orderId = this.getAttribute('data-order-id');
-                const detailsDiv = document.getElementById(`details-${orderId}`);
-                if (detailsDiv.style.display === 'none') {
-                    // Simuler des détails de commande (vous pouvez remplacer cela par une requête AJAX)
-                    detailsDiv.innerHTML = `<p>Détails de la commande ${orderId} : ...</p>`;
-                    detailsDiv.style.display = 'block';
-                } else {
-                    detailsDiv.style.display = 'none';
-                }
+                const tabContent = this.dataset.tab;
+                document.querySelectorAll('.order').forEach(order => {
+                    order.style.display = order.dataset.tab === tabContent ? 'block' : 'none';
+                });
             });
         });
     });
 </script>
-<!-- </section> -->
 @endsection

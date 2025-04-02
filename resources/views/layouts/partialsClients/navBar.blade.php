@@ -1,10 +1,8 @@
 <header id="header" class="header d-flex align-items-center fixed-top" style="background-color:hsl(189, 48.70%, 92.40%);">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="{{url('/')}}">
-        <!-- Uncomment the line below if you also wish to use an image logo  class="logo d-flex align-items-center me-auto" -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <img src="clients/assets/img/LogoPng.png" height="80px" data-aos="fade-in">
+      <a href="{{url('/')}}"   class="logo d-flex align-items-center me-auto">
+        <img src="Clients/assets/img/LogoPng.png" data-aos="fade-in" >
         
       </a>
 
@@ -21,15 +19,12 @@
         </div>
         <ul>
           <li class="nav-item">
-            <a class="nav-link me-lg-3" href="{{url('layouts/SuiviPage')}}"> Suivi</a>
+            <a class="nav-link me-lg-3" href="{{url('/SuiviPage')}}"> Suivi</a>
           </li>
           
           
-          <li class="dropdown"><a href="{{url('layouts/Envois')}}"><span>Envoyer</span></a></li>
-          <li class="nav-item">
-            <a class="nav-link me-lg-3" href="https://play.google.com/store" target="_blank"> <img src="{{ asset('Admin/img/android-IOSpng.png') }}" alt="Android Logo" width="32" height="32">Download</a>
-          </li>
-          <li class="dropdown"><a href="#"><span>Contactez-Nous</span><i class="bi-chat-text-fill me-2"></i></a>
+          <li class="dropdown"><a href="{{url('/Envois')}}"><span>Envoi</span></a></li>
+          <li class="dropdown"><a href="#"><span>Contact</span></a>
             <ul>
               <li>
                 <a href="https://wa.me/01649504"><i style="color:green;" class="bi bi-whatsapp"></i></a>
@@ -44,11 +39,11 @@
           </li>
 
           @guest
-          <li class="nav-item"><a class="nav-link me-lg-3" href="{{url('/login')}}"><i class="bi bi-person"></i> Mon espace</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" href="{{url('/login')}}">Mon espace</a></li>
           @else
           
           <li class="nav-item">
-            <a class="nav-link me-lg-3" href="{{url('/compte')}}" ><i class="bi bi-person">Mes Compte</i>
+            <a class="nav-link me-lg-3" href="{{url('/compte')}}" ><i class="bi bi-person">Mon compte</i>
             </a>
           </li><li class="nav-item">
             <a class="nav-link me-lg-3" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

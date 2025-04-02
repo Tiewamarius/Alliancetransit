@@ -12,10 +12,8 @@
         <h3>Voluptatem dignissimos provident laboris nisi ut aliquip ex ea commodo</h3>
         <img src="assets/img/about.jpg" class="img-fluid rounded-4 mb-4" alt="">
         <p>Expedition de colis de Paris vers Abidjan et d'Abidjan vers Paris. AirColis est une agence de transport aerien qui se dévoue entièrement à la satisfaction de ses clients. Aux fils des années Aircolis s'est spécialistée en transport aerien de colis, marchandises, plis et effet divers. AirColis fait preuve d'un service méticuleux et scrupuleux dans l'unique but de répondre au mieu aux besoins de ses clients, ce qui lui donne son positionnement et sa réputation aujourd'hui.
-
-Livraison de toutes vos expéditions, quelque soit leurs spécificités à Paris et à Abidjan, AirColis c'est des envois réguliers 2 à 3 fois par semaine afin de repopndre aux besoins chaque clients. Avec Aircolis, gagnez en performance : respect de nos engagements, intégrité des produits livrés.
-
-Économique et efficace, nos expedition express 48h, permet la livraison de plis et colis vers Abidjan et Depuis Abidjan vers les autres villes d'Europe. En 24-48 profitez d’un service sur mesure pour vos envois de colis express B to B ou B to C ainsi que de notre réseau de distribution</p>
+          Livraison de toutes vos expéditions, quelque soit leurs spécificités à Paris et à Abidjan, AirColis c'est des envois réguliers 2 à 3 fois par semaine afin de repopndre aux besoins chaque clients. Avec Aircolis, gagnez en performance : respect de nos engagements, intégrité des produits livrés.
+          Économique et efficace, nos expedition express 48h, permet la livraison de plis et colis vers Abidjan et Depuis Abidjan vers les autres villes d'Europe. En 24-48 profitez d’un service sur mesure pour vos envois de colis express B to B ou B to C ainsi que de notre réseau de distribution</p>
       </div>
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
         <div class="content ps-0 ps-lg-5">

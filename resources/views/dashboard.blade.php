@@ -28,8 +28,8 @@
       <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
         <div class="content ps-0 ps-lg-5">
           <p class="fst-italic">
-          En tant qu'entreprise de logistique mondiale de premier rang, nous nous efforçons de rester à l'avant-garde du développement
-          durable dans le secteur de la logistique
+            En tant qu'entreprise de logistique mondiale de premier rang, nous nous efforçons de rester à l'avant-garde du développement
+            durable dans le secteur de la logistique
           </p>
           <ul>
             <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
@@ -51,7 +51,7 @@
 
 
 <!-- Contact Section -->
-<section  id="about" class="contact section">
+<section id="about" class="contact section">
 
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
@@ -93,8 +93,22 @@
         </div>
       </div>
 
+      @if (session('success'))
+      <div style="color: green;">
+        {{ session('success') }}
+      </div>
+      @endif
+
+      @if (session('error'))
+      <div style="color: red;">
+        {{ session('error') }}
+      </div>
+      @endif
+
+
       <div class="col-lg-6">
-        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+        <form action="{{ route('contact.send') }}" method="post" class="email-form" data-aos="fade-up" data-aos-delay="500">
+          @csrf
           <div class="row gy-4">
 
             <div class="col-md-6">

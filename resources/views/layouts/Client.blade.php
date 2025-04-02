@@ -9,6 +9,9 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
   <link href="Clients/asset/img/favicon.png" rel="icon">
   <link href="Clients/asset/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -94,7 +97,7 @@
 </section><!-- /Stats Section -->
 <section id="testimonials" class="testimonials section dark-background">
 
-  <img src="Clients/asset/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
+  <img src="Clients/assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -115,87 +118,73 @@
       }
     </script>
     <div class="swiper-wrapper">
-
       <div class="swiper-slide">
         <div class="testimonial-item">
           <img src="Clients/asset/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-          <h3>Saul Goodman</h3>
-          <h4>Ceo &amp; Founder</h4>
+          <h3>Anah Trah</h3>
+          <!-- <h4>IT &amp; Developper</h4> -->
           <div class="stars">
             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
           </div>
           <p>
             <i class="bi bi-quote quote-icon-left"></i>
-            <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-            <i class="bi bi-quote quote-icon-right"></i>
-          </p>
-        </div>
-      </div><!-- End testimonial item -->
-
-      <div class="swiper-slide">
-        <div class="testimonial-item">
-          <img src="Clients/asset/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-          <h3>Sara Wilsson</h3>
-          <h4>Designer</h4>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-          </div>
-          <p>
-            <i class="bi bi-quote quote-icon-left"></i>
-            <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-            <i class="bi bi-quote quote-icon-right"></i>
-          </p>
-        </div>
-      </div><!-- End testimonial item -->
-
-      <div class="swiper-slide">
-        <div class="testimonial-item">
-          <img src="Clients/asset/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-          <h3>Jena Karlis</h3>
-          <h4>Store Owner</h4>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-          </div>
-          <p>
-            <i class="bi bi-quote quote-icon-left"></i>
-            <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-            <i class="bi bi-quote quote-icon-right"></i>
-          </p>
-        </div>
-      </div><!-- End testimonial item -->
-
-      <div class="swiper-slide">
-        <div class="testimonial-item">
-          <img src="Clients/asset/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-          <h3>Matt Brandon</h3>
-          <h4>Freelancer</h4>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-          </div>
-          <p>
-            <i class="bi bi-quote quote-icon-left"></i>
-            <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-            <i class="bi bi-quote quote-icon-right"></i>
-          </p>
-        </div>
-      </div><!-- End testimonial item -->
-
-      <div class="swiper-slide">
-        <div class="testimonial-item">
-          <img src="Clients/asset/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-          <h3>John Larson</h3>
-          <h4>Entrepreneur</h4>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-          </div>
-          <p>
-            <i class="bi bi-quote quote-icon-left"></i>
-            <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
+            <span>je recommande vivement ALLIANCE TRANSIT à tous ceux qui recherchent un service de transit de colis fiable, efficace et abordable. Leur engagement envers la satisfaction du client est tout simplement exceptionnel. Merci encore pour cette expérience de livraison sans faille ! », [Ville, France]</span>
             <i class="bi bi-quote quote-icon-right"></i>
           </p>
         </div>
       </div>
       <!-- End testimonial item -->
+      <div class="swiper-slide">
+        <div class="testimonial-item">
+          <img src="Clients/assets/img/temoigna.jpg" class="testimonial-img" alt="">
+          <h3>Turbo-D!ESEL</h3>
+          <h4>IT &amp; Developper</h4>
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p>
+            <i class="bi bi-quote quote-icon-left"></i>
+            <span>J'ai récemment utilisé ALLIANCE TRANSIT pour expédier un colis important à l'étranger, et je suis absolument ravi du service que j'ai reçu. Du début à la fin, l'équipe a été professionnelle, courtoise et extrêmement compétente</span>
+            <i class="bi bi-quote quote-icon-right"></i>
+          </p>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="testimonial-item">
+          <img src="Clients/asset/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+          <h3>Cheick</h3>
+          <!-- <h4>IT &amp; Developper</h4> -->
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p>
+            <i class="bi bi-quote quote-icon-left"></i>
+            <span>Ce qui m'a vraiment impressionné, c'est la transparence et la communication tout au long du processus. J'ai été tenu informé à chaque étape, et j'ai pu suivre mon colis en temps réel grâce à leur système de suivi en ligne. De plus, le colis est arrivé à destination plus tôt que prévu, et en parfait état !</span>
+            <i class="bi bi-quote quote-icon-right"></i>
+          </p>
+        </div>
+      </div>
+      <!-- End testimonial item -->
+
+      
+      <div class="swiper-slide">
+        <div class="testimonial-item">
+          <img src="Clients/asset/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+          <h3>Turbo-D!ESEL</h3>
+          <h4>IT &amp; Developper</h4>
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p>
+            <i class="bi bi-quote quote-icon-left"></i>
+            <span>J'ai récemment utilisé ALLIANCE TRANSIT pour expédier un colis important à l'étranger, et je suis absolument ravi du service que j'ai reçu. Du début à la fin, l'équipe a été professionnelle, courtoise et extrêmement compétente</span>
+            <i class="bi bi-quote quote-icon-right"></i>
+          </p>
+        </div>
+      </div>
+      <!-- End testimonial item -->
+
+      
 
     </div>
     <div class="swiper-pagination"></div>

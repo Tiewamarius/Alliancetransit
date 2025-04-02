@@ -21,6 +21,8 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
 });
 
+Route::post('/contact', [AdminCrudController::class, 'sendContactForm'])->name('contact.send');
+
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
      
@@ -56,11 +58,19 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::delete('/admin/mission/{id}', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');
 
 
-    // welcome - TableClients
+    // welcome - allRdv
     Route::get('allRdv', [AdminCrudController::class, 'allRdv'])->name('allRdv');  
     
     //  END RDV Request
     
+     // welcome - allDevis
+    Route::get('allDevis', [AdminCrudController::class, 'allDevis'])->name('allDevis');  
+    Route::get('editDevis/{id}', [AdminCrudController::class, 'editDevis'])->name('editDevis');
+    Route::put('updateDevis/{id}', [AdminCrudController::class, 'updateDevis'])->name('updateDevis');
+    
+    Route::delete('deleteDevis/{id}', [AdminCrudController::class, 'deleteDevis'])->name('deleteDevis');
+    
+    // END DevisRequest
     
     Route::get('Ajoutclients', function () {
                     $nombre_aleatoire = (string)(random_int(10000, 99999));

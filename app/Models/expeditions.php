@@ -29,6 +29,7 @@ class expeditions extends Model
         'dateLivr',
         'montant_total',
         'montant_paye',
+        'montant_verse',
         'status',
     ];
 

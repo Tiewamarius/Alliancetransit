@@ -43,7 +43,7 @@
             <div class="tab-pane fade active show" id="features-tab-1">
                 <div class="row">
                     <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-                        <h3>J'expédie en tant que...</h3>
+                        <h3>Je Demande en tant que...</h3>
                         <div class="tabs">
                             <button type="submit" class="btn btn-secondary  btn-lg" id="btn-particulier">Particulier</button>
                             <button type="submit" class="btn btn-secondary  btn-lg" id="btn-professionnel">Business</button>
@@ -60,7 +60,7 @@
                             </div>
                             @endif
                             <!-- Demande devis Entreprise -->
-                            <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
+                            <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500" id="form-professionnel-devis">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="alert alert-info" role="alert">
@@ -208,7 +208,7 @@
                             </div>
                             @endif
                             <!-- Devis Particulier  -->
-                            <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500">
+                            <form method="POST" action="{{route('DemandDevis')}}" data-aos="fade-up" data-aos-delay="500" id="form-particulier-devis">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="alert alert-info" role="alert">
@@ -369,7 +369,7 @@
                                 </ul>
                             </div>
                             @endif
-                            <form method="POST" action="{{route('EnvoisColis') }}">
+                            <form method="POST" action="{{route('EnvoisColis') }}" id="form-particulier-envoi">
                                 @csrf
                                 <div class="alert alert-info" role="alert">
                                     Vous demandez en tant qu'une Particulier.
@@ -468,10 +468,10 @@
                                                 <label for="montant_paye">Montant Payé</label>
                                                 <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
                                             </div>
-                                            <div class="col-md-6"  style="display: none;">
+                                            <div class="col-md-6"  style="display: nne;">
                                                 <br><label for="statut" class="form-label">STATUS D'EXP.</label>
                                                 <select name="status" id="status">
-                                                    <option value="NonTraité" {{ old('status') == 'NonTraité' ? 'selected' : '' }}>NonTraité</option>
+                                                    <option value="Non Traité" {{ old('status') == 'Non Traité' ? 'selected' : '' }}>Non Traité</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -480,7 +480,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3" style="float: right;">
-                                            <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
+                                            <button type="submit" class="btn btn-success expedier submit-form">EXPEDIER</button>
                                         </div>
                                     </div>
                                 </div>
@@ -498,7 +498,7 @@
                                 </ul>
                             </div>
                             @endif
-                            <form method="POST" action="{{route('EnvoisColis') }}">
+                            <form method="POST" action="{{route('EnvoisColis') }}" id="form-professionnel-envoi">
                                 @csrf
                                 <div class="alert alert-info" role="alert">
                                     Vous demandez en tant qu'une Entreprise.
@@ -597,10 +597,10 @@
                                                 <label for="montant_paye">Montant Payé</label>
                                                 <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
                                             </div>
-                                            <div class="col-md-6"  style="display: none;">
+                                            <div class="col-md-6"  style="display: non;">
                                                 <br><label for="statut" class="form-label">STATUS D'EXP.</label>
                                                 <select name="status" id="status">
-                                                    <option value="NonTraité" {{ old('status') == 'NonTraité' ? 'selected' : '' }}>NonTraité</option>
+                                                    <option value="Non Traité" {{ old('status') == 'Non Traité' ? 'selected' : '' }}>Non Traité</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -609,7 +609,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3" style="float: right;">
-                                            <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
+                                            <button type="submit" class="btn btn-success expedier submit-form">EXPEDIER</button>
                                         </div>
                                     </div>
                                 </div>
@@ -680,7 +680,7 @@
                                     </div>
 
                                     <div class="col-md-6 text-center">
-                                        <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                                        <button type="submit" class="btn btn-primary btn-lg submit-form">Envoyer</button>
                                     </div>
                                 </div>
                                 </form>
@@ -793,9 +793,11 @@
             formProfession.style.display = 'block';
             btnProfession.classList.remove('btn-secondary');
             btnProfession.classList.add('btn-primary');
-            formParticul.classList.remove('btn-primary');
-            formParticul.classList.add('btn-secondary');
+            btnParticul.classList.remove('btn-primary');
+            btnParticul.classList.add('btn-secondary');
         });
     });
+
+    
 </script>
 @endsection
