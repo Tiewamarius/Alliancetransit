@@ -7,6 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+// Route::post('/contact', [ProfileController::class, 'creatNote'])->name('contact.creatNote');
+
 Route::get('/SuiviPage', function () {
     return view('Clients.SuiviPage');
 });
@@ -32,7 +35,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/compte', [ProfileController::class, 'compte'])->name('compte');
     
-// Suivi route
+    // Suivi route
     // Route::get(' /SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
 
     // Route::get('/search', [ProfileController::class, 'search'])->name('search');
@@ -49,6 +52,17 @@ Route::middleware('auth')->group(function () {
     //  Store RDV
     Route::post('/storeRdv', [ProfileController::class, 'storeRdv'])->name('storeRdv');
 
+    Route::delete('deleteRdv/{id}', [ProfileController::class, 'deleteRdv'])->name('deleteRdv.delete');
+    
+
+        
+     //route ExpByFact
+     Route::get('editExpByFac/{id}', [ProfileController::class, 'editExpByFac'])->name('editExpByFac');
+     Route::put('updateExpByFac/{id}', [ProfileController::class, 'updateExpByFac'])->name('updateExpByFac');
+  
+     Route::delete('deleteFacture/{id}', [ProfileController::class, 'deleteFacture'])->name('deleteFacture.delete');
+    
+    // END route ExpByFact
     
 });
 

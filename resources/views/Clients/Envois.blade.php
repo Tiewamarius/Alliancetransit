@@ -66,9 +66,9 @@
                                     <div class="alert alert-info" role="alert">
                                         Vous demandez en tant qu'une Entreprise.
                                     </div>
+                                    <input type="hiden" name="user_id" value="{{Auth::user()->code_unique}}"  style="display: none;">
                                     <input type="text" name="particulier" value="entreprise" style="display: none;">
                                     <div class="col-md-6">
-                                        <input type="hidden" name="numero" value="{{ Auth::user()->numero}}">
                                         <label for="exampleFormControlInput1" class="form-label">Pays-Depart:</label>
                                         <select class="form-select form-select-lg mb-3" aria-label="Default select example" name="paysDepart">
                                             <option selected>Sélectionnez un pays</option>
@@ -213,9 +213,10 @@
                                 <div class="row gy-4">
                                     <div class="alert alert-info" role="alert">
                                         Vous demandez en tant qu'un Particulier.
-                                    </div><input type="text" name="particulier" value="particulier" style="display: none;">
+                                    </div>
+                                        <input type="hiden" name="user_id" value="{{ Auth::user()->code_unique}}"  style="display: none;">
+                                        <input type="text" name="particulier" value="particulier" style="display: none;">
                                     <div class="col-md-6">
-                                        <input type="hidden" name="numero" value="+225 01 43 63 3011">
                                         <label for="exampleFormControlInput1" class="form-label">Pays-Depart:</label>
                                         <select class="form-select form-select-lg mb-3" name="paysDepart">
                                             <option selected>Sélectionnez un pays</option>
@@ -387,6 +388,9 @@
                                             <div class="col-md-6">
                                                 <label for="telephone_client" class="form-label">Téléphone</label>
                                                 <input type="text" id="telephone_client" name="numero_expediteur" class="form-control" value="" required>
+                                                
+                                            <small class="form-text text-muted">Format: 33XXXXXXXXX ou 225XXXXXXXXXXX</small>
+                                            <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide au format 33XXXXXXXXX ou 225XXXXXXXXXXX.</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="email_client" name="emai_expediteur" class="form-label">Email</label>
@@ -412,6 +416,8 @@
                                             <div class="col-md-6">
                                                 <label for="telephone_client" class="form-label">Téléphone</label>
                                                 <input type="text" id="telephone_client" name="numero_destinataire" class="form-control" value="" required>
+                        <small class="form-text text-muted">Format: 33XXXXXXXXX ou 225XXXXXXXXXXX</small>
+                        <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide au format 33XXXXXXXXX ou 225XXXXXXXXXXX.</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="email_client" name="emai_destinataire" class="form-label">Email</label>
@@ -516,6 +522,9 @@
                                             <div class="col-md-6">
                                                 <label for="telephone_client" class="form-label">Téléphone</label>
                                                 <input type="text" id="telephone_client" name="numero_expediteur" class="form-control" value="" required>
+                                                
+                        <small class="form-text text-muted">Format: 33XXXXXXXXX ou 225XXXXXXXXXXX</small>
+                        <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide au format 33XXXXXXXXX ou 225XXXXXXXXXXX.</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="email_client" name="emai_expediteur" class="form-label">Email</label>
@@ -541,6 +550,9 @@
                                             <div class="col-md-6">
                                                 <label for="telephone_client" class="form-label">Téléphone</label>
                                                 <input type="text" id="telephone_client" name="numero_destinataire" class="form-control" value="" required>
+                                                
+                        <small class="form-text text-muted">Format: 33XXXXXXXXX ou 225XXXXXXXXXXX</small>
+                        <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide au format 33XXXXXXXXX ou 225XXXXXXXXXXX.</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="email_client" name="emai_destinataire" class="form-label">Email</label>
@@ -799,5 +811,53 @@
     });
 
     
+
+    const telephoneExpediteurInput = document.getElementById('numero_expediteur');
+    const telephoneDestinataireInput = document.getElementById('numero_destinataire');
+    const expeditionForm = document.getElementById('expeditionForm');
+
+    function validatePhoneNumber(inputElement) {
+        inputElement.addEventListener('input', function() {
+            const value = this.value;
+            const isValid = /^(33\d{9}|225\d{10})$/.test(value);
+
+            if (!isValid && value.length > 0) {
+                this.classList.add('is-invalid');
+                this.nextElementSibling.style.display = 'block';
+            } else {
+                this.classList.remove('is-invalid');
+                if (this.nextElementSibling) {
+                    this.nextElementSibling.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    validatePhoneNumber(telephoneExpediteurInput);
+    validatePhoneNumber(telephoneDestinataireInput);
+
+    expeditionForm.addEventListener('submit', function(event) {
+        const expediteurTel = telephoneExpediteurInput.value;
+        const destinataireTel = telephoneDestinataireInput.value;
+
+        const isValidExpediteur = /^(33\d{9}|225\d{10})$/.test(expediteurTel.trim()); // Ajout de .trim()
+        const isValidDestinataire = /^(33\d{9}|225\d{10})$/.test(destinataireTel.trim()); // Ajout de .trim()
+
+        if (!isValidExpediteur) {
+            event.preventDefault();
+            telephoneExpediteurInput.classList.add('is-invalid');
+            if (telephoneExpediteurInput.nextElementSibling) {
+                telephoneExpediteurInput.nextElementSibling.style.display = 'block';
+            }
+        }
+
+        if (!isValidDestinataire) {
+            event.preventDefault();
+            telephoneDestinataireInput.classList.add('is-invalid');
+            if (telephoneDestinataireInput.nextElementSibling) {
+                telephoneDestinataireInput.nextElementSibling.style.display = 'block';
+            }
+        }
+    });
 </script>
 @endsection

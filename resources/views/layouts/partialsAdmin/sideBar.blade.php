@@ -8,7 +8,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{url('admin/dashboard')}}">
-            <img src="../Admin/img/Logo.png" height="70px" width="100px" title="Logo de l'entreprise" >
+            <img src="{{ asset('Admin/img/Logo.png') }}" height="70px" width="100px" title="Logo de l'entreprise" >
         </a>
     </li>
 
@@ -33,12 +33,13 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="{{url('admin/mission')}}">CREER UN ENVOI</a>
-                <a class="collapse-item" href="{{url('admin/allDevis')}}">DEVIS DEMANDEE</a>
+            <a class="collapse-item" href="{{url('admin/allDevis')}}">DEVIS DEMANDEE</a>
+            <a class="collapse-item" href="{{url('admin/allRdv')}}">LISTE RDV</a>
             </div>
         </div>
     </li>
     <div class="sidebar-heading">
-        TACHES
+    
     </div>
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -54,7 +55,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">PARAMETRES UTILES:</h6>
-                <a class="collapse-item" href="{{url('admin/allRdv')}}">LISTE RDV</a>
+                <a class="collapse-item" href="{{url('admin/AllUsers')}}">Liste-Clients</a>
+                <a class="collapse-item" href="{{url('admin/Alladmins')}}">Gerer les Accès</a>
+                <a class="collapse-item" href="{{url('admin/Profile')}}">Mon profile</a>
             </div>
         </div>
     </li>

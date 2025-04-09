@@ -52,12 +52,19 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                @if (Auth::guard('admin')->user()->role === 'admin')
+                  
                 <div class="container-fluid">
 
                     @yield('content')
 
                 </div>
                 <!-- /.container-fluid -->
+                @else
+                    <div class="alert alert-danger" role="alert">
+                    Vous n'avez pas les autorisations nécessaires pour accéder à cette page.
+                    </div>
+                @endif
             </div>
             <!-- End of Main Content -->
 

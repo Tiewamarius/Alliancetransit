@@ -27,7 +27,7 @@
                 <td>{{ $rdv->date_retrait}}</td>
                 <td>{{ $rdv->designation}}</td>
                 <td>
-                    <form action="{{ route('clients.destroy', $rdv->id) }}" method="POST" style="display:inline-block;">
+                    <form action="{{ route('deleteRdv.destroy',$rdv->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>

@@ -91,46 +91,59 @@
         </div>
       </div>
 
-      @if (session('success'))
-      <div style="color: green;">
-        {{ session('success') }}
-      </div>
-      @endif
-
-      @if (session('error'))
-      <div style="color: red;">
-        {{ session('error') }}
-      </div>
-      @endif
-
       <div class="col-lg-6">
         <form action="{{ route('contact.send') }}" method="post" class="email-form" data-aos="fade-up" data-aos-delay="500">
           @csrf
           <div class="row gy-4">
 
             <div class="col-md-6">
-              <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+              <input type="text" name="name" class="form-control" placeholder="Votre Name" required="">
             </div>
 
             <div class="col-md-6 ">
-              <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+              <input type="text" class="form-control" name="phone" placeholder="Votre Numero" required="">
             </div>
 
-            <div class="col-md-12">
-              <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+            <div class="col-md-6 ">
+              <input type="email" class="form-control" name="email" placeholder="Votre Email" required="">
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="subject" placeholder="Objet" required="">
             </div>
 
             <div class="col-md-12">
               <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
             </div>
+            <div style="display: none;">
+            <label for="status" class="form-label">lu</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="unread" {{ old('status') == 'unread' ? 'selected' : '' }}>unread</option>
+                </select>
+            </div>
 
             <div class="col-md-12 text-center">
-              
+
               <button type="submit">Envoyer Message</button>
             </div>
 
           </div>
         </form>
+        @if (session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+        @endif
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endif
       </div><!-- End Contact Form -->
 
     </div>

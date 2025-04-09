@@ -9,6 +9,7 @@ return new class extends Migration{
     {
         Schema::create('devis_colis', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
             $table->string('particulier');
             $table->string('paysDepart');
             $table->string('villeDepart');

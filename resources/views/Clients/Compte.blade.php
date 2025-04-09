@@ -5,27 +5,36 @@
     body {
         background-image: url("clients/assets/img/Bckg.png");
         background-repeat: no-repeat;
-        background-size: cover; /* Cover to fill the entire viewport */
-        background-position: center; /* Center the background image */
+        background-size: cover;
+        /* Cover to fill the entire viewport */
+        background-position: center;
+        /* Center the background image */
     }
 
-    
+
     th {
-                white-space: nowrap;
-            }
+        text-align: justify;
+        white-space: nowrap;
+    }
+
     .containerr {
         display: flex;
-        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-        margin: 20px auto; /* Center the container */
-        width: 100%; /* Limit container width for larger screens */
+        flex-wrap: wrap;
+        /* Allow items to wrap on smaller screens */
+        margin: 20px auto;
+        /* Center the container */
+        width: 100%;
+        /* Limit container width for larger screens */
     }
 
     .sidebar {
-        flex: 0 0 250px; /* Fixed width for sidebar */
+        flex: 0 0 250px;
+        /* Fixed width for sidebar */
         background-color: #fff;
         border: 1px solid #ddd;
         padding: 20px;
-        box-sizing: border-box; /* Include padding in width calculation */
+        box-sizing: border-box;
+        /* Include padding in width calculation */
     }
 
     .sidebar-item {
@@ -55,12 +64,14 @@
     }
 
     .contentt {
-        flex: 1 1 auto; /* Allow content to grow and shrink */
+        flex: 1 1 auto;
+        /* Allow content to grow and shrink */
         width: 778px;
         background-color: #fff;
         padding: 20px;
         border: 1px solid #ddd;
-        box-sizing: border-box; /* Include padding in width calculation */
+        box-sizing: border-box;
+        /* Include padding in width calculation */
     }
 
     .content-header {
@@ -68,7 +79,8 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
-        flex-wrap: wrap; /* Allow header items to wrap */
+        flex-wrap: wrap;
+        /* Allow header items to wrap */
     }
 
     .content-header h2 {
@@ -99,7 +111,8 @@
         padding: 15px;
         margin-bottom: 15px;
         border-radius: 5px;
-        overflow-x: auto; /* Enable horizontal scrolling for tables */
+        overflow-x: auto;
+        /* Enable horizontal scrolling for tables */
     }
 
     .order table {
@@ -107,7 +120,8 @@
         border-collapse: collapse;
     }
 
-    .order th, .order td {
+    .order th,
+    .order td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
@@ -150,7 +164,8 @@
         border-collapse: collapse;
     }
 
-    .facture th, .facture td {
+    .facture th,
+    .facture td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
@@ -165,27 +180,31 @@
     }
 
     /* Responsive Adjustments */
-            @media (max-width: 800px) {
-                .sidebar {
-                    flex: 0 0 100%; /* Full width on small screens */
-                    margin-bottom: 15px;
-                }
+    @media (max-width: 800px) {
+        .sidebar {
+            flex: 0 0 100%;
+            /* Full width on small screens */
+            margin-bottom: 15px;
+        }
 
-                .contentt {
-            flex: 1 1 auto; /* Permet au contenu de grandir et de rétrécir */
+        .contentt {
+            flex: 1 1 auto;
+            /* Permet au contenu de grandir et de rétrécir */
         }
 
         /* Media query pour les écrans de tablettes (par exemple, jusqu'à 768px) */
         @media (max-width: 800px) {
             .contentt {
-                flex: 0 0 100%; /* Full width sur les tablettes */
+                flex: 0 0 100%;
+                /* Full width sur les tablettes */
             }
         }
 
         /* Media query pour les écrans de smartphones (par exemple, jusqu'à 480px) */
         @media (max-width: 200px) {
             .contentt {
-                flex: 0 0 100%; /* Full width sur les smartphones */
+                flex: 0 0 100%;
+                /* Full width sur les smartphones */
             }
         }
 
@@ -198,10 +217,10 @@
 
 <div class="containerr">
     <aside class="sidebar">
-        <div class="sidebar-item active" data-content="compte">
+        <div class="sidebar-item" data-content="compte">
             <i class="bi bi-person-check"></i> Votre compte
         </div>
-        <div class="sidebar-item" data-content="colis">
+        <div class="sidebar-item active" data-content="colis">
             <i class="bi bi-truck"></i> Vos colis
         </div>
         <div class="sidebar-item" data-content="factures">
@@ -221,14 +240,14 @@
         </div>
     </aside>
     <main class="contentt">
-        <div id="compte" class="content-section">
+        <div id="compte" class="content-section" style="display: none;">
             <h2>Votre compte</h2>
             <p><strong>Nom :</strong> {{ Auth::user()->name }}</p>
             <p><strong>Adresse :</strong> {{ Auth::user()->adresse }}</p>
             <p><strong>Téléphone :</strong> {{ Auth::user()->numero }}</p>
             <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
         </div>
-        <div id="colis" class="content-section" style="display: none;">
+        <div id="colis" class="content-section">
             <div class="content-header">
                 <h2>Mes colis</h2>
                 <div class="tabs">
@@ -240,37 +259,37 @@
             </div>
             <div class="order " data-tab="Non-traite">
                 <div class="table-data">
-                <div style="overflow-x: auto;">
-            
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N° suivi</th>
-                                <th>Status</th>
-                                <th>à Payer</th>
-                                <th>Date d'enlèvement</th>
-                                <th>N° conteneurs</th>
-                                <th>Designation</th>
-                                <th>Date livraison</th>
-                                <th>Remarque</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($expedNonTr as $expedNonT)
-                            <tr>
-                                <td>{{ $expedNonT->numeroSuivi }}</td>
-                                <td>{{ $expedNonT->status }}</td>
-                                <td>{{ $expedNonT->montant_total }}</td>
-                                <td>{{ $expedNonT->dateEnlev }}</td>
-                                <td>{{ $expedNonT->conteneur }}</td>
-                                <td>{{ $expedNonT->designation }}</td>
-                                <td>{{ $expedNonT->dateLivr }}</td>
-                                <td>{{ $expedNonT->typeService }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                    <div style="overflow-x: auto;">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N° suivi</th>
+                                    <th>Status</th>
+                                    <th>à Payer</th>
+                                    <th>Date d'enlèvement</th>
+                                    <th>N° conteneurs</th>
+                                    <th>Designation</th>
+                                    <th>Date livraison</th>
+                                    <th>Remarque</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($expedNonTr as $expedNonT)
+                                <tr>
+                                    <td>{{ $expedNonT->numeroSuivi }}</td>
+                                    <td>{{ $expedNonT->status }}</td>
+                                    <td>{{ $expedNonT->montant_total }}</td>
+                                    <td>{{ $expedNonT->dateEnlev }}</td>
+                                    <td>{{ $expedNonT->numeroConteneur}}</td>
+                                    <td>{{ $expedNonT->designation }}</td>
+                                    <td>{{ $expedNonT->dateLivr }}</td>
+                                    <td>{{ $expedNonT->typeService }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="order" data-tab="En-cours" style="display: none;">
@@ -294,7 +313,7 @@
                             <td>{{ $expeditionEncourr->status }}</td>
                             <td>{{ $expeditionEncourr->montant_total - $expeditionEncourr->montant_paye }}</td>
                             <td>{{ $expeditionEncourr->dateEnlev }}</td>
-                            <td>{{ $expeditionEncourr->conteneurs }}</td>
+                            <td>{{ $expeditionEncourr->numeroConteneur}}</td>
                             <td>{{ $expeditionEncourr->designation }}</td>
                             <td>{{ $expeditionEncourr->dateLivr }}</td>
                             <td>{{ $expeditionEncourr->typeService }}</td>
@@ -324,7 +343,7 @@
                             <td>{{ $expedDepot_Arr->status }}</td>
                             <td>{{ $expedDepot_Arr->montant_total - $expedDepot_Arr->montant_paye }}</td>
                             <td>{{ $expedDepot_Arr->dateEnlev }}</td>
-                            <td>{{ $expedDepot_Arr->conteneurs }}</td>
+                            <td>{{ $expedDepot_Arr->numeroConteneur}}</td>
                             <td>{{ $expedDepot_Arr->designation }}</td>
                             <td>{{ $expedDepot_Arr->dateLivr }}</td>
                             <td>{{ $expedDepot_Arr->typeService }}</td>
@@ -354,7 +373,7 @@
                             <td>{{ $expedLivr->status }}</td>
                             <td>{{ $expedLivr->montant_total }}</td>
                             <td>{{ $expedLivr->dateEnlev }}</td>
-                            <td>{{ $expedLivr->conteneurs }}</td>
+                            <td>{{ $expedLivr->numeroConteneur}}</td>
                             <td>{{ $expedLivr->designation }}</td>
                             <td>{{ $expedLivr->dateLivr }}</td>
                             <td>{{ $expedLivr->typeService }}</td>
@@ -365,101 +384,90 @@
             </div>
         </div>
         <div id="factures" class="content-section" style="display: none;">
-            <h3>Factures</h3>
             <div class="facture">
-                <!-- <header>
-                    <div class="logo">Votre Logo</div>
-                    <div class="infos-entreprise">
-                        <p>Votre Entreprise</p>
-                        <p>Adresse</p>
-                        <p>Téléphone : 01 23 45 67 89</p>
-                        <p>Email : contact@votreentreprise.com</p>
+                <div class="container">
+                    <h1 class="mb-4">Facture d'expéditions demandées</h1>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>De:</th>
+                                    <th>Vers:</th>
+                                    <th>Designation</th>
+                                    <th>Montant</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($devis_colis as $devis)
+                                <tr>
+                                    <td>
+                                        <a href="editExpByFac/{{ $devis->id }}" class="btn btn-primary" style="padding:5px;">
+                                        Procceder à une Expedition
+                                        </a>
+                                    </td>
+                                    <td>{{ $devis->paysDepart }}</td>
+                                    <td>{{ $devis->paysArrivee }}</td>
+                                    <td>{{ $devis->designation }}</td>
+                                    <td>{{ $devis->montant_total }}</td>
+                                    <td>
+                                        <form id="delete-form-{{ $devis->id }}" action="{{ route('deleteFacture.delete', $devis->id) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        <a href="#" class="btn btn-outline-danger" onclick="if (confirm('Êtes-vous sûr de vouloir supprimer cette expédition ?')) { document.getElementById('delete-form-{{ $devis->id }}').submit(); }">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                </header> -->
-                <!-- <section class="infos-client">
-                    <h2>Facture N° 12345</h2>
-                    <p>Date : 2023-10-27</p>
-                    <p>Client : Nom du Client</p>
-                    <p>Adresse : Adresse du Client</p>
-                </section> -->
-                <!-- <section class="details-facture">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Quantité</th>
-                                <th>Prix Unitaire</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Produit/Service 1</td>
-                                <td>2</td>
-                                <td>50.00 €</td>
-                                <td>100.00 €</td>
-                            </tr>
-                            <tr>
-                                <td>Produit/Service 2</td>
-                                <td>1</td>
-                                <td>75.00 €</td>
-                                <td>75.00 €</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">Sous-total</td>
-                                <td>175.00 €</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">TVA (20%)</td>
-                                <td>35.00 €</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">Total</td>
-                                <td>210.00 €</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </section> -->
-                <footer>
-                    <p>Merci de votre confiance.</p>
-                </footer>
+                </div>
             </div>
         </div>
         <div id="rendezvous" class="content-section" style="display: none;">
             <h2>Mes Rendez-Vous</h2>
             @if($Rdv->count()< 0)
-            <a class="btn btn-primary" href="{{url('/envois')}}">
+                <a class="btn btn-primary" href="{{url('/envois')}}">
                 Ajouter Rdv
-            </a>
-            @endif
-            <div class="order">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>N° Téléphone</th>
-                            <th>Code Suivi</th>
-                            <th>Date retrait</th>
-                            <th>Heure retrait</th>
-                            <th>Designation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($Rdv as $rdv)
-                        <tr>
-                            <td>{{ $rdv->nom }}</td>
-                            <td>{{ $rdv->telephone }}</td>
-                            <td>{{ $rdv->numero_suivi }}</td>
-                            <td>{{ $rdv->date_retrait }}</td>
-                            <td>{{ $rdv->heure_retrait }}</td>
-                            <td>{{ $rdv->designation }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                </a>
+                @endif
+                <div class="order">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>N° Téléphone</th>
+                                <th>Code Suivi</th>
+                                <th>Date retrait</th>
+                                <th>Heure retrait</th>
+                                <th>Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($Rdv as $rdv)
+                            <tr>
+                                <td>{{ $rdv->nom }}</td>
+                                <td>{{ $rdv->telephone }}</td>
+                                <td>{{ $rdv->numero_suivi }}</td>
+                                <td>{{ $rdv->date_retrait }}</td>
+                                <td>{{ $rdv->heure_retrait }}</td>
+                                <td>{{ $rdv->designation }}</td>
+                                <td>
+                                    <form action="{{ route('deleteRdv.delete', $rdv->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
         </div>
         <div id="aide" class="content-section" style="display: none;">
             <h2>Aide / Support</h2>

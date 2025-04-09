@@ -11,6 +11,7 @@ class DevisColis extends Model
     use HasFactory;
 
     protected $fillable = [
+        'code_unique',
         'particulier',
         'paysDepart',
         'paysArrivee',

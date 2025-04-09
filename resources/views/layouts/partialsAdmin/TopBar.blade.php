@@ -61,8 +61,28 @@
                 </h6>
             </div>
         </li>
-            @endif
-            <li class="nav-item dropdown no-arrow mx-1">
+        @endif
+        @if ($NoteNonTraites > 0)
+        <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span class="badge badge-danger badge-counter">{{$NoteNonTraites}}</span>
+        </a>
+        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">
+            {{$NoteNonTraites}} Message non lu
+            </h6>
+                <p>
+                    <a class="nav-link" href="{{url('admin/allNote')}}" style="color:blue">
+                        Consulter
+                    </a>
+                </p>
+        </div>
+        </li>
+        @else
+        <li class="nav-item dropdown no-arrow mx-1">
         <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-envelope fa-fw"></i>
@@ -75,6 +95,7 @@
             </h6>
         </div>
         </li>
+        @endif
         @else
         @endauth
 
@@ -84,16 +105,16 @@
             <a class="nav-link dropdown-toggle" href="{{url('admin/dashboard')}}" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                <img class="img-profile rounded-circle" src="../Admin/img/adminIcon.jpg">
+                <img class="img-profile rounded-circle" src="{{ asset('Admin/img/adminIcon.jpg')}}">
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href=" ">
+                <a class="dropdown-item" href="{{url('admin/Profile')}}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Paramètre
                 </a>
                 @if(Auth::guard('admin')->check())
-                <a class="dropdown-item" href="{{url('admin/dashboard')}}">
+                <a class="dropdown-item" href="{{url('admin/Alladmins')}}">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Accès-Admin
                 </a>

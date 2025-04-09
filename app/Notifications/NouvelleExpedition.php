@@ -28,7 +28,7 @@ class NouvelleExpedition extends Notification
     {
         return (new MailMessage)
             ->subject('Nouvelle expédition enregistrée')
-            ->line("Bonjour Mme/Mr ". $this->expedition->nom_destinataire.",
+            ->line("Bonjour Mme/Mr ". $this->expedition->nom_expediteur.",
             Alliance Transit vous informe que la livraison de votre colis s'effectuera demain. 
             Nous vous rappelons que toutes personnes injoignables passera au dépôt récupérer son coli.
             Merci de prendre vos dispositions pour la bonne réception du colis.

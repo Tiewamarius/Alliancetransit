@@ -2,7 +2,7 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="{{url('/')}}"   class="logo d-flex align-items-center me-auto">
-        <img src="Clients/assets/img/LogoPng.png" data-aos="fade-in" >
+        <img src="{{ asset('Clients/assets/img/LogoPng.png')}}" data-aos="fade-in" >
         
       </a>
 

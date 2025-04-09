@@ -21,7 +21,7 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
 });
 
-Route::post('/contact', [AdminCrudController::class, 'sendContactForm'])->name('contact.send');
+// Route::post('/contact', [AdminCrudController::class, 'sendContactForm'])->name('contact.send');
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
@@ -47,9 +47,6 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     
     Route::get('rechercher.suivi', [AdminCrudController::class, 'rechercherSuivi'])->name('rechercher.suivi');
     
-    Route::post('/admin/expeditions/{id}/update-status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
-    Route::post('/admin/expeditions/{id}/status', [AdminCrudController::class, 'updateStatus'])->name('update.status');
-
     Route::get('/expeditions/delete/{id}', [AdminCrudController::class, 'deleteExpedition'])->name('expeditions.delete');
 
 
@@ -60,82 +57,64 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     // welcome - allRdv
     Route::get('allRdv', [AdminCrudController::class, 'allRdv'])->name('allRdv');  
-    
+    Route::delete('/admin/rendevous/{rendevouse}', [AdminCrudController::class, 'destroyRdv'])->name('deleteRdv.destroy');
     //  END RDV Request
     
-     // welcome - allDevis
+    // welcome - allDevis
     Route::get('allDevis', [AdminCrudController::class, 'allDevis'])->name('allDevis');  
     Route::get('editDevis/{id}', [AdminCrudController::class, 'editDevis'])->name('editDevis');
     Route::put('updateDevis/{id}', [AdminCrudController::class, 'updateDevis'])->name('updateDevis');
     
-    Route::delete('deleteDevis/{id}', [AdminCrudController::class, 'deleteDevis'])->name('deleteDevis');
+    Route::get('deleteDevis/{id}', [AdminCrudController::class, 'deleteDevis'])->name('deleteDevis.delete');
     
     // END DevisRequest
+
+    // welcome - allNotes
+    Route::get('allNote', [AdminCrudController::class, 'allNote'])->name('allNote');  
+    Route::get('editNote/{id}', [AdminCrudController::class, 'editNote'])->name('editNote');
+    Route::put('updateNote/{id}', [AdminCrudController::class, 'updateNote'])->name('updateNote');
     
-    Route::get('Ajoutclients', function () {
-                    $nombre_aleatoire = (string)(random_int(10000, 99999));
-                    $code_client = 'Cl-'. $nombre_aleatoire;
-                    return view('admin.clients.Ajoutclients', ['code_client' => $code_client]);
-                });
-                Route::post('admin/Ajoutclients', [AdminCrudController::class, 'storeClient'])->name('storeClient');
+    Route::get('deleteNote/{id}', [AdminCrudController::class, 'deleteNote'])->name('deleteNote.delete');
+    
+    // END NoteRequest
+    
+
+    // Admin-Profile crud
+    // Afficher le profil de l'administrateur connecté
+    Route::get('Profile', [AdminCrudController::class, 'indexAdmin'])->name('admin.profile.index');
+
+    // Afficher le formulaire d'édition du profil
+    Route::get('Profile/edit', [AdminCrudController::class, 'editAdmin'])->name('admin.profile.edit');
+
+    // Soumettre la mise à jour du profil
+    Route::put('Profile', [AdminCrudController::class, 'updateAdmin'])->name('admin.profile.update');
+
+    // Optionnel : Route pour changer le mot de passe (méthode PUT ou PATCH)
+    Route::get('Profile/password/edit', [AdminCrudController::class, 'editPassword'])->name('admin.profile.password.edit');
+    Route::put('Profile/password', [AdminCrudController::class, 'updatePassword'])->name('admin.profile.password.update');
+    // Vous pourriez avoir une route pour changer le mot de passe ici aussi
 
 
-        // Edit client
-                Route::get('/admin/clients/{id}/editClient', [AdminCrudController::class, 'editClient'])->name('clients.editClient');
-                Route::put('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
-                Route::delete('/admin/Ajoutclients/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
+
+    // ALL ADMINS
+    // Liste des administrateurs
+    Route::get('/Alladmins', [AdminCrudController::class, 'indexAdminList'])->name('admin.Alladmins.index');
+
+    // Formulaire d'édition d'un administrateur
+    Route::get('/admins/{admin}/edit', [AdminCrudController::class, 'editAdminUser'])->name('admin.admins.edit');
+
+    // Route pour la mise à jour du rôle d'un administrateur
+    Route::patch('/admins/{admin}/role', [AdminCrudController::class, 'updateAdminRole'])->name('admin.admins.updateRole');
+
+    Route::post('admin/logout', [LoginAdminController::class, 'destroy'])->name('destroy');
+
+    // Liste des Users
+    Route::get('/AllUsers', [AdminCrudController::class, 'AbonneList'])->name('adminAbonneList.index');
 
 
-        // Ajouter-destinataire route view
-            Route::get('Ajoutdestinataire', function () {
-                $nombre_aleatoire = (string)(random_int(10000, 99999));
-                $code_unique = 'Al-'. $nombre_aleatoire;
-                return view('admin.clients.Ajoutdestinataire', ['code_unique' => $code_unique]);
-            });
-            Route::post('admin/Ajoutdestinataire', [AdminCrudController::class, 'storeDestinataire'])->name('storeDestinataire');
-
-            // Edit Destinataire
-            Route::get('/admin/destinataire/{id}/editDestinataire', [AdminCrudController::class, 'edit'])->name('clients.edit');
-            Route::put('/admin/destinataires/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
-            Route::delete('/admin/destinataires/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
-        
-            Route::post('admin/logout', [LoginAdminController::class, 'destroy'])->name('destroy');
+    
+//EXPETION
 
 
-            
-        // Ajouter-Destinatair route view
-            Route::get('destinataires', function () {
-                return view('admin.clients.destinataires');
-                });    
-                    
-                Route::post('admin/destinataires', [AdminCrudController::class, 'storeDestinataire'])->name('storeDestinataire');
-
-
-        // Ajouter-Conteneur route view
-                Route::get('AjoutConteneur', function () {
-                    return view('admin.clients.AjoutConteneur');
-                });
-        
-
-                Route::post('/clients', [AdminCrudController::class, 'storeConteneur'])->name('storeConteneur');
-
-        //EXPETION
-
-
-            
-            
-        // Ajouter-destinataire route view
-                    Route::get('Ajoutdestinataire', function () {
-                        $nombre_aleatoire = (string)(random_int(10000, 99999));
-                        $code_unique = 'Al-'. $nombre_aleatoire;
-                        return view('admin.clients.Ajoutdestinataire', ['code_unique' => $code_unique]);
-                    });
-                    Route::post('admin/Ajoutdestinataire', [AdminCrudController::class, 'storeDestinataire'])->name('storeDestinataire');
-
-        // Edit conteneur
-                Route::get('/admin/destinataire/{id}/editDestinataire', [AdminCrudController::class, 'editExpedition'])->name('clients.edit');
-                Route::put('/admin/destinataires/{id}', [AdminCrudController::class, 'update'])->name('clients.update');
-        Route::delete('/admin/destinataires/{id}', [AdminCrudController::class, 'destroy'])->name('clients.destroy');
-
-    Route::post('logout', [LoginAdminController::class, 'destroy'])->name('admin.logout');
+Route::post('logout', [LoginAdminController::class, 'destroy'])->name('admin.logout');
 });
