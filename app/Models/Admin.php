@@ -20,6 +20,7 @@ class Admin extends Authenticatable
     protected $fillable = [
         'code_unique',
         'name',
+        'username',
         'email',
         'numero',
         'adresse',

@@ -8,13 +8,14 @@
     "require": {
         "php": "^8.2",
         "brian2694/laravel-toastr": "^5.59",
+        "dompdf/dompdf": "^3.1",
         "guzzlehttp/guzzle": "*",
         "infobip/infobip-api-php-client": "5.0.0",
         "informagenie/orange-sms": "^1.4",
         "ismaeltoe/osms": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "moov/moov-php": "^0.3.8",
+        "maatwebsite/excel": "^3.1",
         "twilio/sdk": "^8.3"
     },
     "require-dev": {
@@ -33,7 +34,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "exclude-files-from-classmap": [
+            "vendor/laravel/pint/app/Providers/AppServiceProvider.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

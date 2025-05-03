@@ -3,17 +3,19 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 // Route::post('/contact', [ProfileController::class, 'creatNote'])->name('contact.creatNote');
 
-Route::get('/SuiviPage', function () {
-    return view('Clients.SuiviPage');
-});
+// Route::get('/SuiviPage', function () {
+//     return view('Clients.SuiviPage');
+// });
 // Suivi route without auth
+Route::get(' /', [ProfileController::class, 'welcome'])->name('welcome');
+
 Route::get(' /SuiviPage', [ProfileController::class, 'SuiviPage'])->name('SuiviPage');
 
 Route::get('/search', [ProfileController::class, 'search'])->name('search');
@@ -21,10 +23,9 @@ Route::get('/search', [ProfileController::class, 'search'])->name('search');
 
 Route::post('/contact', [ProfileController::class, 'sendContactForm'])->name('contact.send');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard', [ProfileController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -61,9 +62,11 @@ Route::middleware('auth')->group(function () {
      Route::put('updateExpByFac/{id}', [ProfileController::class, 'updateExpByFac'])->name('updateExpByFac');
   
      Route::delete('deleteFacture/{id}', [ProfileController::class, 'deleteFacture'])->name('deleteFacture.delete');
+     Route::get('/viewExpByFact/{id}', [ProfileController::class, 'viewExpensesByFacture'])->name('viewExpensesByFacture');
     
     // END route ExpByFact
-    
+
+    Route::post('/rdv/{rdv}/statut/encour', [ProfileController::class, 'changerStatutEnEncour'])->name('rdv.statut.encour'); 
 });
 
 require __DIR__.'/auth.php';

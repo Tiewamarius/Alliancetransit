@@ -213,6 +213,10 @@
             align-items: flex-start;
         }
     }
+
+
+
+    /* Ajoutez d'autres styles CSS pour la mise en page de votre facture */
 </style>
 
 <div class="containerr">
@@ -241,11 +245,73 @@
     </aside>
     <main class="contentt">
         <div id="compte" class="content-section" style="display: none;">
-            <h2>Votre compte</h2>
-            <p><strong>Nom :</strong> {{ Auth::user()->name }}</p>
-            <p><strong>Adresse :</strong> {{ Auth::user()->adresse }}</p>
-            <p><strong>Téléphone :</strong> {{ Auth::user()->numero }}</p>
-            <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src="{{asset('Clients/assets/img/users.jpeg') }}" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                <h5 class="my-3">{{ Auth::user()->name }}</h5>
+                                <div class="d-flex justify-content-center mb-2">
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">MON COMPTE</button>
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ Auth::user()->name}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ Auth::user()->email}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Mobile</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ Auth::user()->numero }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">:</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ Auth::user()->adresse }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="colis" class="content-section">
             <div class="content-header">
@@ -271,7 +337,7 @@
                                     <th>N° conteneurs</th>
                                     <th>Designation</th>
                                     <th>Date livraison</th>
-                                    <th>Remarque</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -284,7 +350,13 @@
                                     <td>{{ $expedNonT->numeroConteneur}}</td>
                                     <td>{{ $expedNonT->designation }}</td>
                                     <td>{{ $expedNonT->dateLivr }}</td>
-                                    <td>{{ $expedNonT->typeService }}</td>
+                                    <td>
+                                        @if ($expedNonT->image_colis)
+                                            <img src="{{ asset('storage/'. $expedNonT->image_colis) }}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                        @else
+                                        <img src="{{ asset('Clients/assets/img/placeholder.png')}}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -303,7 +375,7 @@
                             <th>N° conteneurs</th>
                             <th>Designation</th>
                             <th>Date livraison</th>
-                            <th>Remarque</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -316,7 +388,13 @@
                             <td>{{ $expeditionEncourr->numeroConteneur}}</td>
                             <td>{{ $expeditionEncourr->designation }}</td>
                             <td>{{ $expeditionEncourr->dateLivr }}</td>
-                            <td>{{ $expeditionEncourr->typeService }}</td>
+                            <td>
+                                @if ($expeditionEncourr->image_colis)
+                                    <img src="{{ asset('storage/'. $expeditionEncourr->image_colis) }}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @else
+                                    <img src="{{ asset('Clients/assets/img/placeholder.png')}}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -332,8 +410,9 @@
                             <th>Date d'enlèvement</th>
                             <th>N° conteneurs</th>
                             <th>Designation</th>
+                            <th></th>
                             <th>Date livraison</th>
-                            <th>Remarque</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -346,7 +425,13 @@
                             <td>{{ $expedDepot_Arr->numeroConteneur}}</td>
                             <td>{{ $expedDepot_Arr->designation }}</td>
                             <td>{{ $expedDepot_Arr->dateLivr }}</td>
-                            <td>{{ $expedDepot_Arr->typeService }}</td>
+                            <td>
+                                @if ($expedDepot_Arr->image_colis)
+                                    <img src="{{ asset('storage/'. $expedDepot_Arr->image_colis) }}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @else
+                                    <img src="{{ asset('Clients/assets/img/placeholder.png')}}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -363,7 +448,7 @@
                             <th>N° conteneurs</th>
                             <th>Designation</th>
                             <th>Date livraison</th>
-                            <th>Remarque</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -376,7 +461,13 @@
                             <td>{{ $expedLivr->numeroConteneur}}</td>
                             <td>{{ $expedLivr->designation }}</td>
                             <td>{{ $expedLivr->dateLivr }}</td>
-                            <td>{{ $expedLivr->typeService }}</td>
+                            <td>
+                                @if ($expedLivr->image_colis)
+                                    <img src="{{ asset('storage/'. $expedLivr->image_colis) }}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @else
+                                    <img src="{{ asset('Clients/assets/img/placeholder.png')}}" alt="Image du colis" style="max-width: 100px; height:100px;">
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -387,7 +478,12 @@
             <div class="facture">
                 <div class="container">
                     <h1 class="mb-4">Facture d'expéditions demandées</h1>
-                    <div class="table-responsive">
+                    @if($devis_colis->count()<= 0)
+                <a class="btn btn-primary" href="{{url('/Envois')}}">
+                Demander un devis
+                </a>
+                @endif
+                <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -402,16 +498,30 @@
                             <tbody>
                                 @foreach ($devis_colis as $devis)
                                 <tr>
-                                    <td>
-                                        <a href="editExpByFac/{{ $devis->id }}" class="btn btn-primary" style="padding:5px;">
-                                        Procceder à une Expedition
+                                    <td>@if($devis->status=='traite')
+                                        <a href="editExpByFac/{{ $devis->id }}" class="btn btn-primary" style="padding:5px; background-color:green;">
+                                            Procceder à une Expedition
                                         </a>
+                                        @elseif($devis->status=='encour')
+                                        <a href="#" class="btn btn-secondary" style="padding:5px;">
+                                            encour
+                                        </a>
+                                        @else
+                                        <a href="#" class="btn btn-secondary" style="padding:5px;">
+                                            Non traité
+                                        </a>
+                                        @endif
                                     </td>
                                     <td>{{ $devis->paysDepart }}</td>
                                     <td>{{ $devis->paysArrivee }}</td>
                                     <td>{{ $devis->designation }}</td>
                                     <td>{{ $devis->montant_total }}</td>
                                     <td>
+                                        @if($devis->status=='traite')
+                                        <a href="viewExpByFact/{{ $devis->id }}" class="btn btn-info" style="padding:5px; color:white;" target="_blank" rel="noopener noreferrer">
+                                            Details <i class="fas fa-print fa-fw"></i>
+                                        </a>
+                                        @endif
                                         <form id="delete-form-{{ $devis->id }}" action="{{ route('deleteFacture.delete', $devis->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
@@ -424,35 +534,50 @@
                                 @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
         </div>
         <div id="rendezvous" class="content-section" style="display: none;">
             <h2>Mes Rendez-Vous</h2>
-            @if($Rdv->count()< 0)
-                <a class="btn btn-primary" href="{{url('/envois')}}">
-                Ajouter Rdv
+                @if($AllRdv->count()<=0)
+                <a class="btn btn-primary" href="{{url('/Envois')}}">
+                Planifier Rdv
                 </a>
                 @endif
                 <div class="order">
                     <table>
                         <thead>
                             <tr>
+                                <th>Type</th>
+                                <th>Status</th>
                                 <th>Nom</th>
                                 <th>N° Téléphone</th>
-                                <th>Code Suivi</th>
                                 <th>Date retrait</th>
                                 <th>Heure retrait</th>
                                 <th>Designation</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($Rdv as $rdv)
+                            @foreach($AllRdv as $rdv)
                             <tr>
+                                
+                                <td>{{ $rdv->type }}</td>
+                                <td> @if($rdv->status=='traite')
+                                    <a href="#" class="btn btn-success" style="padding:5px;">
+                                        Validé
+                                    </a>
+                                    @else
+                                    <a href="#" class="btn btn-secondary" style="padding:5px;">
+                                        encour
+                                    </a>
+                                    @endif
+                                </td>
                                 <td>{{ $rdv->nom }}</td>
                                 <td>{{ $rdv->telephone }}</td>
-                                <td>{{ $rdv->numero_suivi }}</td>
                                 <td>{{ $rdv->date_retrait }}</td>
                                 <td>{{ $rdv->heure_retrait }}</td>
                                 <td>{{ $rdv->designation }}</td>
@@ -463,6 +588,16 @@
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
                                     </form>
                                 </td>
+                                @if($rdv->status=='traite')
+                                <td>
+                                <form action="{{ route('rdv.statut.encour', ['rdv' => $rdv->id]) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-info" style="padding:5px; color:white;">
+                                    <i class="fas fa-eye fa-fw"></i>
+                                </button>
+                                </form>
+                                </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -508,5 +643,112 @@
             });
         });
     });
+
+// Clique redirection precise au tabs rdv
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const contentSections = document.querySelectorAll('.content-section');
+    const rdvNotificationLink = document.getElementById('rdv-notification-link');
+    const factNotificationLink = document.getElementById('fact-notification-link');
+
+    // Fonction pour activer un tab spécifique
+    function activateTab(tabId) {
+        const targetSidebarItem = document.querySelector(`.sidebar-item[data-content="${tabId}"]`);
+        const targetSection = document.getElementById(tabId);
+
+        if (targetSidebarItem && targetSection) {
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            targetSidebarItem.classList.add('active');
+            contentSections.forEach(section => section.style.display = 'none');
+            targetSection.style.display = 'block';
+        }
+    }
+
+    // Gestion du clic sur le lien de notification Rendez-Vous
+    if (rdvNotificationLink) {
+        rdvNotificationLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche la navigation par défaut avec le fragment
+            activateTab('rendezvous');
+            window.history.pushState(null, null, '#rendezvous'); // Met à jour l'URL
+        });
+    }
+
+    // Gestion du clic sur le lien de notification Factures
+    if (factNotificationLink) {
+        factNotificationLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche la navigation par défaut avec le fragment
+            activateTab('factures');
+            window.history.pushState(null, null, '#factures'); // Met à jour l'URL
+        });
+    }
+
+    // Gestion de l'activation des tabs via la barre latérale (inchangé)
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function() {
+            sidebarItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+
+            contentSections.forEach(section => section.style.display = 'none');
+            const targetId = this.dataset.content;
+            document.getElementById(targetId).style.display = 'block';
+            window.history.pushState(null, null, `#${targetId}`);
+        });
+    });
+
+    // Gestion du fragment au chargement initial de la page
+    const fragment = window.location.hash.substring(1);
+    if (fragment) {
+        activateTab(fragment);
+    }
+});
+
+// notification de ja vu
+document.addEventListener('DOMContentLoaded', function() {
+    const vuLinks = document.querySelectorAll('a[href^="unread/"]');
+
+    vuLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche la navigation par défaut
+
+            const rdvId = this.getAttribute('href').split('/')[1]; // Extrait l'ID du RDV de l'URL
+
+            // Envoi d'une requête AJAX pour changer le statut en "encour"
+            fetch(`/rdv/${rdvId}/statut/encour`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Important pour la sécurité Laravel
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    // Vous pouvez envoyer d'autres données si nécessaire
+                }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Le statut a été changé avec succès côté serveur
+                    console.log(`RDV ${rdvId} marqué comme "encour"`);
+
+                    // Optionnel: Mettre à jour l'affichage côté client
+                    // Par exemple, changer le texte du bouton ou désactiver le lien
+                    this.textContent = 'En cours';
+                    this.classList.remove('btn-info');
+                    this.classList.add('btn-warning');
+                    this.style.color = 'black';
+                    this.style.pointerEvents = 'none'; // Empêcher de cliquer à nouveau
+
+                    // Optionnel: Afficher un message de confirmation à l'utilisateur
+                } else {
+                    console.error(`Erreur lors du changement de statut du RDV ${rdvId}`);
+                    // Optionnel: Afficher un message d'erreur à l'utilisateur
+                }
+            })
+            .catch(error => {
+                console.error('Erreur réseau:', error);
+                // Optionnel: Afficher un message d'erreur réseau à l'utilisateur
+            });
+        });
+    });
+});
 </script>
+
 @endsection

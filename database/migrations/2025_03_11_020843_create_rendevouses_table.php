@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('rendevouses', function (Blueprint $table) {
             $table->id();
+            $table->string('rdv_id');
+            $table->enum('type', ['enlevement-colis', 'depot-colis'])->default('enlevement-colis'); // Ajout du champ status
             $table->string('nom');
             $table->string('telephone');
-            $table->string('numero_suivi');
+            $table->string('code_postal');
             $table->date('date_retrait');
             $table->enum('heure_retrait', ['matin_9-12', 'soir_14-17']);
             $table->text('designation');
+            $table->enum('status', ['encour','non traite', 'traite'])->default('non traite'); // Ajout du champ status
             $table->timestamps();
         });
     }

@@ -2,10 +2,11 @@
 @section('title', 'note d\'expéditions')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="overflow-x: auto;">
         <h1 class="mb-4">Tous les messages</h1>
         <div class="table-responsive">
-    <table class="table table-bordered">
+        <div class="container" style="overflow-x: auto;">
+            <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Action</th>
@@ -30,14 +31,14 @@
                         @if ($note->status === 'unread')
                             <div class="dropdown">
                                 <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $note->status }}
+                                    Non Lu
                                 </a>
                             </div>
                             </div>
                         @elseif ($note->status === 'read')
                             <div class="dropdown">
                                 <a class="btn btn-success" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $note->status }}
+                                    Vu
                                 </a>
                             </div>
                         @endif
@@ -51,6 +52,7 @@
             @endforeach
         </tbody>
     </table>
+</div>
 </div>
 </div>
 @endsection

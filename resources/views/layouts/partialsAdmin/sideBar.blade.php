@@ -7,8 +7,8 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{url('admin/dashboard')}}">
-            <img src="{{ asset('Admin/img/Logo.png') }}" height="70px" width="100px" title="Logo de l'entreprise" >
+        <a class="nav-link" href="{{url('admin/dashboard')}}" style=" text-align:center;">
+            <img src="{{ asset('Admin/img/Logonew.png') }}" height="70px" width="100px" title="Logo de l'entreprise"  style="background-color: white;">
         </a>
     </li>
 
@@ -38,9 +38,22 @@
             </div>
         </div>
     </li>
-    <div class="sidebar-heading">
-    
-    </div>
+    <!-- <div class="sidebar-heading">
+        TACHES
+    </div> -->
+    <li class="nav-item">
+        <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-plane"></i>
+            <span>MISSIONS</span>
+        </a> -->
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{{url('admin/createConteneur') }}">AJOUT CONTENEUR</a>
+            <a class="collapse-item" href="{{url('admin/allConteneur')}}">LISTE CONTENEUR</a>
+            </div>
+        </div>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
     <div class="sidebar-heading">

@@ -53,8 +53,10 @@
                 <div>
                     <h3 style="color: #333; margin-bottom: 1em;">Réponses</h3>
                     <div style="padding: 1em; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; margin-bottom: 1em;">
-                        <p style="color: #777; font-size: 0.9em; margin-bottom: 0.5em;">Pas encore de réponse !</p>
-                        <button style="background-color: #f0f0f0; color: #333; border: 1px solid #ccc; padding: 0.5em 1em; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Répondre</button>
+                        <div>
+                            <label for="reply_content" style="display: block; color: #333; font-size: 0.9em; margin-bottom: 0.3em;">Répondre à la note</label>
+                            <textarea name="reply_content" id="reply_content" style="width: 100%; padding: 0.6em; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em;"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,6 @@
                 <div>
                     <label for="status" style="display: block; color: #333; font-size: 0.9em; margin-bottom: 0.3em;">Statut *</label>
                     <select name="status" id="status" style="width: 100%; padding: 0.6em; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em;">
-                        <option value="unread" {{ $note->status === 'unread' ? 'selected' : '' }}>Non lu</option>
                         <option value="read" {{ $note->status === 'read' ? 'selected' : '' }}>Lu</option>
                     </select>
                 </div>

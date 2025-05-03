@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('code_unique'); // Ajout de code_unique
             $table->string('name');
-            $table->string('numero'); // Ajout de numero
+            $table->string('username')->unique()->nullable();
+            $table->string('numero')->unique(); // Ajout de numero
             $table->string('adresse'); // Ajout de adresse
             $table->string('password');
             $table->string('email')->unique();

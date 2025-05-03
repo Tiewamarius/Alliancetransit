@@ -27,13 +27,15 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
      
     // welcome - Route
-    Route::get('/dashboard', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');  
+    Route::get('/dashboard/{year?}', [AdminCrudController::class, 'dashboard'])->name('admin.dashboard');  
     
     // PaginationRoute
     Route::get('/pagination/pagination-data', [AdminCrudController::class, 'pagination']);
     
     // search Route
     Route::get('/admin-search', [AdminCrudController::class, 'search'])->name('admin.search');
+    
+    Route::post('/admin/expeditions/bulk-update-status', [AdminCrudController::class, 'bulkUpdateStatus'])->name('admin.bulk_update_status');
     
     // ExpeditionForm - Route
     Route::get('mission', [AdminCrudController::class, 'ExpeditionForm'])->name('ExpeditionForm');
@@ -55,6 +57,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::delete('/admin/mission/{id}', [AdminCrudController::class, 'destroyExpedition'])->name('destroyExpeditions.destroy');
 
 
+    // Route Exportation
+    Route::get('/export/expeditions/{annee?}', [AdminCrudController::class, 'exportExpeditions'])->name('export.expeditions');
+    Route::get('/export/expeditionLivraison/{annee?}', [AdminCrudController::class, 'exportExpeditionLivraison'])->name('export.expeditionLivraison');
     // welcome - allRdv
     Route::get('allRdv', [AdminCrudController::class, 'allRdv'])->name('allRdv');  
     Route::delete('/admin/rendevous/{rendevouse}', [AdminCrudController::class, 'destroyRdv'])->name('deleteRdv.destroy');
@@ -69,6 +74,17 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     
     // END DevisRequest
 
+    // Route conteneur
+    Route::get('/createConteneur', [AdminCrudController::class, 'createConteneur'])->name('createConteneur');
+    Route::post('storeConteneur', [AdminCrudController::class, 'storeConteneur'])->name('storeConteneur');
+
+    Route::get('allConteneur', [AdminCrudController::class, 'allConteneur'])->name('allConteneur');  
+    Route::get('editeConteneur/{id}', [AdminCrudController::class, 'editeConteneur'])->name('editeConteneur');
+    Route::put('/admin/updateConteneur/{conteneur}', [AdminCrudController::class, 'updateConteneur'])->name('admin.updateConteneur');
+    Route::get('deleteConteneur/{id}', [AdminCrudController::class, 'deleteConteneur'])->name('deleteConteneur');
+   
+    // End------------------
+
     // welcome - allNotes
     Route::get('allNote', [AdminCrudController::class, 'allNote'])->name('allNote');  
     Route::get('editNote/{id}', [AdminCrudController::class, 'editNote'])->name('editNote');
@@ -78,6 +94,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     
     // END NoteRequest
     
+    // Route Validation rdv
+    Route::post('/rdv/{rdv}/statut/traite', [AdminCrudController::class, 'valideRdv'])->name('rdv.statut.traite'); 
+
+    // end-----------------------
 
     // Admin-Profile crud
     // Afficher le profil de l'administrateur connecté

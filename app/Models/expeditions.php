@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class expeditions extends Model
 {
     use HasFactory;
@@ -16,23 +17,35 @@ class expeditions extends Model
         'numero_expediteur',
         'email_expediteur',
         'adresse_expediteur',
+        'code_postal_exp',
         'destinataire_id',
         'nom_destinataire',
         'numero_destinataire',
         'email_destinataire',
         'adresse_destinataire',
+        'code_postal_dest',
+        'commune',
         'numeroSuivi',
         'designation',
-        'numeroConteneur',
+        'conteneur_id',
         'typeService',
         'dateEnlev',
+        'dateCharg',
         'dateLivr',
         'montant_total',
         'montant_paye',
         'montant_verse',
+        'mode_paiement',
         'status',
+        'image_colis',
     ];
 
+    // cast datetime
+    protected $casts = [
+        'dateEnlev' => 'datetime',
+        'dateCharg' => 'datetime',
+        'dateLivr' => 'datetime',
+    ];
     // Relations Eloquent
 
     public function montantRestant()
@@ -57,5 +70,10 @@ class expeditions extends Model
         public function colis()
     {
         return $this->hasMany(DevisColis::class); // Exemple: One-to-Many
+    }
+
+    public function conteneur(): BelongsTo
+    {
+        return $this->belongsTo(Conteneur::class);
     }
 }

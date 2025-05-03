@@ -19,23 +19,32 @@ return new class extends Migration
             $table->string('numero_expediteur')->nullable();
             $table->string('email_expediteur')->nullable();
             $table->string('adresse_expediteur')->nullable();
+            $table->string('code_postal_exp')->nullable();
             $table->foreignId('destinataire_id')->nullable()->constrained('destinataires');
             $table->string('nom_destinataire')->nullable();
             $table->string('numero_destinataire')->nullable();
             $table->string('email_destinataire')->nullable();
             $table->string('adresse_destinataire')->nullable();
+            $table->string('code_postal_dest')->nullable();
+            $table->string('commune')->nullable();
             $table->string('numeroSuivi')->nullable();
             $table->string('designation')->nullable();
-            $table->string('numeroConteneur')->nullable();
+            $table->string('conteneur_id')->nullable(); // Clé étrangère vers la colonne 'nom' de la table conteneurs
+            $table->foreign('conteneur_id')
+                  ->references('nom')
+                  ->on('conteneurs')
+                  ->onDelete('SET NULL');
             $table->string('typeService')->nullable();
             $table->dateTime('dateEnlev')->nullable();
+            $table->dateTime('dateCharg')->nullable();
             $table->dateTime('dateLivr')->nullable();
-            $table->decimal('montant_total', 8, 2)->default(0); // Définir l'ordre ici
-            $table->decimal('montant_paye', 8, 2)->default(0); // Définir l'ordre ici
-            $table->decimal('montant_verse', 10, 2)->default(0); // Ajoute la colonne montant_verse
+            $table->decimal('montant_total', 8, 2)->default(0);
+            $table->decimal('montant_paye', 8, 2)->default(0);
+            $table->decimal('montant_verse', 10, 2)->default(0);
+            $table->enum('mode_paiement', ['chèque','espèce']);
             $table->enum('status', ['Non Traité','Encour','Arrivé', 'Depot','Non Livré', 'Livré']);
             $table->boolean('marque')->default(false);
-            $table->string('image_colis')->nullable(); // Ajout de la colonne image_colis
+            $table->string('image_colis')->nullable();
             $table->timestamps();
         });
     }
@@ -45,12 +54,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
         Schema::table('expeditions', function (Blueprint $table) {
+            $table->dropForeign(['conteneur_id']); // Supprimer la clé étrangère avant la colonne
+            $table->dropColumn('conteneur_id');
             $table->dropColumn('marque');
-            $table->dropColumn('image_colis'); // Suppression de la colonne image_colis
-            $table->dropColumn(['montant_total', 'montant_paye']);
-            $table->dropColumn('montant_verse'); // Supprime la colonne montant_verse
+            $table->dropColumn('image_colis');
+            $table->dropColumn(['montant_total', 'montant_paye', 'montant_verse']);
         });
         Schema::dropIfExists('expeditions');
     }

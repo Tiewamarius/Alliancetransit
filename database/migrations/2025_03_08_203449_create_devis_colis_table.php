@@ -11,12 +11,15 @@ return new class extends Migration{
             $table->id();
             $table->string('user_id');
             $table->string('particulier');
+            $table->string('name');
+            $table->string('numero');
             $table->string('paysDepart');
             $table->string('villeDepart');
             $table->string('paysArrivee');
             $table->string('villeArrivee');
             $table->text('designation');
             $table->decimal('montant_total', 8, 2)->default(0); 
+            // $table->enum('status', ['non traite', 'traité'])->default('non traite'); // Ajout du champ status
             $table->timestamps();
         });
     }

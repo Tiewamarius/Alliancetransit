@@ -1,3 +1,5 @@
+
+@include('layouts.partialsClients.chaty')
 <footer id="footer" class="footer dark-background">
 
     <div class="container footer-top">
@@ -10,29 +12,30 @@
             <p>Abj. Cocody-Angre</p>
             <p>COTE D'IVOIRE, CI 00225</p>
             <p class="mt-3">
-              <strong>Phone:</strong> <span>+22500000000</span><br>
-              <strong>Phone:</strong> <span>+3300000000</span>
+              <strong>Phone:</strong> <span>+2250718873222</span><br>
+              <strong>Phone:</strong> <span>+33666155972
+</span>
             </p>
             <p>
-              <strong>Email:</strong> <span>tiewamaruis@gmail.com</span>
+              <strong>Email:</strong> <span>secretariat@alliancetransit.com</span>
             </p>
-            <p>
+            <!-- <p>
               <strong>Email2:</strong> <span>tiewamaruis@gmail.com</span>
-            </p>
+            </p> -->
           </div>
-          <div class="social-links d-flex mt-4">
+          <!-- <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
             <a href=""><i class="bi bi-facebook"></i></a>
             <a href=""><i class="bi bi-instagram"></i></a>
             <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
+          </div> -->
         </div>
 
         <div id="#download" class="col-lg-2 col-md-3 footer-links">
-          <h4>Liens d'accès rapides</h4>
+          <h4>Liens rapides</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{url('/')}}">Accueil</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">A propos</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
           </ul>
@@ -41,16 +44,16 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Nos Services</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Envoi-colis</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Prendre Rdv</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Demande-Devis</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
           </ul>
         </div>
 
         <div class="col-lg-4 col-md-12 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          <h4>Notre Newsletter</h4>
+          <p>Souscrir à notre newsletter et recevez les dernières nouvelles a propos de nos services!</p>
           <form action="forms/newsletter.php" method="post" class="email-form">
             <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
             <div class="loading">Loading</div>

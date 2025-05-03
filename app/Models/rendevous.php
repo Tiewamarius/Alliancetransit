@@ -11,11 +11,15 @@ class rendevous extends Model
     use HasFactory;
 
     protected $fillable = [
+        
+        'rdv_id',
+        'type',
         'nom',
         'telephone',
-        'numero_suivi',
+        'code_postal',
         'date_retrait',
         'heure_retrait',
         'designation',
+        'status',
     ];
 }

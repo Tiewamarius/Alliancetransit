@@ -34,7 +34,7 @@
         </div>
         @endif
 
-    <form method="POST" action="{{ route('storeExpedition') }}" id="expeditionForm">
+    <form method="POST" action="{{ route('storeExpedition') }}" id="expeditionForm" enctype="multipart/form-data">
         @csrf
 
         <br>
@@ -64,6 +64,11 @@
                         <label for="adresse_expediteur" class="form-label">Adresse Expéditeur</label>
                         <input type="text" id="adresse_expediteur" name="adresse_expediteur" class="form-control" value="">
                     </div>
+
+                    <div class="col-md-6" id="code_postal_container">
+                        <label for="code_postal">Code postal:</label>
+                        <input type="text" class="form-control" id="code_postal" name="code_postal" placeholder="Code postal (Facultatif)">
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,9 +94,36 @@
                         <input type="email" id="email_destinataire" name="email_destinataire" class="form-control" value="">
                     </div>
                     <div class="col-md-6">
-                        <label for="adresse_destinataire" class="form-label">Adresse</label>
-                        <input type="text" id="adresse_destinataire" name="adresse_destinataire" class="form-control" >
+                        <label for="adresse_destinataire" class="form-label">Adresse Ou Ville</label>
+                            <input type="text" id="adresse_destinataire" name="adresse_destinataire" class="form-control">
                     </div>
+                    
+                    <div class="col-md-6">
+                        <label for="nom">Code Postal:</label>
+                        <input type="text" class="form-control" id="nom" name="code_postal"placeholder="Code postal">
+                    </div>
+
+                    <div class="col-md-6" id="commune_container" style="display: none;">
+                    <label for="code_postal">Commune (Ou Quartier):</label>
+                        <input type="text" class="form-control" id="code_postal" name="commune" placeholder="Commune ou Quartier">
+                        <div class="ifnvalid-feedback">Veuillez noter que certaines villes ou quartiers ne sont pas dans nos royon de livraison.</div>
+                        
+                    </div>
+
+                    <script>
+                        const adresseDestinataireInput = document.getElementById('adresse_destinataire');
+                        const communeContainer = document.getElementById('commune_container');
+
+                        adresseDestinataireInput.addEventListener('input', function() {
+                            const villeSaisie = this.value.trim().toLowerCase();
+
+                            if (villeSaisie.includes('abidjan')) {
+                                communeContainer.style.display = 'block';
+                            } else {
+                                communeContainer.style.display = 'none';
+                            }
+                        });
+                    </script>
                 </div>
             </div>
 
@@ -111,9 +143,13 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="numeroConteneur" class="form-label">N° CONTENEUR</label>
-                        <input type="text" id="numeroConteneur" name="numeroConteneur" class="form-control" >
+                    <div  class="col-md-6">
+                        <label for="status" class="form-label">Conteneur.</label>
+                        <select name="conteneur_id" id="status" class="form-control">
+                            @foreach($conteneur as $unConteneur)
+                                <option value="{{ $unConteneur->nom}}">{{$unConteneur->nom }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-md-6">
                         <label for="typeService" class="form-label">Remarque</label>
@@ -126,21 +162,17 @@
                         <input type="datetime-local" id="dateEnlev" name="dateEnlev" class="form-control" >
                     </div>
                     <div class="col-md-6">
-                        <label for="dateLivr" class="form-label">Date de Livraison</label>
-                        <input type="datetime-local" id="dateLivr" name="dateLivr" class="form-control" >
+                        <label for="dateEnlev" class="form-label">Date chargement</label>
+                        <input type="datetime-local" id="dateCharg" name="dateCharg" class="form-control" >
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="montant_total">Montant Total</label>
-                        <input type="number" step="0.01" name="montant_total" id="montant_total" value="0" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="montant_paye">Montant Payé</label>
-                        <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0" class="form-control">
+                        <label for="dateLivr" class="form-label">Date de Livraison</label>
+                        <input type="datetime-local" id="dateLivr" name="dateLivr" class="form-control" >
                     </div>
                     <div  class="col-md-6">
-                        <br><label for="status" class="form-label">STATUS D'EXP.</label>
+                        <label for="status" class="form-label">STATUS D'EXP.</label>
                         <select name="status" id="status" class="form-control">
                             <option value="Encour" {{ old('status') == 'Encour' ? 'selected' : '' }}>Encour</option>
                             <option value="Arrivé" {{ old('status') == 'Arrivé' ? 'selected' : '' }}>Arrivé</option>
@@ -150,6 +182,46 @@
                         </select>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-md-6" style="display: flex; align-items: center;">
+                        <label for="montant_total" style="margin-right: 10px;">Montant Total:</label>
+                        <input type="number" step="0.01" name="montant_total" id="montant_total" value="0" class="form-control" style="flex-grow: 1; margin-right: 5px;">
+                        <select class="form-select" id="devise" name="devise" style="max-width: 80px;">
+                            <option value="EUR" selected>EUR</option>
+                            <option value="XOF">FCFA</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" style="display: flex; align-items: center;">
+                        <label for="montant_total" style="margin-right: 10px;">Montant Versé:</label>
+                        <input type="number" step="0.01" name="montant_paye" id="montant_total" value="0" class="form-control" style="flex-grow: 1; margin-right: 5px;">
+                        <select class="form-select" id="devise" name="devise" style="max-width: 80px;">
+                            <option value="EUR" selected>EUR</option>
+                            <option value="XOF">FCFA</option>
+                        </select>
+                    </div>
+                </div>
+                    
+                <div class="row mb-3">
+                                            <div class="col-md-6" style="display: none;">
+                                                <label for="montant_total">Montant Total</label>
+                                                <input type="number" step="0.01" name="montant_total" id="montant_total" value="0" required>
+                                            </div>
+                                            <div class="col-md-6" style="display: none;">
+                                                <label for="montant_paye">Montant Payé</label>
+                                                <input type="number" step="0.01" name="montant_paye" id="montant_paye" value="0">
+                                            </div>
+                                            <div class="col-md-6" style="display: non;">
+                                                <br><label for="statut" class="form-label">Mode de paiement.</label>
+                                                <select name="mode_paiement" id="status">
+                                                    <option value="espece" {{ old('mode_paiement') == 'espece' ? 'selected' : '' }}>Espèce</option>
+                                                    <option value="chèque" {{ old('mode_paiement') == 'chèque' ? 'selected' : '' }}>Chèque</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="image_colis">Image du Colis(Facultatif)</label>
+                                                <input type="file" name="image_colis" id="image_colis" class="form-control-file">
+                                            </div>
+                                        </div>
 
             <div class="row mb-3" style="float: right;">
                 <button type="submit" class="btn btn-success expedier">EXPEDIER</button>
@@ -210,5 +282,22 @@
             }
         }
     });
+
+
+    
+    // const montantInput = document.getElementById('montant_total');
+    // const devise = ' FCFA';
+
+    // montantInput.addEventListener('blur', function() {
+    //     if (this.value !== '') {
+    //         this.value = this.value + devise;
+    //     }
+    // });
+
+    // montantInput.addEventListener('focus', function() {
+    //     if (this.value.endsWith(devise)) {
+    //         this.value = this.value.slice(0, -devise.length);
+    //     }
+    // });
 </script>
 @endsection
